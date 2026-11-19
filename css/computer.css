@@ -4,14 +4,20 @@
    No images anywhere: the Photos window is six inline SVG drawings. */
 .scene-bg--compute {
   background:
+    linear-gradient(180deg, transparent 0 calc(100% - 92px), #e8cba6 calc(100% - 92px) calc(100% - 88px), #c99a7a calc(100% - 88px), #a97c58 55%, #8a6244 100%),
     repeating-linear-gradient(90deg, rgba(255,255,255,.16) 0 26px, rgba(214,140,160,.10) 26px 30px, rgba(0,0,0,0) 30px 56px),
     radial-gradient(ellipse 90% 50% at 50% 30%, #f9e3e7 0%, transparent 60%),
     linear-gradient(180deg, #f3d3da 0%, #eec6cf 52%, #e6b7c3 78%, #d9a3b1 100%);
   transition: filter 1.4s ease;
 }
-.scene--computer:not(.is-on) .scene-bg--compute { filter: brightness(.86) saturate(.88); }
-.scene--computer:not(.is-on) .computer-stage { filter: brightness(.94); }
+.scene--computer:not(.is-on) .scene-bg--compute { filter: brightness(.45) saturate(.65); }
+.scene--computer:not(.is-on) .computer-stage { filter: brightness(.68); }
+.scene--computer:not(.is-on) .section-heading { filter: brightness(.82); }
 .scene--computer .section-heading { margin-bottom: 1.1rem; }
+/* Heading <em> in the heading font (bold pink) — the hand font renders
+   Arabic raised and disconnected here. */
+.scene--computer h2 em { font-family: var(--font-body); font-style: normal; font-weight: 800; color: #b04a67; }
+#computerTitle, #pcSubtitle { text-wrap: balance; }
 .computer-layout { display: flex; flex-direction: column; align-items: center; }
 
 /* ===== الغرفة: ورق حائط وردي مخطط زي الفيديو ===== */
@@ -37,27 +43,37 @@
 
 
 /* ===== المسرح والمكتب ===== */
-.computer-stage { position: relative; z-index: 2; width: min(900px, 100%); margin: 10px auto 0; display: flex; flex-direction: column; align-items: center; }
+.computer-stage { position: relative; z-index: 2; width: min(900px, 100%); margin: 10px auto 0; display: flex; flex-direction: column; align-items: center;
+  /* Desk-top height: tracks where the monitor stand meets the desk across
+     phone/desktop widths, so the desk edge and the cushion sit on it. */
+  --desk-top: min(calc(96px + 15vw), 245px); }
 .desk {
-  position: absolute; left: 50%; transform: translateX(-50%); bottom: -6px; width: 130%; height: 190px; z-index: 0; pointer-events: none;
+  position: absolute; left: 50%; transform: translateX(-50%); bottom: -6px; width: 130%; height: calc(var(--desk-top) + 6px); z-index: 0; pointer-events: none;
   background: linear-gradient(180deg, #d9b28f 0%, #c49a72 30%, #a97c58 72%, #8a6244 100%);
   border-top: 5px solid #e8cba6;
   box-shadow: 0 -14px 34px rgba(120,70,40,.18);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 26%); mask-image: linear-gradient(180deg, transparent 0, #000 26%);
+  -webkit-mask-image: linear-gradient(180deg, #000 0, #000 84%, transparent 100%); mask-image: linear-gradient(180deg, #000 0, #000 84%, transparent 100%);
 }
+/* Tabletop lip: a lighter rounded surface at the top of the desk, so the
+   desk reads as a surface with depth instead of a flat strip. */
+.desk::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 18px;
+  background: linear-gradient(180deg, #f2dcbb, #ddbd97);
+  border-radius: 0 0 50% 50% / 0 0 14px 14px;
+  box-shadow: 0 3px 8px rgba(120,70,40,.22); }
 .desk-light { position: absolute; left: 50%; transform: translateX(-50%); bottom: 96px; width: 74%; height: 90px; z-index: 0; border-radius: 50%; pointer-events: none;
   background: radial-gradient(ellipse, rgba(190,222,255,.5) 0%, rgba(255,226,180,.16) 55%, transparent 72%); filter: blur(8px); opacity: 0; transition: opacity 1.8s ease; }
 .scene--computer.is-on .desk-light { opacity: 1; }
 
-/* الوسادة النعناعية اللي جنب الشاشة في الفيديو */
-.cushion { position: absolute; z-index: 1; right: 1.5%; bottom: 128px; width: clamp(74px, 13%, 128px); aspect-ratio: 1/.88; pointer-events: none;
+/* الوسادة النعناعية اللي جنب الشاشة في الفيديو — قاعدة على سطح المكتب
+   (bottom = حافة المكتب) وسانِدة على الشاشة، شكلها وسادة مش كورة. */
+.cushion { position: absolute; z-index: 3; right: 1.5%; bottom: var(--desk-top); width: clamp(74px, 13%, 128px); aspect-ratio: 1 / .8; pointer-events: none;
   background: radial-gradient(circle at 34% 28%, #d9f4e4 0%, #a9dfc0 46%, #7fc79e 100%);
-  border-radius: 46% 54% 52% 48% / 58% 60% 40% 42%;
+  border-radius: 24% 28% 26% 22% / 34% 36% 30% 32%;
   box-shadow: inset -8px -10px 18px rgba(46,110,74,.28), inset 6px 8px 14px rgba(255,255,255,.55), 0 16px 26px rgba(90,50,60,.22);
   animation: cushionBob 5.5s ease-in-out infinite; }
 .cushion svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-@keyframes cushionBob { 0%,100%{ transform: translateY(0) rotate(-2deg); } 50%{ transform: translateY(-5px) rotate(1.5deg); } }
-@media (max-width: 620px) { .cushion { width: 62px; bottom: 126px; right: 1.5%; z-index: 5; } }
+@keyframes cushionBob { 0%,100%{ transform: translateY(0) rotate(-2deg); } 50%{ transform: translateY(-2px) rotate(1.5deg); } }
+@media (max-width: 620px) { .cushion { width: 62px; bottom: var(--desk-top); right: 1.5%; z-index: 5; } }
 
 /* ===== جسم الـ CRT — أكبر وأتقل ===== */
 .crt-wrap { position: relative; z-index: 2; width: min(860px, 100%, max(300px, calc((100svh - 600px) * 1.25))); container-type: inline-size; }
@@ -87,7 +103,7 @@
 .crt__screw--tr::after { transform: rotate(-24deg); }
 .crt__vents { position: absolute; top: .9cqw; left: 50%; transform: translateX(-50%); width: 34%; height: 1.5cqw; min-height: 6px; opacity: .55;
   background: repeating-linear-gradient(90deg, rgba(110,78,55,.5) 0 3px, transparent 3px 10px); border-radius: 3px; }
-.crt__sticker { position: absolute; z-index: 3; bottom: 9.5cqw; inset-inline-end: 1.2cqw; transform: rotate(7deg);
+.crt__sticker { position: absolute; z-index: 3; top: 1cqw; inset-inline-start: 5.5cqw; transform: rotate(7deg);
   padding: .35cqw 1cqw; border-radius: .6cqw; background: linear-gradient(150deg, #ffe9f1, #ffc9da); border: 1px solid rgba(190,90,120,.4);
   color: #a03c58; font-family: var(--font-code); font-size: max(9px, 1.7cqw); line-height: 1; box-shadow: 0 2px 5px rgba(90,40,55,.2); }
 /* الإطار الداخلي والشاشة المنحنية */
@@ -119,11 +135,11 @@
 .scene--computer.is-on .off-reflection { opacity: 0; }
 
 /* ===== مرحلة الماتريكس ===== */
-#matrixCanvas { position: absolute; inset: 0; z-index: 4; width: 100%; height: 100%; opacity: 0; transition: opacity .5s ease; background: #040b06; }
-#matrixCanvas.show { opacity: 1; }
+#computerMatrixCanvas { position: absolute; inset: 0; z-index: 4; width: 100%; height: 100%; opacity: 0; transition: opacity .5s ease; background: #040b06; }
+#computerMatrixCanvas.show { opacity: 1; }
 .matrix-square { position: absolute; z-index: 5; left: 50%; bottom: 12%; width: 2.6cqw; height: 2.6cqw; min-width: 10px; min-height: 10px; transform: translateX(-50%);
   background: #57d977; box-shadow: 0 0 18px 4px rgba(87,217,119,.75); opacity: 0; }
-#matrixCanvas.show ~ .matrix-square { opacity: 1; animation: squarePulse 1s ease-in-out infinite; }
+#computerMatrixCanvas.show ~ .matrix-square { opacity: 1; animation: squarePulse 1s ease-in-out infinite; }
 @keyframes squarePulse { 0%,100%{ transform: translateX(-50%) scale(1); } 50%{ transform: translateX(-50%) scale(1.22); } }
 
 /* ===== شاشة التحميل الزرقا زي الفيديو ===== */
@@ -151,7 +167,8 @@
 .desktop-icons { position: absolute; top: 1.6%; inset-inline-end: 1.6%; z-index: 7; display: flex; flex-direction: column; gap: .55cqw; width: 12.5cqw; }
 .desktop-icon { display: flex; flex-direction: column; align-items: center; gap: .3cqw; padding: .45cqw .1cqw; min-height: 0;
   color: #fff; border: 1px solid transparent; border-radius: .7cqw; background: transparent; cursor: pointer;
-  font-family: var(--font-code); font-size: max(7px, 1.4cqw); line-height: 1.2; text-shadow: 1px 1px 2px rgba(20,50,20,.85); overflow-wrap: anywhere; }
+  font-family: var(--font-code); font-size: max(7px, 1.4cqw); line-height: 1.2; text-shadow: 1px 1px 2px rgba(20,50,20,.85); overflow-wrap: normal; word-break: keep-all; }
+.desktop-icon bdi { overflow-wrap: normal; word-break: keep-all; hyphens: none; }
 .desktop-icon > span { display: grid; place-items: center; width: 5cqw; height: 4.4cqw; min-width: 20px; min-height: 18px; border-radius: .8cqw;
   border: 1px solid rgba(255,255,255,.65); box-shadow: inset 0 1px 3px rgba(255,255,255,.6), 1px 2px 4px rgba(0,0,0,.3); font-size: max(10px, 2.2cqw); }
 .desktop-icon:nth-child(1) > span { color: #fff7dd; background: linear-gradient(145deg, #f4cd6d, #dd9a2e); }
@@ -200,7 +217,7 @@
   font-family: monospace; font-size: max(10px, 1.9cqw); line-height: 1; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,.25); }
 .retro-window__controls .win-close { color: #fff; background: linear-gradient(#f7a8bf, #e2608a 55%, #cf4a77); border-color: #ffd7e4; text-shadow: 0 1px 1px rgba(120,20,50,.5); }
 .retro-window__controls button:active { transform: translateY(1px); }
-.retro-window__menu { display: flex; gap: 1.6cqw; padding: .45cqw 1.1cqw; color: #3a3531; border-bottom: 1px solid #a99f91; background: #efe9dc; font-size: max(8px, 1.45cqw); }
+.retro-window__menu { display: flex; flex-wrap: wrap; gap: 1.6cqw; padding: .45cqw 1.1cqw; color: #3a3531; border-bottom: 1px solid #a99f91; background: #efe9dc; font-size: max(8px, 1.45cqw); }
 .retro-window__body { position: relative; flex: 1; min-height: 0; overflow: auto; margin: .45cqw; padding: 1.9cqw 2.1cqw;
   border: 2px inset #fff; color: #38322e; scrollbar-width: thin;
   background: repeating-linear-gradient(to bottom, #fffdf6 0 2.9cqw, #e3edf3 2.9cqw calc(2.9cqw + 1px), #fffdf6 calc(2.9cqw + 2px));
@@ -318,6 +335,7 @@
 .power-btn { display: grid; place-items: center; width: 5.6cqw; height: 5.6cqw; min-width: 30px; min-height: 30px; border-radius: 50%; cursor: pointer;
   border: 2px solid #a5855f; color: #7a5c38; font-size: max(13px, 2.6cqw);
   background: radial-gradient(circle at 35% 30%, #fbf0dd, #d9bf9c 70%, #bb9a72); box-shadow: 0 3px 6px rgba(84,56,30,.35), inset 0 1px 2px rgba(255,255,255,.8); transition: all .3s ease; }
+.power-btn svg { display: block; width: 58%; height: 58%; }
 .power-btn:hover { transform: scale(1.06); }
 .power-btn:active { transform: scale(.95); }
 .scene--computer.is-on .power-btn { color: #2e7d32; box-shadow: 0 3px 6px rgba(84,56,30,.35), 0 0 14px rgba(105,214,111,.55), inset 0 1px 2px rgba(255,255,255,.8); }
@@ -348,8 +366,6 @@
 .mouse::before { content: ""; position: absolute; top: 0; bottom: 52%; left: 50%; width: 1.5px; background: rgba(120,90,55,.4); }
 .mouse::after { content: ""; position: absolute; top: 7%; left: 50%; transform: translateX(-50%); width: 16%; height: 24%; border-radius: 40%; background: linear-gradient(#f6b8cb, #e2719c); box-shadow: inset 0 1px 2px rgba(255,255,255,.7); }
 .mouse-cord { position: absolute; top: -34px; left: 50%; width: 60px; height: 44px; pointer-events: none; }
-@media (max-width: 560px) { .mouse-wrap { display: none; } .keyboard { width: 88%; } }
-
 /* أزرار الصفحة */
 .computer-actions { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: 20px; padding-bottom: 46px; }
 #mainPower { font-family: inherit; cursor: pointer; border: 1px solid #c2516f; border-radius: 999px; padding: 14px 38px; min-height: 54px;
@@ -370,7 +386,7 @@
 }
 
 /* On short screens the decorative keyboard row hides so the CRT still fits. */
-@media (max-height: 680px) {
+@media (max-height: 700px) {
   .desk-row { display: none; }
   .computer-actions { margin-top: 10px; padding-bottom: 24px; }
 }
