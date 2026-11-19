@@ -1,0 +1,103 @@
+/* Motion language — slow, romantic, breathable */
+@keyframes sceneIn { from { opacity: 0; transform: translateY(18px) scale(.995); } to { opacity: 1; transform: none; } }
+@keyframes sceneOut { to { opacity: 0; transform: translateY(-9px) scale(.997); } }
+@keyframes softReveal { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes glowBreath { 0%, 100% { opacity: .25; transform: scale(.98); } 50% { opacity: .48; transform: scale(1.035); } }
+@keyframes heartbeat { 0%, 100% { transform: scale(1); } 12% { transform: scale(1.07); } 22% { transform: scale(.99); } 32% { transform: scale(1.045); } 46% { transform: scale(1); } }
+@keyframes haloBreath { 0%, 100% { transform: scale(.95); opacity: .6; } 50% { transform: scale(1.07); opacity: .92; } }
+@keyframes floatY { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-11px); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes eqBar { from { height: 22%; opacity: .5; } to { height: 100%; opacity: 1; } }
+@keyframes navPulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(185, 110, 121, .24); } 50% { box-shadow: 0 0 0 7px rgba(185, 110, 121, 0); } }
+@keyframes petalFall {
+  0% { transform: translate3d(0, -10vh, 0) rotate(var(--petal-rotate, 20deg)); }
+  35% { transform: translate3d(var(--petal-drift, 30px), 38vh, 0) rotate(calc(var(--petal-rotate, 20deg) + 130deg)); }
+  70% { transform: translate3d(calc(var(--petal-drift, 30px) * -1), 75vh, 0) rotate(calc(var(--petal-rotate, 20deg) + 260deg)); }
+  100% { transform: translate3d(var(--petal-drift, 30px), 112vh, 0) rotate(calc(var(--petal-rotate, 20deg) + 390deg)); opacity: 0; }
+}
+@keyframes twinkle { 0%, 100% { opacity: .12; transform: scale(.72); } 50% { opacity: .9; transform: scale(1.25); } }
+@keyframes slotPop { 0% { transform: scale(.7); } 70% { transform: scale(1.08); } 100% { transform: scale(1); } }
+@keyframes envelopeNudge { 0%, 100% { transform: translateX(-50%) rotate(-2deg); } 25% { transform: translateX(-50%) rotate(-4deg) translateY(-2px); } 65% { transform: translateX(-50%) rotate(1deg) translateY(-1px); } }
+@keyframes pointBounce { 0%, 100% { transform: translateY(0) rotate(20deg); } 50% { transform: translateY(-9px) rotate(20deg); } }
+@keyframes peonyRise {
+  0% { opacity: 0; transform: translateX(-50%) scale(.15) rotate(-25deg); }
+  22% { opacity: 1; }
+  65% { opacity: 1; transform: translateX(-50%) translateY(-55px) scale(1.05) rotate(4deg); }
+  100% { opacity: 0; transform: translateX(-50%) translateY(-85px) scale(1.15) rotate(8deg); }
+}
+@keyframes letterUnfold { from { opacity: 0; transform: translateY(16px) scaleY(.96); } to { opacity: 1; transform: translateY(0) scaleY(1); } }
+@keyframes dots { 0% { width: 0; } 100% { width: 22px; } }
+@keyframes bouquetReveal { from { opacity: 0; transform: scale(.82) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+@keyframes leafSway { from { transform: rotate(-2deg) scale(1); } to { transform: rotate(3deg) scale(1.02); } }
+@keyframes flowerPulse { from { transform: scale(.99); filter: brightness(.98); } to { transform: scale(1.025); filter: brightness(1.07); } }
+@keyframes wordBlink { 0%, 100% { opacity: .25; } 50% { opacity: .85; } }
+@keyframes scanlineShift { from { transform: translateY(0); } to { transform: translateY(4px); } }
+@keyframes heartsFloat { 0% { transform: translateY(0) scale(.8) rotate(-8deg); opacity: 0; } 12% { opacity: .75; } 100% { transform: translateY(-340px) scale(1.1) rotate(8deg); opacity: 0; } }
+@keyframes fireflyFloat {
+  0% { opacity: 0; transform: translate(0, 0) scale(.6); }
+  12% { opacity: .9; }
+  45% { opacity: .45; transform: translate(22px, -31px) scale(1); }
+  70% { opacity: .8; transform: translate(-14px, -55px) scale(.7); }
+  100% { opacity: 0; transform: translate(16px, -84px) scale(.5); }
+}
+@keyframes mistDrift { from { transform: translateX(-3%) scale(1); } to { transform: translateX(6%) scale(1.08); } }
+@keyframes heartFloat { 0% { transform: translateY(0) scale(.6) rotate(0); opacity: 0; } 12% { opacity: .65; } 100% { transform: translateY(-65vh) scale(1) rotate(35deg); opacity: 0; } }
+@keyframes orbit { to { transform: rotate(360deg); } }
+@keyframes sparkOrbit {
+  0% { transform: rotate(0deg) translateX(62px) scale(.7); opacity: 0; }
+  15% { opacity: .9; }
+  80% { opacity: .5; }
+  100% { transform: rotate(360deg) translateX(62px) scale(.4); opacity: 0; }
+}
+@keyframes chandelierSway { 0%, 100% { transform: rotate(-.35deg); } 50% { transform: rotate(.35deg); } }
+@keyframes flameDance { 0% { transform: scaleY(.95) rotate(-1.5deg) translateX(-.5px); } 50% { transform: scaleY(1.05) rotate(1deg) translateX(.4px); } 100% { transform: scaleY(1) rotate(-.5deg) translateX(0); } }
+@keyframes flameHalo { 0%, 100% { opacity: .48; transform: scale(.96); transform-origin: center; } 50% { opacity: .78; transform: scale(1.04); transform-origin: center; } }
+@keyframes dancerFloat { 0%, 100% { transform: translateY(0) rotate(-1.3deg); } 50% { transform: translateY(-7px) rotate(1.3deg); } }
+@keyframes starSpark { 0%, 100% { opacity: 0; transform: scale(.3) rotate(0); } 20% { opacity: .9; transform: scale(1) rotate(22deg); } 50% { opacity: .15; transform: scale(.55) rotate(55deg); } }
+@keyframes starSweep { 0%, 100% { opacity: 0; transform: scale(.3); } 30% { opacity: .8; transform: scale(1); } 60% { opacity: 0; transform: scale(.4); } }
+@keyframes raysTurn { to { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes balloonUp { 0% { transform: translateY(0) translateX(0) rotate(-2deg); opacity: 0; } 8% { opacity: .7; } 50% { transform: translateY(-58vh) translateX(18px) rotate(3deg); } 100% { transform: translateY(-120vh) translateX(-15px) rotate(-2deg); opacity: 0; } }
+@keyframes bloomPulse { from { opacity: .28; transform: scale(.84) rotate(-9deg); } to { opacity: .6; transform: scale(1.08) rotate(7deg); } }
+@keyframes loveRipple { 0% { opacity: .55; transform: scale(.96); } 75%, 100% { opacity: 0; transform: scale(1.25); } }
+@keyframes heartBurst { 0% { opacity: 0; transform: translateY(6px) scale(.4) rotate(-10deg); } 20% { opacity: .8; } 100% { opacity: 0; transform: translateY(-58px) scale(1.1) rotate(16deg); } }
+@keyframes confettiFall {
+  0% { transform: translate3d(0, -8vh, 0) rotate(0); opacity: 0; }
+  7% { opacity: var(--cp-opacity, .7); }
+  100% { transform: translate3d(var(--cp-drift, 40px), 112vh, 0) rotate(600deg); opacity: 0; }
+}
+@keyframes successGlow { 0%, 100% { box-shadow: 0 0 0 0 rgba(214, 165, 173, .25), var(--shadow-soft); } 50% { box-shadow: 0 0 38px 9px rgba(214, 165, 173, .18), var(--shadow-soft); } }
+@keyframes shakeX { 0%, 100% { transform: translateX(0); } 18% { transform: translateX(-6px); } 36% { transform: translateX(5px); } 54% { transform: translateX(-3px); } 72% { transform: translateX(2px); } }
+@keyframes tickPop { 0% { transform: translateY(1px) scale(.97); opacity: .72; } 100% { transform: translateY(0) scale(1); opacity: 1; } }
+@keyframes petalBurst {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0) scale(.25); }
+  12% { opacity: .95; }
+  100% { opacity: 0; transform: translate3d(var(--bx), var(--by), 0) rotate(var(--br)) scale(1.05); }
+}
+
+/* reveal helpers */
+.reveal { opacity: 0; animation: softReveal .8s ease forwards; }
+.reveal--1 { animation-delay: .15s; }
+.reveal--2 { animation-delay: .33s; }
+.reveal--3 { animation-delay: .52s; }
+.reveal-text { opacity: 0; animation: softReveal .9s ease forwards; }
+.welcome-copy .display-title { animation-delay: .2s; }
+.welcome-lead { animation-delay: .55s; }
+.welcome-lines p:nth-child(1) { animation-delay: .9s; }
+.welcome-lines p:nth-child(2) { animation-delay: 1.25s; }
+.welcome-lines p:nth-child(3) { animation-delay: 1.6s; }
+.welcome-copy .btn { opacity: 0; animation: softReveal .9s ease 2s forwards; }
+
+/* reduced motion is intentionally strict */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .001ms !important;
+  }
+  .scene.is-active .reveal, .scene.is-active .reveal-text, .scene.is-active .welcome-copy .btn,
+  .digital-bouquet, .for-card, .matrix-actions { opacity: 1 !important; transform: none !important; }
+  .digital-bouquet, .for-card, .matrix-actions { animation-delay: 0s !important; }
+  .ambient-petals, .twinkle-field, .night-stars, .fireflies, #celebrationCanvas, .chandelier-stars { display: none !important; }
+  .hero-heart__halo, .love-orb, .chandelier-glow, .celebration-rays { animation: none !important; }
+}

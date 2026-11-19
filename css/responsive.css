@@ -1,0 +1,223 @@
+/* Responsive refinements — mobile first in spirit, desktop as enhancement */
+@media (max-width: 1020px) {
+  .gate-layout { grid-template-columns: 1fr; gap: 2.7rem; max-width: 620px; }
+  .gate-copy { text-align: center; }
+  .gate-copy .eyebrow { justify-content: center; }
+  .gate-question { margin-inline: auto; }
+  .gate-card { margin-top: 35px; }
+  .welcome-layout { grid-template-columns: 1fr; max-width: 720px; gap: 1rem; }
+  .hero-heart { width: min(67vw, 300px); }
+  .welcome-copy { margin-top: -.2rem; }
+  .cassette-workbench { grid-template-columns: 1fr; max-width: 560px; margin-inline: auto; }
+  .liner-note { max-width: 500px; margin-inline: auto; }
+  .celebration-layout { grid-template-columns: 1fr; }
+  .celebration-cake { width: min(55vw, 280px); margin-top: .4rem; }
+  .celebration-copy h2 { font-size: clamp(3rem, 9vw, 5.3rem); }
+  .window-grid { max-width: 760px; }
+}
+
+@media (max-width: 820px) {
+  :root { --header-h: 64px; --nav-h: 68px; }
+  .journey-header { gap: 10px; padding-inline: 12px; }
+  .brand-mark__text { display: none; }
+  .brand-mark__number { width: 36px; height: 36px; font-size: .8rem; }
+  .sound-peek__label { display: none; }
+  .sound-peek { padding: 7px 9px; }
+  .journey-progress__meta { font-size: .6rem; }
+  .scene { padding-inline: .85rem; }
+  .word-cards { grid-template-columns: repeat(2, 1fr); max-width: 620px; }
+  .wish-cards { grid-template-columns: 1fr; max-width: 550px; gap: 10px; }
+  .wish-card { padding: 17px; display: grid; grid-template-columns: 40px 1fr; text-align: right; column-gap: 11px; }
+  .wish-flame { grid-row: 1 / 4; align-self: center; margin: 0; }
+  .wish-card__number, .wish-card h3, .wish-card p { grid-column: 2; }
+  .wish-card h3 { margin-block: 2px; }
+  .age-clock__elapsed { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .age-clock__unit { padding: 7px 3px; }
+  .age-clock__units > div { min-width: 66px; padding: 8px 5px; }
+  .letter-envelopes { grid-template-columns: 1fr; max-width: 670px; }
+  .mini-envelope__button { min-height: 94px; }
+  .music-dock { width: min(285px, calc(100vw - 26px)); inset-block-end: calc(var(--nav-h) + 19px); inset-inline-start: 13px; }
+  .scene-nav { inset-block-end: 9px; width: calc(100% - 18px); }
+  .toast { inset-block-end: calc(var(--nav-h) + 89px); }
+}
+
+@media (max-width: 680px) {
+  body { font-size: 15px; }
+  .journey-progress { max-width: none; }
+  .journey-progress__meta { margin-block-end: 4px; }
+  .journey-progress__meta span:first-child { max-width: 100px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .scene { padding-top: calc(var(--header-h) + 1.85rem); padding-bottom: calc(var(--nav-h) + 3.3rem); }
+  .section-heading { margin-bottom: 1.5rem; }
+  .section-heading h2 { font-size: clamp(1.7rem, 7vw, 2.35rem); }
+  .eyebrow { font-size: .56rem; letter-spacing: .13em; gap: 7px; }
+  .eyebrow > span { width: 19px; }
+  .btn { min-height: 51px; padding-inline: 20px; font-size: .94rem; }
+  .gate-copy h1 { font-size: clamp(2.1rem, 10.5vw, 3.2rem); }
+  .gate-question { font-size: .96rem; }
+  .gate-card { padding: 78px 15px 15px; border-radius: 22px; }
+  .stage-envelope { width: 144px; height: 94px; top: -50px; }
+  .stage-envelope .envelope__letter { height: 69px; }
+  .stage-envelope .envelope__front { height: 62px; }
+  .stage-envelope .envelope__flap { height: 54px; }
+  .stage-envelope .envelope__seal { top: 35px; width: 32px; height: 32px; font-size: .92rem; }
+  .password-slot { width: 23px; height: 34px; font-size: .9rem; }
+  .numpad button { min-height: 47px; }
+  .gate-success { inset: 60px 12px 12px; padding: 14px; }
+  .gate-success h2 { font-size: 1.4rem; }
+  .gate-success p { font-size: .82rem; }
+  .hero-heart { width: min(65vw, 255px); }
+  .welcome-copy .display-title { font-size: clamp(2.15rem, 10vw, 3.2rem); }
+  .welcome-lead { font-size: 1.34rem; }
+  .welcome-lines p { font-size: .91rem; }
+  .scroll-cue { display: none; }
+  .envelope-stage { width: min(100%, 390px); padding-top: 14px; }
+  .envelope-instruction { font-size: .9rem; }
+  .envelope-drawn__d { width: 42px; height: 42px; font-size: 1.4rem; }
+  .wax-seal { width: 48px; height: 48px; font-size: 1.2rem; }
+  .pointing-hand { font-size: 1.6rem; inset-inline-end: -1%; }
+  .letter-paper { padding: 25px 20px; border-radius: 3px 18px; }
+  .letter-paper p { font-size: .9rem; line-height: 1.85; }
+  .cassette { border-radius: 14px; }
+  .cassette__window { border-width: 5px; }
+  .liner-note { padding: 24px 19px; }
+  .matrix-copy .terminal-line { font-size: .71rem; }
+  .digital-bouquet { width: min(80vw, 285px); }
+  .for-card { padding: 14px 16px; }
+  .for-card strong { font-size: 2.35rem; }
+  .for-card p { font-size: .74rem; }
+  .crt-wrap { width: 100%; }
+  .crt { border-radius: 19px; padding: 9px 9px 0; }
+  .crt__screen { aspect-ratio: auto; height: min(74vw, 430px); min-height: 360px; border-width: 8px; border-radius: 13px; }
+  .desktop-icons { inset-block-start: 7px; inset-inline-end: 4px; gap: 6px; width: 71px; }
+  .desktop-icon { font-size: .42rem; }
+  .desktop-icon > span { width: 22px; height: 20px; font-size: .65rem; }
+  .retro-window { font-size: .51rem; }
+  .retro-window--letter { inset: 4% 3% 16% 3%; width: auto; height: auto; }
+  .retro-window--heart { inset-block-start: 18%; inset-inline: 7%; width: auto; }
+  .retro-window--future { inset-block-start: 22%; inset-inline: 5%; width: auto; }
+  .retro-window--song { inset-block-start: 16%; inset-inline: 4%; width: auto; }
+  .retro-window__body { font-size: .54rem; padding: 12px; }
+  .retro-window__bar { font-size: .56rem; }
+  .letter-dynamic p { margin-block-end: .4em; }
+  .desktop-taskbar { inset-block-end: 15px; height: 21px; }
+  .crt__chin { margin-inline: 12px; height: 30px; }
+  .computer-tip { font-size: .68rem; }
+  .garden-intro { padding-block: .6rem; }
+  .garden-intro h2 { font-size: 3.2rem; }
+  .garden-moon { width: 64px; height: 64px; }
+  .garden-quote { padding: 1rem; font-size: .92rem; }
+  .word-cards { grid-template-columns: 1fr; max-width: 470px; }
+  .word-card, .word-card__button { min-height: 132px; }
+  .word-card__button { padding: 14px 16px; }
+  .word-card__message { padding-inline: 16px; }
+  .gift-box { width: min(82vw, 300px); }
+  .gift-letter { padding: 26px 19px; }
+  .gift-letter__wax { margin-inline-start: -6px; }
+  .memory-deck { min-height: 174px; }
+  .memory-card p { font-size: 1.18rem; }
+  .chandelier-layout .section-heading h2 { font-size: 1.55rem; }
+  .chandelier-stage { width: min(100%, 490px); }
+  .chandelier-prompt { font-size: 1.45rem; }
+  .wishes-closing { padding: 18px; }
+  .wishes-closing p { font-size: .85rem; }
+  .window-grid { grid-template-columns: 1fr; max-width: 450px; }
+  .story-window { aspect-ratio: 1.18; }
+  .story-window__text > span:last-child { font-size: .67rem; }
+  .story-window__label { font-size: .64rem; }
+  .age-clock { padding: 16px 9px 11px; }
+  .age-clock__units { flex-wrap: wrap; }
+  .age-clock__units > div { flex: 1; min-width: 58px; }
+  .age-clock__units strong { font-size: 1.75rem; }
+  .age-clock__elapsed { grid-template-columns: repeat(3, 1fr); }
+  .age-clock__unit strong { font-size: 1.6rem; }
+  .years-copy p { font-size: .89rem; }
+  .celebration-layout { gap: .6rem; padding-block: 0; }
+  .celebration-copy h2 { font-size: clamp(2.8rem, 14vw, 4.4rem); }
+  .celebration-name { font-size: 2.8rem; }
+  .celebration-actions { flex-direction: column; align-items: stretch; max-width: 310px; margin-inline: auto; }
+  .celebration-actions .btn { width: 100%; }
+  .celebration-cake { width: min(53vw, 210px); }
+  .letters-layout .section-heading h2 { font-size: 1.95rem; }
+  .mini-envelope { border-radius: 13px; }
+  .mini-envelope__button { gap: 11px; padding: 11px 12px; min-height: 91px; }
+  .mini-envelope__shape { width: 68px; height: 49px; flex-basis: 68px; }
+  .mini-envelope__letter { padding-inline: 14px; }
+  .love-button { width: 190px; height: 190px; }
+  .love-reveal__heart { font-size: 4.3rem; height: 108px; }
+  .final-letter p { font-size: .9rem; line-height: 1.85; }
+  .final-roses { width: 120px; opacity: .2; }
+  .music-dock { width: 270px; padding: 11px; }
+  .music-dock__art { width: 41px; height: 41px; flex-basis: 41px; }
+  .scene-nav__back { min-width: 44px; padding-inline: 10px; }
+  .scene-nav__menu { min-width: 44px; padding-inline: 10px; }
+  .scene-nav__next { padding-inline: 16px; }
+  .nav-label { font-size: .78rem; }
+  .scene-menu__panel { padding: 27px 19px; }
+  .scene-menu li button { font-size: .78rem; }
+  .gate-footnote { font-size: .67rem; }
+}
+
+@media (max-width: 410px) {
+  .journey-header { gap: 7px; padding-inline: 9px; }
+  .brand-mark__number { width: 33px; height: 33px; }
+  .journey-progress__meta { font-size: .51rem; gap: 4px; }
+  .journey-progress__meta span:first-child { max-width: 66px; }
+  .scene { padding-inline: .65rem; }
+  .btn { padding-inline: 17px; font-size: .88rem; }
+  .gate-card { padding-inline: 11px; }
+  .password-slot { width: 21px; height: 32px; font-size: .82rem; }
+  .password-display { gap: 3px; padding-inline: 6px; }
+  .password-sep { font-size: .64rem; }
+  .numpad { gap: 6px; }
+  .numpad button { min-height: 45px; }
+  .hero-heart { width: 215px; }
+  .welcome-lines p { font-size: .86rem; }
+  .envelope-stage { width: 100%; }
+  .envelope-drawn__d { display: none; }
+  .scene-menu { padding: 8px; }
+  .scene-nav { gap: 6px; }
+  .scene-nav__back { padding-inline: 8px; }
+  .scene-nav__next { padding-inline: 13px; }
+  .scene-nav__dot { display: none; }
+  .music-dock { width: min(250px, calc(100vw - 20px)); }
+  .music-dock__kicker { font-size: .48rem; }
+  .music-dock__meta strong { font-size: .76rem; }
+  .age-clock__unit span { font-size: .6rem; }
+  .age-clock__unit strong { font-size: 1.4rem; }
+  .story-window__text { inset: 7% 6% 15%; padding: 7px; }
+  .story-window__text > span:last-child { line-height: 1.55; }
+  .celebration-copy h2 { font-size: 2.75rem; }
+  .celebration-kicker { letter-spacing: .12em; }
+  .wish-card { grid-template-columns: 26px 1fr; }
+  .wish-flame { width: 20px; height: 31px; }
+}
+
+@media (max-height: 620px) and (orientation: landscape) {
+  .scene { padding-top: calc(var(--header-h) + 1rem); padding-bottom: calc(var(--nav-h) + 1rem); }
+  .hero-heart { width: 190px; }
+  .gate-layout { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  .gate-card { padding-top: 65px; }
+  .stage-envelope { width: 118px; height: 78px; top: -39px; }
+  .stage-envelope .envelope__letter { height: 56px; }
+  .stage-envelope .envelope__front { height: 50px; }
+  .stage-envelope .envelope__flap { height: 44px; }
+  .stage-envelope .envelope__seal { top: 26px; width: 27px; height: 27px; }
+  .welcome-layout { grid-template-columns: .75fr 1.25fr; }
+  .garden-intro { padding: 0; }
+  .music-dock { max-height: 290px; overflow: auto; }
+}
+
+@media (min-width: 1280px) {
+  .scene-inner { width: min(100%, 1240px); }
+  .section-heading h2 { font-size: 3.55rem; }
+  .gate-copy h1 { font-size: 4.7rem; }
+}
+
+@media (hover: none) {
+  .btn:hover, .cassette:hover, .gift-box:hover .gift-box__lid, .love-button:hover { transform: none; }
+}
+
+/* When the music player is open on very small phones, keep it clear of nav */
+@media (max-width: 680px) {
+  body.music-open .toast { inset-block-end: calc(var(--nav-h) + 90px); }
+}

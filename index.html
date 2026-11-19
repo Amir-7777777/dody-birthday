@@ -1,0 +1,1329 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#F6DDE2">
+  <meta name="description" content="رحلة صغيرة مليانة حب، مخصوص لدودي في عيد ميلادها العشرين.">
+  <meta name="color-scheme" content="light">
+  <title>دودي • عشرين سنة من الحكاية 💗</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='88'%3E%F0%9F%92%97%3C/text%3E%3C/svg%3E">
+  <link rel="preload" href="assets/fonts/tajawal-400.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="preload" href="assets/fonts/tajawal-700.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/scenes.css">
+  <link rel="stylesheet" href="css/garden.css">
+  <link rel="stylesheet" href="css/computer.css">
+  <link rel="stylesheet" href="css/chandelier.css">
+  <link rel="stylesheet" href="css/celebration.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+  <a class="skip-link" href="#journey">تخطّي إلى الرحلة</a>
+
+  <div class="app-shell" id="app">
+    <div class="grain" aria-hidden="true"></div>
+
+    <header class="journey-header">
+      <a class="brand-mark" href="#journey" data-go-scene="0" aria-label="العودة لبداية الرحلة">
+        <span class="brand-mark__number">20</span>
+        <span class="brand-mark__text">DODY'S<br>DAY</span>
+      </a>
+
+      <div class="journey-progress" aria-label="التقدم في الرحلة">
+        <div class="journey-progress__meta">
+          <span id="chapterName">البداية</span>
+          <span id="chapterCount" dir="ltr">01 / 17</span>
+        </div>
+        <div class="journey-progress__track" id="progressTrack" role="progressbar" aria-valuemin="1" aria-valuemax="17" aria-valuenow="1" aria-label="فصول الرحلة">
+          <span id="progressBar"></span>
+          <i class="progress-heart" id="progressHeart" aria-hidden="true">♥</i>
+        </div>
+      </div>
+
+      <button class="sound-peek" id="soundPeek" type="button" aria-label="فتح لوحة الموسيقى">
+        <span class="sound-peek__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="sound-peek__label">Music</span>
+      </button>
+    </header>
+
+    <main id="journey" tabindex="-1">
+      <!-- 00 — PASSWORD -->
+      <section class="scene scene--gate is-active" data-scene="0" data-chapter="البداية" aria-labelledby="gateTitle">
+        <div class="scene-bg scene-bg--ivory" aria-hidden="true">
+          <span class="bg-orbit bg-orbit--one"></span>
+          <span class="bg-orbit bg-orbit--two"></span>
+          <div class="ambient-petals" data-petals="12"></div>
+          <div class="corner-roses corner-roses--top"><svg viewBox="0 0 180 180" aria-hidden="true"><use href="#rose-cluster"></use></svg></div>
+          <div class="corner-roses corner-roses--bottom"><svg viewBox="0 0 180 180" aria-hidden="true"><use href="#rose-cluster"></use></svg></div>
+        </div>
+
+        <div class="scene-inner gate-layout">
+          <div class="gate-copy reveal reveal--1">
+            <p class="eyebrow"><span></span>A LITTLE WORLD FOR DODY<span></span></p>
+            <h1 id="gateTitle">فيه حاجة حلوة<br><em>مستنياكي يا دودي</em> <span class="soft-emoji">💌</span></h1>
+            <p class="gate-question">بس الأول… <span>فاكرة أجمل يوم في شهر نوفمبر؟</span> ❤️</p>
+          </div>
+
+          <div class="gate-card reveal reveal--2">
+            <div class="envelope stage-envelope" id="passwordEnvelope" aria-hidden="true">
+              <div class="envelope__back"></div>
+              <div class="envelope__letter">
+                <span class="envelope__heart">♥</span>
+                <span>لأجمل دودي</span>
+              </div>
+              <div class="envelope__front"></div>
+              <div class="envelope__flap"></div>
+              <div class="envelope__seal">د</div>
+            </div>
+
+            <form class="password-form" id="passwordForm" novalidate>
+              <label class="password-label" for="passwordDisplay">اكتبي تاريخك السعيد</label>
+              <div class="password-display" id="passwordDisplay" role="status" aria-live="polite" aria-label="الأرقام المدخلة">
+                <span class="password-slot" data-slot="0"></span>
+                <span class="password-slot" data-slot="1"></span>
+                <span class="password-sep">/</span>
+                <span class="password-slot" data-slot="2"></span>
+                <span class="password-slot" data-slot="3"></span>
+                <span class="password-sep">/</span>
+                <span class="password-slot" data-slot="4"></span>
+                <span class="password-slot" data-slot="5"></span>
+                <span class="password-slot" data-slot="6"></span>
+                <span class="password-slot" data-slot="7"></span>
+              </div>
+              <input class="visually-hidden" id="passwordNative" name="password" inputmode="numeric" autocomplete="off" aria-describedby="passwordHelp passwordError" tabindex="-1">
+              <p class="password-help" id="passwordHelp">سر صغير بينك وبين قلبي… من غير ما أقول 😉</p>
+              <p class="password-error" id="passwordError" role="alert" aria-live="assertive"></p>
+
+              <div class="numpad" aria-label="لوحة الأرقام">
+                <button type="button" data-digit="1">1</button>
+                <button type="button" data-digit="2">2</button>
+                <button type="button" data-digit="3">3</button>
+                <button type="button" data-digit="4">4</button>
+                <button type="button" data-digit="5">5</button>
+                <button type="button" data-digit="6">6</button>
+                <button type="button" data-digit="7">7</button>
+                <button type="button" data-digit="8">8</button>
+                <button type="button" data-digit="9">9</button>
+                <button type="button" class="numpad__soft" data-password-action="clear" aria-label="مسح الأرقام">مسح</button>
+                <button type="button" data-digit="0">0</button>
+                <button type="submit" class="numpad__confirm" aria-label="تأكيد التاريخ">♥</button>
+              </div>
+            </form>
+
+            <div class="gate-success" id="gateSuccess" aria-hidden="true">
+              <span class="gate-success__spark">✦</span>
+              <h2>أهو كده! 😂❤️</h2>
+              <p>كنت عارف إنك هتعرفي توصلي…</p>
+              <p>يلا بقى، خدي نفس عميق، وابتسمي كده، عشان النهارده مش يوم عادي خالص.</p>
+              <p class="gate-success__strong">النهارده يوم حبيبتي الغالية عندي جدًا…</p>
+              <button class="btn btn--primary" type="button" data-next>يلا نبدأ الرحلة <span aria-hidden="true">←</span></button>
+            </div>
+          </div>
+
+          <p class="gate-footnote reveal reveal--3">صُنع بحب، من أول حرف لآخر قلب. <span aria-hidden="true">✦</span></p>
+        </div>
+      </section>
+
+      <!-- 01 — WELCOME -->
+      <section class="scene scene--welcome" data-scene="1" data-chapter="أهلاً يا دودي" aria-labelledby="welcomeTitle">
+        <div class="scene-bg scene-bg--blush" aria-hidden="true">
+          <div class="glow-orb glow-orb--one"></div>
+          <div class="glow-orb glow-orb--two"></div>
+          <div class="ambient-petals" data-petals="15"></div>
+          <div class="twinkle-field" data-twinkles="26"></div>
+        </div>
+
+        <div class="scene-inner welcome-layout">
+          <div class="hero-heart" aria-hidden="true">
+            <div class="hero-heart__halo"></div>
+            <svg class="hero-heart__svg" viewBox="0 0 240 220">
+              <defs>
+                <radialGradient id="heartGradient" cx="35%" cy="25%" r="80%">
+                  <stop offset="0%" stop-color="#F6DDE2"/>
+                  <stop offset="48%" stop-color="#D6A5AD"/>
+                  <stop offset="100%" stop-color="#B96E79"/>
+                </radialGradient>
+                <filter id="heartGlow">
+                  <feGaussianBlur stdDeviation="8" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+              <path class="heart-path" filter="url(#heartGlow)" d="M120 203S20 144 20 75C20 37 48 15 79 15c20 0 33 11 41 25 8-14 22-25 41-25 31 0 59 22 59 60 0 69-100 128-100 128Z" fill="url(#heartGradient)"/>
+              <path class="heart-shine" d="M68 46c-17 6-27 22-26 40" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="5" stroke-linecap="round"/>
+            </svg>
+            <span class="orbit-dot orbit-dot--a">♥</span>
+            <span class="orbit-dot orbit-dot--b">✦</span>
+            <span class="orbit-dot orbit-dot--c">♡</span>
+            <span class="orbit-dot orbit-dot--d">✦</span>
+          </div>
+
+          <div class="welcome-copy">
+            <p class="eyebrow eyebrow--center"><span></span>21 • 11 • 2026<span></span></p>
+            <h2 id="welcomeTitle" class="display-title reveal-text" lang="en" dir="ltr">Happy Birthday, <bdi>Dody!</bdi>&nbsp;<span aria-hidden="true">🎂</span></h2>
+            <p class="welcome-lead reveal-text">كل سنة وإنتِ طيبة يا أجمل دعاء 💗</p>
+            <div class="welcome-lines">
+              <p class="reveal-text">النهارده مش مجرد يوم اتولدتي فيه…</p>
+              <p class="reveal-text">النهارده اليوم اللي الدنيا كسبت فيه روح جميلة زيك.</p>
+              <p class="reveal-text welcome-lines__last">عندي ليكي هدية صغيرة… بس طالعة من قلب كبير. ❤️</p>
+            </div>
+            <button class="btn btn--primary btn--glow" type="button" data-next>افتحي هديتك 💌</button>
+          </div>
+        </div>
+        <div class="scroll-cue" aria-hidden="true">↓</div>
+      </section>
+
+      <!-- 02 — ENVELOPE & ROSE -->
+      <section class="scene scene--envelope" data-scene="2" data-chapter="أول مفاجأة" aria-labelledby="envelopeTitle">
+        <div class="scene-bg scene-bg--paper" aria-hidden="true">
+          <span class="watercolor watercolor--one"></span>
+          <span class="watercolor watercolor--two"></span>
+          <div class="ambient-petals" data-petals="9"></div>
+          <div class="botanical-line botanical-line--left"><svg viewBox="0 0 160 320" aria-hidden="true"><use href="#botanical-spray"></use></svg></div>
+          <div class="botanical-line botanical-line--right"><svg viewBox="0 0 160 320" aria-hidden="true"><use href="#botanical-spray"></use></svg></div>
+        </div>
+
+        <div class="scene-inner envelope-layout">
+          <div class="section-heading">
+            <p class="eyebrow"><span></span>THE FIRST LITTLE SECRET<span></span></p>
+            <h2 id="envelopeTitle">فيه حاجة مستخبية <em>جوا الظرف</em></h2>
+            <p>دوسي عليه… وسبيني أقولك كل اللي في قلبي.</p>
+          </div>
+
+          <button class="envelope-stage" id="bigEnvelope" type="button" aria-expanded="false" aria-controls="envelopeLetter">
+            <span class="envelope-instruction">دوسي عشان تفتحي المفاجأة 💌</span>
+            <span class="envelope-drawn" aria-hidden="true">
+              <span class="envelope-drawn__back"></span>
+              <span class="envelope-drawn__paper">
+                <span class="letter-lines"></span>
+                <span class="envelope-drawn__d">د</span>
+              </span>
+              <span class="envelope-drawn__front"></span>
+              <span class="envelope-drawn__flap"></span>
+              <span class="wax-seal">د</span>
+            </span>
+            <span class="peony-bloom" aria-hidden="true">
+              <span class="peony-stem"></span>
+              <span class="peony-leaf peony-leaf--one"></span>
+              <span class="peony-leaf peony-leaf--two"></span>
+              <span class="peony-petals">
+                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              </span>
+              <span class="peony-center"></span>
+            </span>
+          </button>
+
+          <article class="letter-paper" id="envelopeLetter" aria-hidden="true">
+            <span class="letter-paper__ornament" aria-hidden="true">✦</span>
+            <p class="letter-paper__date">21 / 11 / 2026</p>
+            <h3>يا دودي…</h3>
+            <p>مش عارف أبدأ منين، ولا أقولك إيه الأول، بس عارف إن النهارده لازم أقولك كلام يمكن مش بعرف أقوله كل يوم.</p>
+            <p>كل سنة وإنتِ بخير، وكل سنة وضحكتك منورة أيامك، وقلبك مرتاح، وروحك خفيفة زي ما بحبها.</p>
+            <p>يمكن الهدية دي مجرد كلمات وشوية تفاصيل، لكن كل تفصيلة فيها اتعملت وأنا بفكر فيكي.</p>
+            <p>كنت عايز أعملك حاجة مختلفة، حاجة لما تشوفيها تحسي إن فيه حد قعد يفكر إزاي يخلي يومك مميز.</p>
+            <p class="letter-paper__closing">والحقيقة إنك تستاهلي أكتر من ده بكتير. ❤️</p>
+            <div class="letter-signature">— أمير</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 03 — CASSETTE -->
+      <section class="scene scene--cassette" data-scene="3" data-chapter="شريط دودي" aria-labelledby="cassetteTitle">
+        <div class="scene-bg scene-bg--sage" aria-hidden="true">
+          <span class="ledger-grid"></span>
+          <div class="ambient-petals" data-petals="8"></div>
+        </div>
+
+        <div class="scene-inner cassette-layout">
+          <div class="section-heading section-heading--light">
+            <p class="eyebrow"><span></span>SIDE A • FOR DODY ONLY<span></span></p>
+            <h2 id="cassetteTitle">شريط صغير… <em>وحكاية كبيرة</em></h2>
+            <p>أغنية اخترتها مخصوص ليكي. دوسي Play وارتاحي شوية.</p>
+          </div>
+
+          <div class="cassette-workbench">
+            <div class="cassette-wrap">
+              <div class="cassette" id="cassette" data-cassette-state="paused">
+                <span class="cassette__screw cassette__screw--tl"></span>
+                <span class="cassette__screw cassette__screw--tr"></span>
+                <span class="cassette__screw cassette__screw--bl"></span>
+                <span class="cassette__screw cassette__screw--br"></span>
+                <div class="cassette__top-label">
+                  <span class="cassette__series">dody's private mixtape</span>
+                  <strong>Songs for Dody</strong>
+                  <span class="cassette__hand">with love, Amir ♥</span>
+                </div>
+                <div class="cassette__window">
+                  <span class="reel reel--left"><i></i></span>
+                  <span class="tape-line"></span>
+                  <span class="reel reel--right"><i></i></span>
+                </div>
+                <div class="cassette__bottom">
+                  <span>SIDE A</span>
+                  <span class="cassette__flower">✿</span>
+                  <span>21.11.2026</span>
+                </div>
+                <span class="cassette__bow">🎀</span>
+              </div>
+
+              <div class="cassette-controls" aria-label="تحكم الكاسيت">
+                <button class="cassette-btn" type="button" data-music-action="play-personal" aria-label="تشغيل أغنية الكاسيت">▶</button>
+                <button class="cassette-btn" type="button" data-music-action="pause" aria-label="إيقاف مؤقت">Ⅱ</button>
+                <button class="cassette-btn" type="button" data-music-action="restart-personal" aria-label="إعادة التشغيل">↺</button>
+                <span class="cassette-status" id="cassetteStatus" aria-live="polite">جاهز للتشغيل</span>
+              </div>
+            </div>
+
+            <article class="liner-note">
+              <span class="liner-note__clip" aria-hidden="true"></span>
+              <p class="liner-note__kicker">LINER NOTE</p>
+              <h3>فيه أغاني… وبيبقى ليها حكاية</h3>
+              <p>فيه أغاني بنسمعها وخلاص، وفيه أغاني أول ما بتشتغل بنفتكر حد معين.</p>
+              <p>ودي بالذات، حبيت أخليها جزء من يومك.</p>
+              <p>اعتبريها شريط صغير معمول مخصوص ليكي، فيه إحساس حلو، وكلام يمكن الأغاني تعرف تقوله أحسن مني.</p>
+              <p>كل مرة تسمعيه، أتمنى تفتكري إن فيه حد كان نفسه يخليكي تبتسمي وإنتِ بتسمعيه.</p>
+              <p class="liner-note__tease">وبالمناسبة… ده لسه الوش الأول بس، لسه فيه أغنية تانية مستنياكي. 😉💗</p>
+              <p class="liner-note__sign">— أمير</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 — MATRIX BOUQUET -->
+      <section class="scene scene--matrix" data-scene="4" data-chapter="عالم الكلمات" aria-labelledby="matrixTitle">
+        <div class="matrix-bg" aria-hidden="true">
+          <canvas id="matrixCanvas"></canvas>
+          <span class="matrix-vignette"></span>
+        </div>
+        <div class="scene-inner matrix-layout">
+          <div class="matrix-copy" id="matrixIntro">
+            <p class="eyebrow eyebrow--code"><span></span>INITIALIZING SOMETHING SWEET<span></span></p>
+            <p class="terminal-line"><span>&gt;</span> loading tiny universe<span class="typing-dots">...</span></p>
+          </div>
+
+          <div class="digital-bouquet" id="digitalBouquet" aria-hidden="true">
+            <svg viewBox="0 0 330 400">
+              <defs>
+                <linearGradient id="stemGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#A9BBAA"/>
+                  <stop offset="100%" stop-color="#526D58"/>
+                </linearGradient>
+                <filter id="flowerGlow"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+              </defs>
+              <g class="bouquet-stems" fill="none" stroke="url(#stemGrad)" stroke-width="4" stroke-linecap="round">
+                <path d="M165 355C159 290 149 224 126 145"/>
+                <path d="M165 355C166 286 171 212 173 124"/>
+                <path d="M165 355C174 286 191 218 216 151"/>
+                <path d="M165 355C153 300 118 253 92 203"/>
+                <path d="M165 355C180 298 209 249 235 206"/>
+                <path d="M156 292C129 270 106 273 80 288"/>
+                <path d="M174 277C201 254 226 251 250 268"/>
+              </g>
+              <g class="bouquet-leaves" fill="#7F9A83">
+                <ellipse cx="137" cy="255" rx="26" ry="10" transform="rotate(-36 137 255)"/>
+                <ellipse cx="200" cy="260" rx="27" ry="10" transform="rotate(32 200 260)"/>
+                <ellipse cx="109" cy="293" rx="23" ry="9" transform="rotate(-13 109 293)"/>
+                <ellipse cx="225" cy="299" rx="22" ry="9" transform="rotate(12 225 299)"/>
+                <ellipse cx="143" cy="315" rx="20" ry="8" transform="rotate(-42 143 315)"/>
+              </g>
+              <g filter="url(#flowerGlow)">
+                <g class="digital-flower digital-flower--one" fill="#D6A5AD">
+                  <circle cx="124" cy="130" r="24"/><circle cx="99" cy="111" r="20"/><circle cx="148" cy="109" r="21"/><circle cx="110" cy="86" r="19"/><circle cx="139" cy="88" r="18"/><circle cx="124" cy="110" r="17" fill="#F6DDE2"/>
+                </g>
+                <g class="digital-flower digital-flower--two" fill="#B96E79">
+                  <circle cx="175" cy="109" r="26"/><circle cx="149" cy="90" r="21"/><circle cx="201" cy="88" r="20"/><circle cx="162" cy="66" r="19"/><circle cx="191" cy="67" r="18"/><circle cx="176" cy="90" r="17" fill="#F6DDE2"/>
+                </g>
+                <g class="digital-flower digital-flower--three" fill="#9C789D">
+                  <circle cx="218" cy="141" r="23"/><circle cx="196" cy="121" r="19"/><circle cx="241" cy="119" r="20"/><circle cx="208" cy="97" r="17"/><circle cx="233" cy="99" r="17"/><circle cx="220" cy="120" r="15" fill="#EFE2EC"/>
+                </g>
+                <g class="digital-flower digital-flower--four" fill="#E8C9C5">
+                  <circle cx="91" cy="193" r="20"/><circle cx="69" cy="176" r="17"/><circle cx="112" cy="176" r="17"/><circle cx="80" cy="157" r="15"/><circle cx="103" cy="158" r="14"/><circle cx="91" cy="177" r="13" fill="#FFF9F5"/>
+                </g>
+                <g class="digital-flower digital-flower--five" fill="#C58B9B">
+                  <circle cx="238" cy="195" r="21"/><circle cx="217" cy="180" r="16"/><circle cx="259" cy="178" r="17"/><circle cx="228" cy="158" r="15"/><circle cx="251" cy="160" r="14"/><circle cx="238" cy="178" r="13" fill="#F6DDE2"/>
+                </g>
+              </g>
+              <g class="word-blooms" fill="#F6DDE2" font-family="monospace" font-size="9" text-anchor="middle">
+                <text x="74" y="70">XOXO</text><text x="276" y="90">LOVE</text><text x="56" y="340">DODY</text><text x="276" y="330">21.11.2006</text><text x="282" y="55">HAPPY</text><text x="42" y="180">SMILE</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="for-card" id="forCard">
+            <span class="for-card__small">for</span>
+            <strong>Dody</strong>
+            <span class="for-card__line"></span>
+            <p>من أمير، لدودي اللي وجودها بيفرق.</p>
+          </div>
+
+          <div class="matrix-actions">
+            <button class="btn btn--ghost-light" type="button" data-next>كمّلي الرحلة <span aria-hidden="true">←</span></button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 05 — RETRO COMPUTER -->
+      <section class="scene scene--computer" data-scene="5" data-chapter="عالم الكمبيوتر" aria-labelledby="computerTitle">
+        <div class="scene-bg scene-bg--compute" aria-hidden="true">
+          <span class="compute-grid"></span>
+          <div class="ambient-petals" data-petals="7"></div>
+        </div>
+        <div class="scene-inner computer-layout">
+          <div class="section-heading">
+            <p class="eyebrow"><span></span>DODY OS • VERSION 20.0<span></span></p>
+            <h2 id="computerTitle">ياه… الكمبيوتر ده <em>شكله قديم</em></h2>
+            <p>بس جواه حاجات لسه جديدة خالص. استني التحميل، وبعدين دوسي على كل أيقونة.</p>
+          </div>
+
+          <div class="crt-wrap">
+            <div class="crt" id="crt">
+              <span class="crt__vent" aria-hidden="true"></span>
+              <div class="crt__screen">
+                <div class="crt__scanlines" aria-hidden="true"></div>
+                <div class="crt__boot" id="crtBoot">
+                  <span class="crt__brand">DODY COMPUTER</span>
+                  <p>Loading your birthday surprise...</p>
+                  <div class="load-track"><span id="loadBar"></span></div>
+                  <div class="load-meta"><span id="loadPercent">0%</span><span>♥</span></div>
+                  <p class="load-hint">Please do not turn off your heart.</p>
+                </div>
+
+                <div class="desktop" id="retroDesktop" aria-hidden="true">
+                  <div class="desktop-icons" aria-label="أيقونات سطح المكتب">
+                    <button class="desktop-icon" type="button" data-window-open="letterWindow"><span aria-hidden="true">✉</span><bdi>letter.txt</bdi></button>
+                    <button class="desktop-icon" type="button" data-window-open="futureWindow"><span aria-hidden="true">✦</span><bdi>future plans.exe</bdi></button>
+                    <button class="desktop-icon" type="button" data-window-open="songWindow"><span aria-hidden="true">♫</span><bdi>our song</bdi></button>
+                    <button class="desktop-icon" type="button" data-window-open="heartWindow"><span aria-hidden="true">♥</span><bdi>heart.exe</bdi></button>
+                  </div>
+
+                  <div class="retro-window retro-window--letter" id="letterWindow" role="dialog" aria-modal="false" aria-labelledby="letterWindowTitle">
+                    <div class="retro-window__bar">
+                      <span id="letterWindowTitle"><span aria-hidden="true">▣</span> letter.txt</span>
+                      <span class="retro-window__controls"><button type="button" data-window-close="letterWindow" aria-label="إغلاق letter.txt">×</button></span>
+                    </div>
+                    <div class="retro-window__menu" aria-hidden="true"><span>File</span><span>Edit</span><span>Format</span><span>Help</span></div>
+                    <div class="retro-window__body letter-body">
+                      <p class="typewriter" id="letterTypewriter" data-typewriter>يا دعاء…</p>
+                      <div class="letter-dynamic" id="letterDynamic" hidden>
+                        <p>عارفة إيه اللي مميز فيكي؟</p>
+                        <p>إنك مش محتاجة تعملي حاجة خارقة عشان تبقي مميزة.</p>
+                        <p>فيه حاجات صغيرة فيكي ممكن متاخديش بالك منها، لكنها بتسيب أثر كبير.</p>
+                        <p>طريقة كلامك، ضحكتك، هزارك، تفاصيلك اللي يمكن تشوفيها عادية، لكنها بالنسبالي مش عادية خالص.</p>
+                        <p>أنا مش بكتبلك الكلام ده عشان عيد ميلادك وبس، أنا بكتبه عشان نفسي تعرفي إنك تستاهلي يتقالك كلام حلو، وتتحبي، وتتقدري، وتتحطي في مكانة تليق بيكي.</p>
+                        <p>ونفسي السنة الجديدة من عمرك تكون أحن عليكي من كل السنين اللي فاتت.</p>
+                        <p>تلاقي فيها راحة لقلبك، وفرحة تستاهليها، وأحلام كنتِ فاكرة إنها بعيدة وتلاقيها بتقرب منك واحدة واحدة.</p>
+                        <p class="letter-body__closing">كل سنة وإنتِ أجمل من السنة اللي قبلها يا دودي.</p>
+                        <p class="letter-body__sign">— أمير ❤️</p>
+                      </div>
+                      <div class="letter-hearts" aria-hidden="true"><span>♥</span><span>♥</span><span>♥</span><span>♥</span><span>♥</span></div>
+                    </div>
+                    <div class="retro-window__status"><span>Ln 8, Col 21</span><span>100%</span></div>
+                  </div>
+
+                  <div class="retro-window retro-window--heart is-hidden" id="heartWindow" role="dialog" aria-modal="false" aria-labelledby="heartWindowTitle">
+                    <div class="retro-window__bar">
+                      <span id="heartWindowTitle"><span aria-hidden="true">♥</span> heart.exe</span>
+                      <span class="retro-window__controls"><button type="button" data-window-close="heartWindow" aria-label="إغلاق heart.exe">×</button></span>
+                    </div>
+                    <div class="retro-window__body heart-app">
+                      <div class="pixel-heart" aria-hidden="true">♥</div>
+                      <h3>تم تثبيت جرعة حب غير محدودة!</h3>
+                      <p>تحذير: صاحبة القلب ده محبوبة جدًا، وممنوع عليها تقلل من جمالها أو تشك في قيمتها. 😂</p>
+                      <p class="heart-app__strong">البرنامج ده مفيهوش زرار Uninstall.</p>
+                      <button class="retro-btn" type="button" data-window-close="heartWindow">aww, ok</button>
+                    </div>
+                  </div>
+
+                  <div class="retro-window retro-window--future is-hidden" id="futureWindow" role="dialog" aria-modal="false" aria-labelledby="futureWindowTitle">
+                    <div class="retro-window__bar">
+                      <span id="futureWindowTitle"><span aria-hidden="true">✦</span> Future plans.exe</span>
+                      <span class="retro-window__controls"><button type="button" data-window-close="futureWindow" aria-label="إغلاق Future plans.exe">×</button></span>
+                    </div>
+                    <div class="retro-window__body">
+                      <p>نفسي أشوفك بتكبري وتحققي كل اللي بتحلمي بيه.</p>
+                      <p>نفسي تفضلي دايمًا عندك شغف لحاجات جديدة، وتفضلي تضحكي من قلبك، ومتخليش أي حاجة تطفي النور اللي جواكي.</p>
+                      <p>وأتمنى لما تيجي تبصي لورا بعد سنين، تلاقي إن السنين دي كانت مليانة حاجات تستاهل تتفتكر.</p>
+                    </div>
+                    <div class="retro-window__status"><span>future=beautiful</span><span>♥</span></div>
+                  </div>
+
+                  <div class="retro-window retro-window--song is-hidden" id="songWindow" role="dialog" aria-modal="false" aria-labelledby="songWindowTitle">
+                    <div class="retro-window__bar">
+                      <span id="songWindowTitle"><span aria-hidden="true">♫</span> our song</span>
+                      <span class="retro-window__controls"><button type="button" data-window-close="songWindow" aria-label="إغلاق our song">×</button></span>
+                    </div>
+                    <div class="retro-window__body song-app">
+                      <div class="song-app__disc" aria-hidden="true">♫</div>
+                      <p>فيه أغاني بتبقى حلوة لوحدها، بس لما ترتبط بحد بتحبه بتبقى ليها حكاية تانية.</p>
+                      <p>ودي واحدة من الأغاني اللي حبيت تكون جزء من عالمك النهارده.</p>
+                      <p>اسمعيها براحتك… وخليها ذكرى حلوة من يومك. 🎧</p>
+                      <div class="song-app__actions">
+                        <button class="retro-btn" type="button" data-music-action="play-personal">▶ شغّلي Our Song</button>
+                        <button class="retro-btn retro-btn--soft" type="button" data-music-action="pause">إيقاف مؤقت</button>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="desktop-taskbar">
+                    <button class="start-button" type="button" data-window-open="letterWindow">start</button>
+                    <span class="taskbar-title">Dody's birthday desktop</span>
+                    <span class="taskbar-tray" aria-hidden="true">♥ <bdi>12:00</bdi></span>
+                  </div>
+                </div>
+              </div>
+              <div class="crt__chin">
+                <span class="crt__led"></span>
+                <span class="crt__brand-emboss">DODY • 2006</span>
+                <span class="crt__knob"></span>
+              </div>
+            </div>
+            <span class="crt-shadow" aria-hidden="true"></span>
+          </div>
+
+          <p class="computer-tip">💡 لو النوافذ اتزاحمت، اقفلي اللي مش محتاجاه وافتحي اللي بعده.</p>
+        </div>
+      </section>
+
+      <!-- 06 — GARDEN OF WORDS -->
+      <section class="scene scene--garden" data-scene="6" data-chapter="حديقة الكلمات" aria-labelledby="gardenTitle">
+        <div class="scene-bg scene-bg--night-garden" aria-hidden="true">
+          <div class="night-stars" data-stars="70"></div>
+          <span class="garden-moon"></span>
+          <div class="garden-horizon"></div>
+          <div class="fireflies" data-fireflies="18"></div>
+        </div>
+
+        <div class="scene-inner garden-layout">
+          <div class="garden-intro" id="gardenIntro">
+            <p class="eyebrow eyebrow--light"><span></span>A BOUQUET MADE OF WORDS<span></span></p>
+            <h2>لدودي 💗</h2>
+            <p>جمعتلك كلام بدل الورد… وزرعته في حديقة صغيرة.</p>
+            <button class="btn btn--light" type="button" id="enterGarden">افتحي الحديقة <span aria-hidden="true">🌷</span></button>
+          </div>
+
+          <div class="garden-content" id="gardenContent" hidden>
+            <div class="section-heading section-heading--light">
+              <p class="eyebrow eyebrow--light"><span></span>OPEN AFTER MIDNIGHT<span></span></p>
+              <h2 id="gardenTitle" lang="en" dir="ltr">A Little Garden of Love 🌷</h2>
+              <p>شوية كلام حلو… مخصوص ليكي.</p>
+            </div>
+
+            <div class="garden-heart">
+              <div class="garden-heart__glow"></div>
+              <span aria-hidden="true">♥</span>
+            </div>
+
+            <blockquote class="garden-quote">
+              «لو كان ينفع أهديكي حاجة أكبر من كل الهدايا، كنت ههديكي عين تشوفي بيها نفسك زي ما أنا شايف جمالك… يمكن ساعتها تعرفي إنتِ مميزة قد إيه. 💗»
+            </blockquote>
+
+            <div class="word-cards" aria-label="بطاقات حديقة الكلمات">
+              <article class="word-card">
+                <button type="button" class="word-card__button" aria-expanded="false">
+                  <span class="word-card__number">01</span>
+                  <span class="word-card__flower" aria-hidden="true">✿</span>
+                  <span class="word-card__title">ضحكتك</span>
+                  <span class="word-card__hint">دوسي تفتحي البطاقة</span>
+                </button>
+                <div class="word-card__message" hidden>
+                  <p>يا بخت اليوم اللي بيبدأ بضحكتك، ويا بخت أي حد يقدر يكون سبب فيها. خليكي دايمًا بتضحكي، لأن ضحكتك من الحاجات اللي تستاهل الدنيا كلها تحافظ عليها.</p>
+                </div>
+              </article>
+              <article class="word-card">
+                <button type="button" class="word-card__button" aria-expanded="false">
+                  <span class="word-card__number">02</span>
+                  <span class="word-card__flower" aria-hidden="true">♡</span>
+                  <span class="word-card__title">قلبك</span>
+                  <span class="word-card__hint">دوسي تفتحي البطاقة</span>
+                </button>
+                <div class="word-card__message" hidden>
+                  <p>أتمنى قلبك ميتعبش من كتر ما بيحس، وميفقدش طيبته مهما قابل من الدنيا. خليه زي ما هو، جميل وصافي، لأن دي من أحلى الحاجات اللي فيكي.</p>
+                </div>
+              </article>
+              <article class="word-card">
+                <button type="button" class="word-card__button" aria-expanded="false">
+                  <span class="word-card__number">03</span>
+                  <span class="word-card__flower" aria-hidden="true">✦</span>
+                  <span class="word-card__title">أحلامك</span>
+                  <span class="word-card__hint">دوسي تفتحي البطاقة</span>
+                </button>
+                <div class="word-card__message" hidden>
+                  <p>يا رب كل حلم خبّيتيه جواكي ييجي يوم وتفرحي بيه، وكل حاجة نفسك فيها تلاقي طريقها ليكي. ومتستصغريش أحلامك أبدًا، إنتِ تستاهلي تحققي حاجات كبيرة.</p>
+                </div>
+              </article>
+              <article class="word-card">
+                <button type="button" class="word-card__button" aria-expanded="false">
+                  <span class="word-card__number">04</span>
+                  <span class="word-card__flower" aria-hidden="true">❀</span>
+                  <span class="word-card__title">وجودك</span>
+                  <span class="word-card__hint">دوسي تفتحي البطاقة</span>
+                </button>
+                <div class="word-card__message" hidden>
+                  <p>فيه ناس وجودها بيعدي عادي، وفيه ناس بتسيب علامة حتى من غير ما تقصد. وإنتِ من النوع التاني يا دودي.</p>
+                </div>
+              </article>
+              <article class="word-card">
+                <button type="button" class="word-card__button" aria-expanded="false">
+                  <span class="word-card__number">05</span>
+                  <span class="word-card__flower" aria-hidden="true">✧</span>
+                  <span class="word-card__title">أمنية ليكي</span>
+                  <span class="word-card__hint">دوسي تفتحي البطاقة</span>
+                </button>
+                <div class="word-card__message" hidden>
+                  <p>نفسي السنة دي تكون مليانة مفاجآت حلوة، وضحك كتير، وأيام متتعوضش، وناس تحبك بصدق، وتقدّر كل حاجة جميلة فيكي.</p>
+                </div>
+              </article>
+              <article class="word-card">
+                <button type="button" class="word-card__button" aria-expanded="false">
+                  <span class="word-card__number">06</span>
+                  <span class="word-card__flower" aria-hidden="true">❤</span>
+                  <span class="word-card__title">من أمير</span>
+                  <span class="word-card__hint">دوسي تفتحي البطاقة</span>
+                </button>
+                <div class="word-card__message" hidden>
+                  <p>ولو ليا أمنية شخصية في يومك ده، فهي إنك تفضلي عارفة إنك غالية، وإنك تستاهلي كل الكلام الحلو اللي بيتقالك، حتى في الأيام اللي إنتِ مش شايفة فيها ده.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 07 — GIFT BOX -->
+      <section class="scene scene--gift" data-scene="7" data-chapter="هدية صغيرة" aria-labelledby="giftTitle">
+        <div class="scene-bg scene-bg--red" aria-hidden="true">
+          <span class="gift-halo"></span>
+          <div class="ambient-petals" data-petals="14"></div>
+          <div class="rose-corners" aria-hidden="true"><svg viewBox="0 0 220 220"><use href="#rose-cluster"></use></svg></div>
+        </div>
+        <div class="scene-inner gift-layout">
+          <div class="section-heading section-heading--light">
+            <p class="eyebrow eyebrow--light"><span></span>JUST FOR YOU, DOUAA<span></span></p>
+            <h2 id="giftTitle">عملت ده بنفسي…<br><em>عشان إنتِ بالذات.</em> ❤️</h2>
+            <p>مش هدية كبيرة، بس معمولة وأنا بفكر فيكي في كل تفصيلة.</p>
+          </div>
+
+          <button class="gift-box" id="giftBox" type="button" aria-expanded="false" aria-controls="giftLetter">
+            <span class="gift-box__lid">
+              <span class="gift-box__bow"><i></i><i></i><b></b></span>
+              <span class="gift-box__seal">❤</span>
+            </span>
+            <span class="gift-box__base">
+              <span class="gift-dots" aria-hidden="true"></span>
+              <span class="gift-box__ribbon gift-box__ribbon--v"></span>
+              <span class="gift-box__ribbon gift-box__ribbon--h"></span>
+            </span>
+            <span class="gift-box__hint">دوسي على العلبة <span aria-hidden="true">↑</span></span>
+          </button>
+
+          <article class="gift-letter" id="giftLetter" aria-hidden="true">
+            <div class="gift-letter__wax">أ</div>
+            <span class="gift-letter__flower gift-letter__flower--tl" aria-hidden="true">❀</span>
+            <span class="gift-letter__flower gift-letter__flower--br" aria-hidden="true">❀</span>
+            <h3>يا دودي…</h3>
+            <p>عارف إن الكلام مهما كان حلو مش هيقدر يوصف كل اللي أتمنّاه ليكي.</p>
+            <p>بس نفسي تعرفي إنك تستاهلي أيام جميلة، وناس صادقة، وفرص حلوة، وراحة بال من غير قلق.</p>
+            <p>نفسي كل حاجة حلوة تتأخرت عليكي تلاقي طريقها ليكي.</p>
+            <p>ونفسي متنسيش أبدًا إنك تستاهلي تتحبي وتتقدري وتفرحي.</p>
+            <p class="gift-letter__closing">كل سنة وإنتِ طيبة، وكل سنة وإنتِ بتكتبي فصل جديد أجمل من اللي قبله.</p>
+            <div class="letter-signature">— أمير ❤️</div>
+          </article>
+        </div>
+      </section>
+
+      <!-- 08 — NIGHT MEMORY GARDEN -->
+      <section class="scene scene--memories" data-scene="8" data-chapter="حديقة الذكريات" aria-labelledby="memoriesTitle">
+        <div class="scene-bg scene-bg--memories" aria-hidden="true">
+          <div class="night-stars" data-stars="90"></div>
+          <span class="mist mist--one"></span>
+          <span class="mist mist--two"></span>
+          <div class="heart-particles" data-heart-particles="16"></div>
+        </div>
+        <div class="scene-inner memories-layout">
+          <div class="section-heading section-heading--light">
+            <p class="eyebrow eyebrow--light"><span></span>A QUIET CORNER OF THE NIGHT<span></span></p>
+            <h2 id="memoriesTitle" lang="en" dir="ltr">A little garden of words <em>about you</em></h2>
+            <p>هنا… شوية حاجات حلوة نفسي تفضلي فاكرها.</p>
+          </div>
+
+          <p class="memory-truth">«إنتِ مش محتاجة تكوني مثالية عشان تكوني مميزة.»</p>
+
+          <div class="particle-heart" aria-hidden="true"><span>♥</span><i></i><i></i><i></i><i></i><i></i></div>
+
+          <p class="memory-note">«إنتِ حاجة جميلة في الدنيا دي يا دودي، وأتمنى تفضلي شايفة ده في نفسك.»</p>
+
+          <div class="memory-deck" id="memoryDeck" aria-live="polite">
+            <article class="memory-card is-visible" data-memory-card="0"><span>01</span><p>لحظات تستاهل تتعاش.</p><i aria-hidden="true">✦</i></article>
+            <article class="memory-card" data-memory-card="1"><span>02</span><p>أحلام تستاهل تتحقق.</p><i aria-hidden="true">♡</i></article>
+            <article class="memory-card" data-memory-card="2"><span>03</span><p>ضحكات تستاهل تتكرر.</p><i aria-hidden="true">✿</i></article>
+            <article class="memory-card" data-memory-card="3"><span>04</span><p>أيام أحن من اللي فاتت.</p><i aria-hidden="true">☾</i></article>
+            <article class="memory-card" data-memory-card="4"><span>05</span><p>وسنين جاية مليانة خير وفرحة.</p><i aria-hidden="true">♥</i></article>
+          </div>
+          <div class="memory-dots" id="memoryDots" aria-hidden="true"></div>
+        </div>
+      </section>
+
+      <!-- 09 — CHANDELIER -->
+      <section class="scene scene--chandelier" data-scene="9" data-chapter="الثريا السحرية" aria-labelledby="chandelierTitle">
+        <div class="scene-bg scene-bg--chandelier" aria-hidden="true">
+          <span class="chandelier-glow" id="chandelierGlow"></span>
+          <div class="chandelier-stars" id="chandelierStars"></div>
+        </div>
+        <div class="scene-inner chandelier-layout">
+          <div class="section-heading section-heading--light section-heading--compact">
+            <p class="eyebrow eyebrow--gold"><span></span>THREE WISHES, THREE FLAMES<span></span></p>
+            <h2 id="chandelierTitle" lang="en" dir="ltr">Three little dancers,<br><em>three little wishes.</em></h2>
+          </div>
+
+          <div class="chandelier-stage">
+            <svg class="chandelier-svg" id="chandelierSvg" viewBox="0 0 700 760" role="img" aria-labelledby="chandelierSvgTitle chandelierSvgDesc">
+              <title id="chandelierSvgTitle">ثريا عتيقة خضراء بثلاث شموع كريمية وثلاث راقصات باليه</title>
+              <desc id="chandelierSvgDesc">ثريا متماثلة مزينة بالسلاسل والزخارف النباتية، تضاء شموعها الثلاث عند الضغط لتظهر راقصات مضيئة فوق اللهب.</desc>
+              <defs>
+                <linearGradient id="metalGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#8FA28F"/>
+                  <stop offset="32%" stop-color="#526D58"/>
+                  <stop offset="68%" stop-color="#294337"/>
+                  <stop offset="100%" stop-color="#162D24"/>
+                </linearGradient>
+                <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#F3E4B5"/>
+                  <stop offset="45%" stop-color="#C7A36A"/>
+                  <stop offset="100%" stop-color="#83613B"/>
+                </linearGradient>
+                <linearGradient id="candleGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#FFF9F0"/>
+                  <stop offset="55%" stop-color="#F4E7CE"/>
+                  <stop offset="100%" stop-color="#D8C3A3"/>
+                </linearGradient>
+                <linearGradient id="flameGrad" x1="0" y1="1" x2="0" y2="0">
+                  <stop offset="0%" stop-color="#6CB6E8"/>
+                  <stop offset="26%" stop-color="#FFE489"/>
+                  <stop offset="62%" stop-color="#FFB24D"/>
+                  <stop offset="100%" stop-color="#E96E49"/>
+                </linearGradient>
+                <radialGradient id="flameHalo">
+                  <stop offset="0%" stop-color="#FFD78A" stop-opacity=".7"/>
+                  <stop offset="55%" stop-color="#F6B963" stop-opacity=".18"/>
+                  <stop offset="100%" stop-color="#F6B963" stop-opacity="0"/>
+                </radialGradient>
+                <linearGradient id="dancerGrad" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#FFFDF8"/>
+                  <stop offset="100%" stop-color="#F8DCE4"/>
+                </linearGradient>
+                <filter id="softGlow"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+                <filter id="flameBlur"><feGaussianBlur stdDeviation="2.2"/></filter>
+              </defs>
+
+              <g class="chandelier-chain" stroke="url(#goldGrad)" fill="none" stroke-width="4">
+                <path d="M350 22v68"/>
+                <ellipse cx="350" cy="22" rx="13" ry="5"/>
+                <path d="M336 88c0-13 6-23 14-23s14 10 14 23" stroke-width="5"/>
+              </g>
+
+              <g class="chandelier-body" stroke="url(#goldGrad)" fill="none">
+                <path d="M350 94c-17 8-26 21-24 35 2 13 13 24 24 25 11-1 22-12 24-25 2-14-7-27-24-35Z" fill="url(#metalGrad)" stroke-width="3"/>
+                <path d="M330 116c-40 16-58 49-54 84 4 36 35 74 74 83 39-9 70-47 74-83 4-35-14-68-54-84" fill="url(#metalGrad)" stroke-width="4"/>
+                <path d="M300 140c-47 15-79 51-85 93-4 28 4 55 24 74 21 20 49 26 74 22 27-4 52-20 66-43 18-30 15-72-5-102-17-26-43-41-74-44Z" fill="url(#metalGrad)" stroke-width="5"/>
+                <path d="M350 113c-18 15-31 39-31 66 0 35 14 65 31 79 17-14 31-44 31-79 0-27-13-51-31-66Z" fill="#3B5B4C" stroke="url(#goldGrad)" stroke-width="3"/>
+                <path d="M350 265c-32 0-58 23-58 53 0 31 26 54 58 54s58-23 58-54c0-30-26-53-58-53Z" fill="url(#metalGrad)" stroke-width="4"/>
+                <path d="M350 376c-18 0-34 12-34 28 0 17 16 27 34 27s34-10 34-27c0-16-16-28-34-28Z" fill="#4C6B57" stroke="url(#goldGrad)" stroke-width="3"/>
+                <path d="M350 432v170" stroke-width="7"/>
+                <path d="M350 475c-22 9-35 26-35 44 0 18 12 31 35 31s35-13 35-31c0-18-13-35-35-44Z" fill="#486654" stroke-width="3"/>
+                <path d="M350 546c-14 9-22 20-22 31 0 12 9 20 22 20s22-8 22-20c0-11-8-22-22-31Z" fill="url(#metalGrad)" stroke-width="2"/>
+                <path d="M326 615h48l-9 34h-30Z" fill="url(#metalGrad)" stroke-width="3"/>
+                <path d="M320 649h60" stroke-width="7" stroke-linecap="round"/>
+                <path d="M307 671c15 17 72 17 87 0" stroke-width="5" stroke-linecap="round"/>
+                <path d="M350 690c-15 0-27 10-27 22 0 13 12 23 27 23s27-10 27-23c0-12-12-22-27-22Z" fill="url(#goldGrad)" stroke-width="2"/>
+              </g>
+
+              <g class="chandelier-ornaments" fill="#C7A36A" opacity=".92">
+                <circle cx="350" cy="314" r="5"/>
+                <circle cx="350" cy="603" r="4.5"/>
+                <circle cx="326" cy="183" r="4"/>
+                <circle cx="374" cy="183" r="4"/>
+                <path d="M248 244c6-17 19-27 32-29-5 14-15 25-32 29Z"/>
+                <path d="M452 244c-6-17-19-27-32-29 5 14 15 25 32 29Z"/>
+                <path d="M208 329c8-18 22-28 39-28-7 16-21 26-39 28Z"/>
+                <path d="M492 329c-8-18-22-28-39-28 7 16 21 26 39 28Z"/>
+              </g>
+
+              <g class="candle-arms" fill="none" stroke="url(#goldGrad)" stroke-width="7" stroke-linecap="round">
+                <path d="M315 239C266 205 228 177 197 159"/>
+                <path d="M385 239C434 205 472 177 503 159"/>
+                <path d="M319 329C288 310 257 299 226 285"/>
+                <path d="M381 329C412 310 443 299 474 285"/>
+                <path d="M350 366c0 29-16 40-16 62"/>
+              </g>
+              <g class="candle-arms-detail" fill="none" stroke="#C7A36A" stroke-width="2" opacity=".75">
+                <path d="M290 223c-24-17-54-36-81-53"/>
+                <path d="M410 223c24-17 54-36 81-53"/>
+                <path d="M303 321c-24-13-45-21-66-29"/>
+                <path d="M397 321c24-13 45-21 66-29"/>
+              </g>
+
+              <g class="lotus-holders" fill="url(#metalGrad)" stroke="url(#goldGrad)" stroke-width="2">
+                <path d="M169 242c-6-27 7-47 28-53 22 6 33 26 28 53-8 11-17 15-28 15s-20-4-28-15Z"/>
+                <path d="M169 242c-18-14-29-31-25-49 14 4 25 15 33 31" />
+                <path d="M225 242c18-14 29-31 25-49-14 4-25 15-33 31" />
+                <path d="M475 242c-6-27 7-47 28-53 22 6 33 26 28 53-8 11-17 15-28 15s-20-4-28-15Z"/>
+                <path d="M475 242c-18-14-29-31-25-49 14 4 25 15 33 31"/>
+                <path d="M531 242c18-14 29-31 25-49-14 4-25 15-33 31"/>
+                <path d="M320 356c-7-25 5-44 30-50 25 6 37 25 30 50-8 11-18 16-30 16s-22-5-30-16Z"/>
+              </g>
+
+              <g class="candles">
+                <g class="candle candle--left">
+                  <rect x="186" y="119" width="24" height="104" rx="7" fill="url(#candleGrad)"/>
+                  <path d="M186 133c7-9 17-9 24 0v-9h-24Z" fill="#E7D4B8"/>
+                  <path d="M192 119c1-10 5-15 6-22 5 9 9 14 8 22" fill="#FFF7E9"/>
+                  <ellipse cx="198" cy="222" rx="17" ry="5" fill="#C7A36A" opacity=".6"/>
+                  <g class="flame">
+                    <circle cx="198" cy="86" r="49" fill="url(#flameHalo)"/>
+                    <path d="M198 111c-11-12-16-24-11-36 4-9 9-15 11-32 4 19 13 28 15 42 2 12-4 21-15 26Z" fill="url(#flameGrad)"/>
+                    <path d="M198 104c-5-7-7-14-3-21 3-5 4-8 4-15 4 9 7 15 7 23 0 7-3 11-8 13Z" fill="#FFF4B4" filter="url(#flameBlur)"/>
+                    <path d="M198 111c-4-5-6-10-4-15 1-3 3-6 4-10 2 7 4 10 4 15 0 4-1 8-4 10Z" fill="#78BDE6" opacity=".8"/>
+                  </g>
+                  <g class="dancer dancer--left">
+                    <circle cx="198" cy="27" r="6" fill="url(#dancerGrad)"/>
+                    <path d="M194 34c-5 6-6 16-3 24l9 1c4-9 2-19-2-25Z" fill="url(#dancerGrad)"/>
+                    <path d="M193 40L176 31M194 39l19-15" stroke="#FFFDF8" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M199 57L185 77M201 57l16 19" stroke="#FFFDF8" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M188 80l13-14 14 14c-7 3-20 3-27 0Z" fill="#FFF9F5" opacity=".85"/>
+                    <path d="M184 82c6 6 23 6 30 0" stroke="#F4C9D5" stroke-width="2" fill="none"/>
+                  </g>
+                </g>
+
+                <g class="candle candle--right">
+                  <rect x="490" y="119" width="24" height="104" rx="7" fill="url(#candleGrad)"/>
+                  <path d="M490 133c7-9 17-9 24 0v-9h-24Z" fill="#E7D4B8"/>
+                  <path d="M496 119c1-10 5-15 6-22 5 9 9 14 8 22" fill="#FFF7E9"/>
+                  <ellipse cx="502" cy="222" rx="17" ry="5" fill="#C7A36A" opacity=".6"/>
+                  <g class="flame">
+                    <circle cx="502" cy="86" r="49" fill="url(#flameHalo)"/>
+                    <path d="M502 111c-11-12-16-24-11-36 4-9 9-15 11-32 4 19 13 28 15 42 2 12-4 21-15 26Z" fill="url(#flameGrad)"/>
+                    <path d="M502 104c-5-7-7-14-3-21 3-5 4-8 4-15 4 9 7 15 7 23 0 7-3 11-8 13Z" fill="#FFF4B4" filter="url(#flameBlur)"/>
+                    <path d="M502 111c-4-5-6-10-4-15 1-3 3-6 4-10 2 7 4 10 4 15 0 4-1 8-4 10Z" fill="#78BDE6" opacity=".8"/>
+                  </g>
+                  <g class="dancer dancer--right">
+                    <circle cx="502" cy="27" r="6" fill="url(#dancerGrad)"/>
+                    <path d="M498 34c-5 6-6 16-3 24l9 1c4-9 2-19-2-25Z" fill="url(#dancerGrad)"/>
+                    <path d="M499 40l-16-17M500 39l18-15" stroke="#FFFDF8" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M503 57L489 77M505 57l18 17" stroke="#FFFDF8" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M493 80l13-14 14 14c-7 3-20 3-27 0Z" fill="#FFF9F5" opacity=".85"/>
+                    <path d="M489 82c6 6 23 6 30 0" stroke="#F4C9D5" stroke-width="2" fill="none"/>
+                  </g>
+                </g>
+
+                <g class="candle candle--center">
+                  <rect x="334" y="195" width="32" height="112" rx="8" fill="url(#candleGrad)"/>
+                  <path d="M334 210c10-8 22-8 32 0v-9h-32Z" fill="#E7D4B8"/>
+                  <path d="M343 195c1-11 7-17 8-25 6 11 10 17 9 25" fill="#FFF7E9"/>
+                  <ellipse cx="350" cy="306" rx="21" ry="6" fill="#C7A36A" opacity=".6"/>
+                  <g class="flame">
+                    <circle cx="350" cy="161" r="51" fill="url(#flameHalo)"/>
+                    <path d="M350 188c-11-12-16-24-11-36 4-9 9-15 11-32 4 19 13 28 15 42 2 12-4 21-15 26Z" fill="url(#flameGrad)"/>
+                    <path d="M350 181c-5-7-7-14-3-21 3-5 4-8 4-15 4 9 7 15 7 23 0 7-3 11-8 13Z" fill="#FFF4B4" filter="url(#flameBlur)"/>
+                    <path d="M350 188c-4-5-6-10-4-15 1-3 3-6 4-10 2 7 4 10 4 15 0 4-1 8-4 10Z" fill="#78BDE6" opacity=".8"/>
+                  </g>
+                  <g class="dancer dancer--center">
+                    <circle cx="350" cy="103" r="6.5" fill="url(#dancerGrad)"/>
+                    <path d="M346 110c-5 7-6 17-3 25l9 1c4-9 2-20-2-26Z" fill="url(#dancerGrad)"/>
+                    <path d="M347 116l-16-14M348 115l14-24" stroke="#FFFDF8" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M352 134l-14 20M354 134l14 20" stroke="#FFFDF8" stroke-width="3.5" stroke-linecap="round"/>
+                    <path d="M340 156l14-14 14 14c-7 3-21 3-28 0Z" fill="#FFF9F5" opacity=".85"/>
+                    <path d="M336 158c6 6 22 6 29 0" stroke="#F4C9D5" stroke-width="2" fill="none"/>
+                  </g>
+                </g>
+              </g>
+
+              <g class="bead-chains" fill="none" stroke="#B98B83" stroke-width="1.4" stroke-dasharray="1 8" stroke-linecap="round">
+                <path d="M172 267C221 351 479 351 528 267"/>
+                <path d="M187 257c38 54 288 54 326 0"/>
+                <path d="M318 354c-34 58-31 99 32 124 63-25 66-66 32-124"/>
+              </g>
+              <g class="bead-drops" fill="#C7A36A" opacity=".9">
+                <circle cx="350" cy="455" r="5"/>
+                <path d="M350 462c-7 7-9 13-6 18 2 4 9 4 12 0 3-5 1-11-6-18Z" fill="#D6A5AD"/>
+                <circle cx="350" cy="486" r="3"/>
+              </g>
+            </svg>
+
+            <div class="sparkle-layer" id="sparkleLayer" aria-hidden="true"></div>
+          </div>
+
+          <div class="chandelier-action">
+            <button class="btn btn--gold" type="button" id="lightCandles">دوسي عشان تولعي الشموع <span aria-hidden="true">✨</span></button>
+            <p class="chandelier-prompt" id="chandelierPrompt" hidden>Make a wish, Dody… <span aria-hidden="true">✨</span></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10 — WISHES -->
+      <section class="scene scene--wishes" data-scene="10" data-chapter="تلات أمنيات" aria-labelledby="wishesTitle">
+        <div class="scene-bg scene-bg--wishes" aria-hidden="true">
+          <div class="night-stars" data-stars="55"></div>
+          <span class="wish-glow"></span>
+          <div class="ambient-petals" data-petals="8"></div>
+        </div>
+        <div class="scene-inner wishes-layout">
+          <div class="section-heading section-heading--light">
+            <p class="eyebrow eyebrow--gold"><span></span>MAKE A WISH, DODY<span></span></p>
+            <h2 id="wishesTitle">عندي ليكي <em>تلات أمنيات…</em></h2>
+            <p>وهي مش محتاجة غير إنك تنوري الشموع الأول.</p>
+          </div>
+
+          <div class="wish-cards">
+            <article class="wish-card is-visible">
+              <div class="wish-flame" aria-hidden="true"><i></i></div>
+              <span class="wish-card__number">الشمعة الأولى</span>
+              <h3>راحة قلبك</h3>
+              <p>يا رب قلبك يعرف معنى الراحة، ومتشوفيش وجع ابدا.</p>
+            </article>
+            <article class="wish-card">
+              <div class="wish-flame" aria-hidden="true"><i></i></div>
+              <span class="wish-card__number">الشمعة التانية</span>
+              <h3>كل الأبواب</h3>
+              <p>يا رب كل باب نفسك يتفتحلك، وكل حلم تتمنيه يبقى حقيقة.</p>
+            </article>
+            <article class="wish-card">
+              <div class="wish-flame" aria-hidden="true"><i></i></div>
+              <span class="wish-card__number">الشمعة التالتة</span>
+              <h3>حب وفرحة</h3>
+              <p>يا رب تفضلي محاطة بالحب والفرحة والناس اللي يعرفوا قيمتك.</p>
+            </article>
+          </div>
+
+          <div class="wishes-closing">
+            <p>العشرين سنة دول مش مجرد رقم جديد يا دودي…</p>
+            <p>دي بداية فصل جديد من حكايتك.</p>
+            <p>أتمنى يكون أجمل فصل لحد دلوقتي، وتكتبي فيه حاجات كتير تفرحك وتفخري بيها.</p>
+            <p class="wishes-closing__strong">وكل سنة وإنتِ أقرب لأحلامك، وأقرب للنسخة اللي نفسك تبقيها.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11 — FOUR WINDOWS -->
+      <section class="scene scene--windows" data-scene="11" data-chapter="نوافذ صغيرة" aria-labelledby="windowsTitle">
+        <div class="scene-bg scene-bg--windows" aria-hidden="true">
+          <span class="window-cloud window-cloud--one"></span>
+          <span class="window-cloud window-cloud--two"></span>
+          <div class="ambient-petals" data-petals="7"></div>
+        </div>
+        <div class="scene-inner windows-layout">
+          <div class="windows-heading">
+            <p class="eyebrow"><span></span>FOR DODY / FROM AMIR<span></span></p>
+            <h2 id="windowsTitle">أربع نوافذ… <em>وأربع حكايات</em></h2>
+            <p>كل نافذة فيها كلمة نفسي توصلك. افتحيها براحتك.</p>
+          </div>
+
+          <div class="window-grid">
+            <article class="story-window" data-story-window>
+              <button type="button" class="story-window__button" aria-expanded="false">
+                <span class="story-window__sky" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="story-window__curtain story-window__curtain--left" aria-hidden="true"></span>
+                <span class="story-window__curtain story-window__curtain--right" aria-hidden="true"></span>
+                <span class="story-window__pelmet" aria-hidden="true"></span>
+                <span class="story-window__label">سنة جديدة <b aria-hidden="true">01</b></span>
+                <span class="story-window__prompt">اسحبي الستارة <span aria-hidden="true">↑</span></span>
+                <span class="story-window__text">
+                  <span class="story-window__eyebrow">FOR DODY / FROM AMIR</span>
+                  <strong>سنة جديدة</strong>
+                  <span>«يا رب السنة دي متكونش شبه أي سنة فاتت، تكون سنة تعويض وفرحة ونجاح، وتلاقي فيها نفسك بتعيشي حاجات كنتِ بتتمنيها من زمان.»</span>
+                </span>
+              </button>
+            </article>
+
+            <article class="story-window" data-story-window>
+              <button type="button" class="story-window__button" aria-expanded="false">
+                <span class="story-window__sky" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="story-window__curtain story-window__curtain--left" aria-hidden="true"></span>
+                <span class="story-window__curtain story-window__curtain--right" aria-hidden="true"></span>
+                <span class="story-window__pelmet" aria-hidden="true"></span>
+                <span class="story-window__label">وقت التعب <b aria-hidden="true">02</b></span>
+                <span class="story-window__prompt">اسحبي الستارة <span aria-hidden="true">↑</span></span>
+                <span class="story-window__text">
+                  <span class="story-window__eyebrow">FOR DODY / FROM AMIR</span>
+                  <strong>وقت التعب</strong>
+                  <span>«ولما الدنيا تضيق بيكي، افتكري إن مش مطلوب منك تكوني قوية طول الوقت. من حقك تتعبي، وتزعلي، وتسندي قلبك شوية. بس متنسيش إنك تستاهلي أيام أحن وأجمل.»</span>
+                </span>
+              </button>
+            </article>
+
+            <article class="story-window" data-story-window>
+              <button type="button" class="story-window__button" aria-expanded="false">
+                <span class="story-window__sky" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="story-window__curtain story-window__curtain--left" aria-hidden="true"></span>
+                <span class="story-window__curtain story-window__curtain--right" aria-hidden="true"></span>
+                <span class="story-window__pelmet" aria-hidden="true"></span>
+                <span class="story-window__label">وقت الفرحة <b aria-hidden="true">03</b></span>
+                <span class="story-window__prompt">اسحبي الستارة <span aria-hidden="true">↑</span></span>
+                <span class="story-window__text">
+                  <span class="story-window__eyebrow">FOR DODY / FROM AMIR</span>
+                  <strong>وقت الفرحة</strong>
+                  <span>«لما تحققي حاجة نفسك فيها، افرحي بيها من قلبك، واحتفلي بنفسك، ومتستنيش حد يقولك إنك تستاهلي. إنتِ تستاهلي الفرحة من غير أي أسباب.»</span>
+                </span>
+              </button>
+            </article>
+
+            <article class="story-window" data-story-window>
+              <button type="button" class="story-window__button" aria-expanded="false">
+                <span class="story-window__sky" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="story-window__curtain story-window__curtain--left" aria-hidden="true"></span>
+                <span class="story-window__curtain story-window__curtain--right" aria-hidden="true"></span>
+                <span class="story-window__pelmet" aria-hidden="true"></span>
+                <span class="story-window__label">رسالة خاصة <b aria-hidden="true">04</b></span>
+                <span class="story-window__prompt">اسحبي الستارة <span aria-hidden="true">↑</span></span>
+                <span class="story-window__text">
+                  <span class="story-window__eyebrow">FOR DODY / FROM AMIR</span>
+                  <strong>رسالة خاصة</strong>
+                  <span>«عارفة يا دودي؟ أنا مش عايزك تفتكري يوم ميلادك بس إنك كبرتي سنة، أنا عايزك تفتكري إنك إنسانة ليها قيمة كبيرة، وإن وجودك في حياة اللي بيحبوكي مش حاجة بسيطة.»</span>
+                </span>
+              </button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 12 — AGE COUNTER -->
+      <section class="scene scene--years" data-scene="12" data-chapter="عشرين سنة" aria-labelledby="yearsTitle">
+        <div class="scene-bg scene-bg--years" aria-hidden="true">
+          <span class="year-ring year-ring--one"></span>
+          <span class="year-ring year-ring--two"></span>
+          <div class="ambient-petals" data-petals="11"></div>
+          <div class="twinkle-field" data-twinkles="20"></div>
+        </div>
+        <div class="scene-inner years-layout">
+          <div class="section-heading section-heading--center">
+            <p class="eyebrow"><span></span>SINCE 21 NOVEMBER 2006<span></span></p>
+            <h2 id="yearsTitle" lang="en" dir="ltr">20 Years of Dody 💗</h2>
+            <p class="years-subtitle" id="birthdayStatus">Happy 20th Birthday!</p>
+          </div>
+
+          <div class="age-clock" id="ageClock">
+            <div class="age-clock__countdown" id="countdownPanel" hidden>
+              <p class="age-clock__label">فاضل لبداية العشرين…</p>
+              <div class="age-clock__units">
+                <div><strong id="cdDays">00</strong><span>يوم</span></div>
+                <div><strong id="cdHours">00</strong><span>ساعة</span></div>
+                <div><strong id="cdMinutes">00</strong><span>دقيقة</span></div>
+                <div><strong id="cdSeconds">00</strong><span>ثانية</span></div>
+              </div>
+            </div>
+            <div class="age-clock__elapsed" id="elapsedPanel">
+              <div class="age-clock__unit"><strong id="yearsValue">20</strong><span>سنة</span></div>
+              <div class="age-clock__unit"><strong id="monthsValue">00</strong><span>شهر</span></div>
+              <div class="age-clock__unit"><strong id="daysValue">00</strong><span>يوم</span></div>
+              <div class="age-clock__unit"><strong id="hoursValue">00</strong><span>ساعة</span></div>
+              <div class="age-clock__unit"><strong id="minutesValue">00</strong><span>دقيقة</span></div>
+              <div class="age-clock__unit age-clock__unit--seconds"><strong id="secondsValue">00</strong><span>ثانية</span></div>
+            </div>
+            <p class="age-clock__zone"><span aria-hidden="true">◷</span> بتوقيت القاهرة • <bdi>Africa/Cairo</bdi></p>
+          </div>
+
+          <div class="years-copy">
+            <p>مش هقدر أحسبلك قد إيه لحظة حلوة عديتي بيها، ولا قد إيه لسه مستنياكي لحظات أجمل.</p>
+            <p>بس أقدر أتمنى إن كل يوم جاي يكون فيه سبب جديد يخليكي تبتسمي.</p>
+            <p>العشرين مش نهاية مرحلة، دي بداية حكايات كتير لسه متكتبتش.</p>
+            <p>عيشيها بحب، اضحكي فيها كتير، احلمي من غير خوف، وخليكي دايمًا فخورة بنفسك.</p>
+            <p class="years-copy__strong">كل سنة وإنتِ طيبة يا صاحبة العشرين الجميلة.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 13 — GRAND CELEBRATION -->
+      <section class="scene scene--celebration" data-scene="13" data-chapter="المفاجأة الكبيرة" aria-labelledby="celebrationTitle">
+        <div class="scene-bg scene-bg--celebration" aria-hidden="true">
+          <canvas id="celebrationCanvas"></canvas>
+          <div class="celebration-rays"></div>
+          <div class="balloon-field" id="balloonField"></div>
+          <div class="celebration-blooms" id="celebrationBlooms"></div>
+        </div>
+        <div class="scene-inner celebration-layout">
+          <div class="celebration-copy">
+            <p class="celebration-kicker">IT'S YOUR DAY, DOUAA</p>
+            <h2 id="celebrationTitle">HAPPY 20TH<br><em>BIRTHDAY</em></h2>
+            <p class="celebration-name">DOUAA <span aria-hidden="true">🌷</span></p>
+            <p class="celebration-line">كل سنة وإنتِ حكاية حلوة يا دودي!</p>
+            <p class="celebration-line celebration-line--soft">20 سنة من الجمال… ولسه أحلى أيامك جاية. ❤️</p>
+            <div class="celebration-actions">
+              <button class="btn btn--celebration" type="button" data-music-action="play-birthday" id="birthdayPlayBtn">شغّلي أغنية عيد الميلاد <span aria-hidden="true">♫</span></button>
+              <button class="btn btn--quiet" type="button" data-next>كمّلي معايا <span aria-hidden="true">←</span></button>
+            </div>
+          </div>
+
+          <div class="celebration-cake" aria-hidden="true">
+            <div class="cake-candle"><i></i><b></b></div>
+            <div class="cake-tier cake-tier--top"></div>
+            <div class="cake-tier cake-tier--middle"></div>
+            <div class="cake-tier cake-tier--bottom"></div>
+            <div class="cake-plate"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 14 — FOUR ENVELOPES -->
+      <section class="scene scene--letters" data-scene="14" data-chapter="أربع رسائل" aria-labelledby="lettersTitle">
+        <div class="scene-bg scene-bg--letters" aria-hidden="true">
+          <div class="ambient-petals" data-petals="12"></div>
+          <div class="twinkle-field" data-twinkles="16"></div>
+        </div>
+        <div class="scene-inner letters-layout">
+          <div class="section-heading section-heading--center">
+            <p class="eyebrow"><span></span>OPEN WHEN YOU NEED THEM<span></span></p>
+            <h2 id="lettersTitle">أربع أظرف… <em>لأربع لحظات</em></h2>
+            <p>مش لازم تفتحيهم بالترتيب. افتحي اللي قلبك محتاجه.</p>
+          </div>
+
+          <div class="letter-envelopes">
+            <article class="mini-envelope">
+              <button type="button" class="mini-envelope__button" aria-expanded="false" aria-controls="miniLetter1">
+                <span class="mini-envelope__shape" aria-hidden="true"><i></i><b>١</b></span>
+                <span class="mini-envelope__title">افتحي دي لما تكوني محتاجة تبتسمي 💗</span>
+              </button>
+              <div class="mini-envelope__letter" id="miniLetter1" hidden>
+                <p>ابتسمي يا دودي، حتى لو اليوم مش أحسن حاجة.</p>
+                <p>مش كل يوم لازم يكون مثالي، ومش كل حاجة لازم تمشي زي ما إحنا عايزين.</p>
+                <p>بس دايمًا فيه حاجة تستاهل نبتسم عشانها، وأتمنى تلاقيها حتى في أبسط تفاصيل يومك.</p>
+                <p class="mini-envelope__closing">وبعدين هو أنا عملت كل ده عشان أشوفك مكشرة؟ 😂❤️</p>
+              </div>
+            </article>
+
+            <article class="mini-envelope">
+              <button type="button" class="mini-envelope__button" aria-expanded="false" aria-controls="miniLetter2">
+                <span class="mini-envelope__shape" aria-hidden="true"><i></i><b>٢</b></span>
+                <span class="mini-envelope__title">رسالة صغيرة مخصوص ليكي 💌</span>
+              </button>
+              <div class="mini-envelope__letter" id="miniLetter2" hidden>
+                <p>يمكن مش بعرف أعبّر عن كل اللي جوايا بالشكل الصح، بس حابب تعرفي إنك غالية عندي، وإن تفاصيلك الصغيرة بتفرق.</p>
+                <p class="mini-envelope__closing">متفتكريش إن الكلام الحلو لازم يكون في مناسبة، إنتِ تستاهليه في كل وقت.</p>
+              </div>
+            </article>
+
+            <article class="mini-envelope">
+              <button type="button" class="mini-envelope__button" aria-expanded="false" aria-controls="miniLetter3">
+                <span class="mini-envelope__shape" aria-hidden="true"><i></i><b>٣</b></span>
+                <span class="mini-envelope__title">حاجة نفسي تعرفيها عن مكانك عندي 🌹</span>
+              </button>
+              <div class="mini-envelope__letter" id="miniLetter3" hidden>
+                <p>مش لازم تكوني دايمًا في أحسن حالاتك عشان تكوني جميلة في عين اللي بيحبك.</p>
+                <p>مش لازم تضحكي طول الوقت، ولا تخبي زعلك، ولا تتظاهري إن كل حاجة تمام.</p>
+                <p class="mini-envelope__closing">خليكي إنتِ، بكل تفاصيلك، لأن أجمل حاجة فيكي إنك إنتِ.</p>
+              </div>
+            </article>
+
+            <article class="mini-envelope">
+              <button type="button" class="mini-envelope__button" aria-expanded="false" aria-controls="miniLetter4">
+                <span class="mini-envelope__shape" aria-hidden="true"><i></i><b>٤</b></span>
+                <span class="mini-envelope__title">آخر ظرف يا دودي… ✨</span>
+              </button>
+              <div class="mini-envelope__letter" id="miniLetter4" hidden>
+                <p>لو وصلتي لحد هنا، فأنا عايز أقولك إن دي مش مجرد صفحة على شاشة.</p>
+                <p>دي محاولة صغيرة مني إني أعملك يوم مختلف، وأسيبلك ذكرى حلوة ترجعي لها كل ما تحبي.</p>
+                <p>ويمكن الكلام يخلص، لكن أتمنى الإحساس الحلو اللي وراه يفضل معاكي.</p>
+                <p class="mini-envelope__closing">كل سنة وإنتِ طيبة يا دودي، وكل سنة وإنتِ بخير وسعادة.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 15 — I LOVE U -->
+      <section class="scene scene--love" data-scene="15" data-chapter="كلمة أخيرة" aria-labelledby="loveTitle">
+        <div class="scene-bg scene-bg--love" aria-hidden="true">
+          <div class="love-orb"></div>
+          <div class="ambient-petals" data-petals="10"></div>
+          <div class="twinkle-field" data-twinkles="18"></div>
+        </div>
+        <div class="scene-inner love-layout">
+          <p class="eyebrow eyebrow--center"><span></span>ONE LAST THING<span></span></p>
+          <h2 id="loveTitle" class="love-title" lang="en" dir="ltr">One last thing...</h2>
+          <p class="love-intro">لسه عندي كلمة أخيرة ليكي ❤️</p>
+
+          <button class="love-button" id="loveButton" type="button" aria-expanded="false">
+            <span class="love-button__heart" aria-hidden="true">♥</span>
+            <span>I LOVE U 💗</span>
+          </button>
+
+          <div class="love-reveal" id="loveReveal" aria-live="polite">
+            <div class="love-reveal__heart" aria-hidden="true">
+              <span>♥</span>
+              <i>♥</i><i>♥</i><i>♥</i><i>♥</i><i>♥</i><i>♥</i><i>♥</i><i>♥</i>
+            </div>
+            <p>وأنا كل يوم بلاقي سبب جديد يخليني أحب وجودك أكتر يا دودي. 💗</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 16 — FINALE -->
+      <section class="scene scene--finale" data-scene="16" data-chapter="آخر الحكاية" aria-labelledby="finaleTitle">
+        <div class="scene-bg scene-bg--finale" aria-hidden="true">
+          <div class="final-roses final-roses--left"><svg viewBox="0 0 260 600"><use href="#final-bouquet"></use></svg></div>
+          <div class="final-roses final-roses--right"><svg viewBox="0 0 260 600"><use href="#final-bouquet"></use></svg></div>
+          <div class="twinkle-field" data-twinkles="25"></div>
+          <div class="ambient-petals" data-petals="12"></div>
+        </div>
+        <div class="scene-inner finale-layout">
+          <div class="final-heart" aria-hidden="true">
+            <span>♥</span>
+          </div>
+          <p class="eyebrow eyebrow--center"><span></span>THE END OF THIS LITTLE JOURNEY<span></span></p>
+          <h2 id="finaleTitle">يا دعاء…</h2>
+
+          <div class="final-letter">
+            <p>في نهاية الرحلة دي، حابب أقولك حاجة واحدة:</p>
+            <p class="final-letter__highlight">أنا أتمنى ليكي حياة شبه قلبك، جميلة وحنينة ومليانة حاجات تستاهل تتعاش.</p>
+            <p>أتمنى متخليش الأيام الصعبة تنسيكي إنك تستاهلي السعادة، ومتخليش أي حاجة تقلل من نظرتك لنفسك.</p>
+            <p>خلي عندك أحلام كبيرة، وضحكة عالية، وقلب مطمن، وروح بتحب الحياة.</p>
+            <p>وكل ما تكبري سنة، أتمنى تكبري معاها في الفرح والنجاح والراحة، مش في الهموم بس.</p>
+            <p class="final-letter__name">كل سنة وإنتِ طيبة يا دودي.</p>
+            <p class="final-letter__name">كل سنة وإنتِ أجمل دعاء في الدنيا.</p>
+            <p>ومهما كتبت، هتفضل فيه كلمات كتير مش عارف أوصف بيها قد إيه أتمنى أشوفك مبسوطة.</p>
+          </div>
+
+          <p class="final-signature">"من أمير… بكل اللي في قلبه، لدودي. ❤️"</p>
+
+          <button class="btn btn--replay" type="button" id="restartJourney">
+            <span aria-hidden="true">↺</span> ارجعي عيشي الحكاية من الأول 💗
+          </button>
+          <p class="final-footnote">وسيبالك الموسيقى… عشان الحكاية تفضل شغالة. <span aria-hidden="true">♫</span></p>
+        </div>
+      </section>
+    </main>
+
+    <nav class="scene-nav" id="sceneNav" aria-label="التنقل بين المشاهد">
+      <button class="scene-nav__back" id="prevScene" type="button" aria-label="المشهد السابق">
+        <span aria-hidden="true">→</span><span class="nav-label">رجوع</span>
+      </button>
+      <div class="scene-nav__center">
+        <span class="scene-nav__dot" aria-hidden="true"></span>
+        <button class="scene-nav__next" id="nextScene" type="button" aria-label="المشهد التالي">
+          <span class="nav-label">التالي</span><span aria-hidden="true">←</span>
+        </button>
+      </div>
+      <button class="scene-nav__menu" id="sceneMenuButton" type="button" aria-label="كل فصول الرحلة" aria-expanded="false">
+        <span aria-hidden="true">☰</span>
+      </button>
+    </nav>
+
+    <div class="scene-menu" id="sceneMenu" hidden>
+      <div class="scene-menu__panel">
+        <button class="scene-menu__close" id="sceneMenuClose" type="button" aria-label="إغلاق قائمة المشاهد">×</button>
+        <p class="eyebrow"><span></span>THE JOURNEY<span></span></p>
+        <h2>فصول الحكاية</h2>
+        <ol id="sceneMenuList"></ol>
+        <p class="scene-menu__note">تقدري ترجعي لأي فصل… الحكاية كلها مستنياكي.</p>
+      </div>
+    </div>
+
+    <aside class="music-dock" id="musicDock" aria-label="مشغل الموسيقى">
+      <div class="music-dock__head">
+        <div class="music-dock__art" aria-hidden="true">
+          <span class="vinyl"><i></i></span>
+        </div>
+        <div class="music-dock__meta">
+          <span class="music-dock__kicker">NOW PLAYING</span>
+          <strong id="trackTitle">اختاري أغنية</strong>
+          <span id="trackSubtitle">لحكايتنا الصغيرة</span>
+        </div>
+        <button class="music-dock__collapse" id="musicDockCollapse" type="button" aria-label="تصغير المشغل">⌄</button>
+      </div>
+      <div class="music-dock__timeline">
+        <input type="range" id="musicSeek" min="0" max="100" value="0" step="0.1" aria-label="موضع الأغنية">
+        <div class="music-dock__times"><span id="currentTime">0:00</span><span id="duration">0:00</span></div>
+      </div>
+      <div class="music-dock__controls">
+        <button type="button" data-music-action="previous" aria-label="الأغنية السابقة">⏮</button>
+        <button type="button" data-music-action="rewind" aria-label="رجوع ١٠ ثوان">−10</button>
+        <button class="music-dock__play" type="button" data-music-action="toggle" aria-label="تشغيل أو إيقاف" aria-pressed="false"><span id="playIcon">▶</span></button>
+        <button type="button" data-music-action="forward" aria-label="تقديم ١٠ ثوان">+10</button>
+        <button type="button" data-music-action="next" aria-label="الأغنية التالية">⏭</button>
+      </div>
+      <div class="music-dock__foot">
+        <button type="button" data-music-action="restart" aria-label="إعادة الأغنية من البداية">↺ إعادة</button>
+        <button type="button" data-music-action="mute" aria-label="كتم الصوت" aria-pressed="false" id="muteButton">♫ الصوت</button>
+      </div>
+    </aside>
+
+    <button class="music-tab" id="musicTab" type="button" aria-label="فتح مشغل الموسيقى" hidden>
+      <span class="sound-peek__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span id="musicTabLabel">Music</span>
+    </button>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  </div>
+
+  <svg class="svg-defs" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="rose-cluster" viewBox="0 0 180 180">
+        <g fill="none" stroke="currentColor" stroke-linecap="round">
+          <path d="M22 160C39 122 48 89 69 58" stroke-width="3"/>
+          <path d="M45 136c-16-8-27-3-33 10 14 5 25 3 33-10Z" fill="currentColor" opacity=".28" stroke-width="0"/>
+          <path d="M50 116c19-8 28-2 33 12-16 4-27 1-33-12Z" fill="currentColor" opacity=".28" stroke-width="0"/>
+          <path d="M62 89c-17-11-28-8-34 6 14 7 26 5 34-6Z" fill="currentColor" opacity=".28" stroke-width="0"/>
+          <g transform="translate(69 48)">
+            <circle r="18" fill="currentColor" opacity=".24"/>
+            <path d="M-27 0c2-17 13-28 29-28S30-16 29 1 14 29-2 28-28 14-27 0Z" fill="currentColor" opacity=".72"/>
+            <path d="M-17 2c0-10 8-18 18-18 11 0 18 7 18 17S12 20 1 19c-10 0-18-7-18-17Z" fill="none" stroke-width="2"/>
+            <path d="M-8 2c0-5 4-9 9-9 6 0 9 4 9 9s-4 8-9 8-9-4-9-8Z" fill="none" stroke-width="2"/>
+            <path d="M0 12c-2 5-6 8-12 10" stroke-width="1.6"/>
+          </g>
+          <g transform="translate(119 96) scale(.67)">
+            <circle r="18" fill="currentColor" opacity=".24"/>
+            <path d="M-27 0c2-17 13-28 29-28S30-16 29 1 14 29-2 28-28 14-27 0Z" fill="currentColor" opacity=".72"/>
+            <path d="M-17 2c0-10 8-18 18-18 11 0 18 7 18 17S12 20 1 19c-10 0-18-7-18-17Z" fill="none" stroke-width="2"/>
+            <path d="M-8 2c0-5 4-9 9-9 6 0 9 4 9 9s-4 8-9 8-9-4-9-8Z" fill="none" stroke-width="2"/>
+          </g>
+          <g transform="translate(39 137) scale(.5)">
+            <circle r="18" fill="currentColor" opacity=".24"/>
+            <path d="M-27 0c2-17 13-28 29-28S30-16 29 1 14 29-2 28-28 14-27 0Z" fill="currentColor" opacity=".72"/>
+            <path d="M-17 2c0-10 8-18 18-18 11 0 18 7 18 17S12 20 1 19c-10 0-18-7-18-17Z" fill="none" stroke-width="2"/>
+          </g>
+        </g>
+      </symbol>
+      <symbol id="botanical-spray" viewBox="0 0 160 320">
+        <g fill="none" stroke="currentColor" stroke-linecap="round">
+          <path d="M73 316C82 246 90 174 106 101" stroke-width="2"/>
+          <path d="M88 246c-25-1-41 11-50 28 22 2 40-8 50-28Z" fill="currentColor" opacity=".18" stroke-width="1"/>
+          <path d="M91 208c24-10 42-1 52 16-22 7-42-1-52-16Z" fill="currentColor" opacity=".18" stroke-width="1"/>
+          <path d="M99 165c-23-9-40 1-47 17 21 6 39-2 47-17Z" fill="currentColor" opacity=".18" stroke-width="1"/>
+          <path d="M104 118c20-11 37-4 46 11-19 8-37 2-46-11Z" fill="currentColor" opacity=".18" stroke-width="1"/>
+          <circle cx="107" cy="87" r="20" fill="currentColor" opacity=".35" stroke="none"/>
+          <path d="M92 101c-8-12-5-25 7-33 10-7 24-4 31 7 7 11 3 24-7 31-11 8-23 5-31-5Z" fill="currentColor" opacity=".55" stroke-width="0"/>
+          <path d="M100 95c-4-7-2-14 4-19 6-4 14-2 18 4 4 6 2 14-4 18-7 5-14 3-18-3Z" stroke-width="1.5"/>
+        </g>
+      </symbol>
+      <symbol id="final-bouquet" viewBox="0 0 260 600">
+        <g fill="none" stroke="currentColor" stroke-linecap="round">
+          <path d="M130 590C120 468 102 334 88 213" stroke-width="3"/>
+          <path d="M130 590c8-125 28-247 55-356" stroke-width="3"/>
+          <path d="M100 345c-26-5-45 9-55 31 28 5 47-9 55-31Z" fill="currentColor" opacity=".18" stroke-width="1"/>
+          <path d="M151 356c29-14 53-4 67 18-29 12-52 3-67-18Z" fill="currentColor" opacity=".18" stroke-width="1"/>
+          <path d="M118 278c-24-10-44 1-52 21 25 8 44-2 52-21Z" fill="currentColor" opacity=".18" stroke-width="1"/>
+          <path d="M148 457c22-10 41-1 50 17-23 7-40-1-50-17Z" fill="currentColor" opacity=".18" stroke-width="1"/>
+          <g transform="translate(88 188)" fill="currentColor">
+            <circle r="35" opacity=".25"/><circle cx="-24" cy="-13" r="22" opacity=".6"/><circle cx="24" cy="-16" r="23" opacity=".6"/><circle cx="-15" cy="-32" r="18" opacity=".55"/><circle cx="16" cy="-34" r="19" opacity=".55"/><circle r="18" opacity=".85"/>
+          </g>
+          <g transform="translate(187 218) scale(.87)" fill="currentColor">
+            <circle r="35" opacity=".25"/><circle cx="-24" cy="-13" r="22" opacity=".6"/><circle cx="24" cy="-16" r="23" opacity=".6"/><circle cx="-15" cy="-32" r="18" opacity=".55"/><circle cx="16" cy="-34" r="19" opacity=".55"/><circle r="18" opacity=".85"/>
+          </g>
+          <g transform="translate(133 118) scale(.75)" fill="currentColor">
+            <circle r="35" opacity=".25"/><circle cx="-24" cy="-13" r="22" opacity=".6"/><circle cx="24" cy="-16" r="23" opacity=".6"/><circle cx="-15" cy="-32" r="18" opacity=".55"/><circle cx="16" cy="-34" r="19" opacity=".55"/><circle r="18" opacity=".85"/>
+          </g>
+        </g>
+      </symbol>
+    </defs>
+  </svg>
+
+  <audio id="birthdayAudio" src="assets/audio/birthday-song.mp4" preload="metadata" playsinline></audio>
+  <audio id="personalAudio" src="assets/audio/personal-song.mp4" preload="metadata" playsinline></audio>
+
+  <script src="js/password.js" defer></script>
+  <script src="js/music.js" defer></script>
+  <script src="js/countdown.js" defer></script>
+  <script src="js/scenes.js" defer></script>
+  <script src="js/interactions.js" defer></script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>
