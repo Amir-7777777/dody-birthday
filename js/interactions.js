@@ -33,6 +33,23 @@
     timers.clear();
   }
 
+  /* Haptics: one guarded helper. Every attempt is recorded (for tests); the
+     browser is only asked to vibrate when it actually supports it, so this
+     is a no-op on desktop. Patterns stay short and subtle. */
+  const buzzCalls = [];
+  function buzz(pattern) {
+    buzzCalls.push(Array.isArray(pattern) ? pattern.slice() : [pattern]);
+    try {
+      if (navigator && typeof navigator.vibrate === "function") navigator.vibrate(pattern);
+    } catch (e) { /* vibration is a progressive enhancement */ }
+  }
+  function getBuzzState() {
+    return {
+      supported: typeof navigator !== "undefined" && typeof navigator.vibrate === "function",
+      calls: buzzCalls.slice(),
+    };
+  }
+
   reduceQuery.addEventListener?.("change", (event) => {
     reduceMotion = event.matches;
     if (reduceMotion) {
@@ -535,6 +552,7 @@
       bakeBouquet();
       bouquetState = "complete";
       bouquetRaf = window.requestAnimationFrame(bouquetIdle);
+      startBouquetFalls();
     }
   }
 
@@ -586,6 +604,7 @@
   }
 
   function stopBouquet() {
+    stopBouquetFalls();
     if (bouquetRaf) window.cancelAnimationFrame(bouquetRaf);
     bouquetRaf = 0;
     bouquetStart = 0;
@@ -593,6 +612,54 @@
     var canvas = document.getElementById("bouquetCanvas");
     var ctx = canvas && canvas.getContext("2d");
     if (canvas && ctx) ctx.clearRect(0, 0, BOUQUET_W, BOUQUET_H);
+  }
+
+  /* Roses that drift down from the finished bouquet: one or two every ~4s,
+     reusing the flood's realistic rose sprites, animated with Web
+     Animations and removed when the fall finishes. Disabled under reduced
+     motion. The 20,000-dot count, bloom timings and bouquet state are
+     untouched — these are plain DOM spans on top of the canvas. */
+  var bouquetFallTimer = 0;
+  function dropBouquetRose() {
+    var container = document.getElementById("digitalBouquet");
+    if (!container || reduceMotion) return;
+    if (container.querySelectorAll(".bouquet-falling-rose").length >= 4) return;
+    var head = BOUQUET_FLOWERS[Math.floor(Math.random() * BOUQUET_FLOWERS.length)];
+    var el = document.createElement("span");
+    el.className = "bouquet-falling-rose";
+    var size = 26 + Math.random() * 14;
+    el.style.width = size + "px";
+    el.style.height = size + "px";
+    el.style.left = ((head.x / BOUQUET_W) * 100) + "%";
+    el.style.top = ((head.y / BOUQUET_H) * 100) + "%";
+    var sprite = roseSprite(Math.floor(Math.random() * ROSE_PALETTES.length));
+    if (sprite) el.style.backgroundImage = "url(" + sprite + ")";
+    else el.style.background = "radial-gradient(circle at 35% 30%, #f6cdd4, #c65a72 55%, #8c2f45)";
+    container.appendChild(el);
+    var drift = Math.random() * 70 - 35;
+    var fall = 130 + Math.random() * 70;
+    var rot = Math.random() * 160 - 80;
+    var dur = 3800 + Math.random() * 1400;
+    if (typeof el.animate === "function") {
+      var anim = el.animate([
+        { transform: "translate(-50%, 0) rotate(0deg)", opacity: 1 },
+        { transform: "translate(calc(-50% + " + drift + "px), " + fall + "px) rotate(" + rot + "deg)", opacity: 0 }
+      ], { duration: dur, easing: "cubic-bezier(.3,.6,.4,1)", fill: "forwards" });
+      anim.onfinish = function () { el.remove(); };
+    } else {
+      later(function () { el.remove(); }, dur);
+    }
+  }
+  function startBouquetFalls() {
+    stopBouquetFalls();
+    if (reduceMotion) return;
+    dropBouquetRose();
+    bouquetFallTimer = window.setInterval(dropBouquetRose, 4000);
+  }
+  function stopBouquetFalls() {
+    if (bouquetFallTimer) { window.clearInterval(bouquetFallTimer); bouquetFallTimer = 0; }
+    var container = document.getElementById("digitalBouquet");
+    if (container) container.querySelectorAll(".bouquet-falling-rose").forEach(function (el) { el.remove(); });
   }
 
   /* Inspection state for tests: exact counts and per-head bloom windows. */
@@ -660,8 +727,10 @@
     if (envelopeInstruction) envelopeInstruction.textContent = "الختم بيتكسّر…";
     later(() => { // seal cracked: the wax shards fly apart (0.8s)
       bigEnvelope.classList.add("is-cracked");
+      buzz([40]); // the seal cracks
       if (envelopeInstruction) envelopeInstruction.textContent = "الختم اتكسّر…";
     }, 320);
+    later(() => buzz([25, 30, 60]), 800); // the seal pieces fly
     later(() => { // flap opens only after the seal is fully gone
       bigEnvelope.classList.add("is-flap-open");
     }, 1250);
@@ -680,6 +749,12 @@
       if (envelopeLetter) {
         envelopeLetter.classList.add("is-visible");
         envelopeLetter.setAttribute("aria-hidden", "false");
+        /* The paper arrives folded in three and unfolds by itself in
+           stages; the creases fade one by one. */
+        envelopeLetter.classList.add("is-folded");
+        later(() => envelopeLetter.classList.add("is-unfold-1"), 700);
+        later(() => envelopeLetter.classList.add("is-unfold-2"), 1400);
+        later(() => envelopeLetter.classList.remove("is-folded"), 2100);
       }
     }, 9100);
   });
@@ -949,12 +1024,14 @@
       event.preventDefault();
       computerTouched = true;
       fakeCursor.classList.remove("show");
+      playTick(false);
       openRetroWindow(openTrigger.dataset.windowOpen);
       return;
     }
     const closeTrigger = event.target.closest("[data-window-close]");
     if (closeTrigger) {
       event.preventDefault();
+      playTick(false);
       closeRetroWindow(closeTrigger.dataset.windowClose);
     }
   });
@@ -1063,6 +1140,7 @@
     songStatus.textContent = playing ? "♪ now playing — Rewrite The Stars ♥" : "♪ ready — our song";
   }
   songToggle?.addEventListener("click", () => {
+    playTick(false);
     if (!window.dodyMusic) return;
     if (songIsPlaying()) window.dodyMusic.pause();
     else window.dodyMusic.playPersonal();
@@ -1072,11 +1150,65 @@
   personalAudio?.addEventListener("pause", syncSongVisual);
   personalAudio?.addEventListener("ended", syncSongVisual);
 
+  /* ---------- mechanical tick (Web Audio, synthesized, no files) ---------- */
+  /* Lazy AudioContext: created inside the first user press only, never
+     before interaction, never autoplay. Follows the site mute toggle. */
+  let tickCtx = null;
+  let tickCalls = 0;
+  function tickMuted() {
+    try {
+      const mb = document.getElementById("muteButton");
+      if (mb && mb.getAttribute("aria-pressed") === "true") return true;
+      const audios = document.querySelectorAll("audio");
+      return audios.length > 0 && Array.from(audios).every((a) => a.muted);
+    } catch (e) { return false; }
+  }
+  function tickOnce(ctx, t, heavy) {
+    const dur = 0.05;
+    const buffer = ctx.createBuffer(1, Math.max(1, Math.floor(ctx.sampleRate * dur)), ctx.sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < data.length; i += 1) data[i] = (Math.random() * 2 - 1) * (1 - i / data.length);
+    const src = ctx.createBufferSource();
+    src.buffer = buffer;
+    const bp = ctx.createBiquadFilter();
+    bp.type = "bandpass"; bp.frequency.value = heavy ? 1800 : 2600; bp.Q.value = 1.1;
+    const g = ctx.createGain();
+    g.gain.setValueAtTime(heavy ? 0.5 : 0.26, t);
+    g.gain.exponentialRampToValueAtTime(0.001, t + dur);
+    src.connect(bp); bp.connect(g); g.connect(ctx.destination);
+    src.start(t); src.stop(t + dur);
+    const osc = ctx.createOscillator();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(heavy ? 150 : 210, t);
+    osc.frequency.exponentialRampToValueAtTime(70, t + 0.07);
+    const og = ctx.createGain();
+    og.gain.setValueAtTime(heavy ? 0.32 : 0.16, t);
+    og.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+    osc.connect(og); og.connect(ctx.destination);
+    osc.start(t); osc.stop(t + 0.09);
+  }
+  function playTick(heavy) {
+    tickCalls += 1;
+    if (tickMuted()) return;
+    try {
+      if (!tickCtx) {
+        const AC = window.AudioContext || window.webkitAudioContext;
+        if (!AC) return;
+        tickCtx = new AC();
+      }
+      if (tickCtx.state === "suspended") { tickCtx.resume().catch(function () {}); }
+      const now = tickCtx.currentTime + 0.01;
+      tickOnce(tickCtx, now, !!heavy);
+      if (heavy) tickOnce(tickCtx, now + 0.11, true);
+    } catch (e) { /* audio is a progressive enhancement */ }
+  }
+  function getTickState() { return { calls: tickCalls, audio: !!tickCtx, muted: tickMuted() }; }
+
   /* ---------- أزرار الباور ---------- */
-  mainPower.addEventListener("click", powerOnComputer);
-  powerBtn.addEventListener("click", function () { computerPowered ? powerOffComputer() : powerOnComputer(); });
-  restartBtn.addEventListener("click", function () { powerOffComputer(); computerLater(powerOnComputer, 450); });
-  document.getElementById("crt").addEventListener("dblclick", function () { if (!computerPowered) powerOnComputer(); });
+  mainPower.addEventListener("click", function () { playTick(true); powerOnComputer(); });
+  powerBtn.addEventListener("click", function () { playTick(true); computerPowered ? powerOffComputer() : powerOnComputer(); });
+  restartBtn.addEventListener("click", function () { playTick(true); powerOffComputer(); computerLater(powerOnComputer, 450); });
+  document.getElementById("crt").addEventListener("dblclick", function () { if (!computerPowered) { playTick(true); powerOnComputer(); } });
 
   /* Reset the computer to its off state (used by resetJourney). */
   function resetComputer() {
@@ -1118,17 +1250,19 @@
   giftBox?.addEventListener("click", () => {
     if (giftBox.getAttribute("aria-expanded") === "true") return;
     giftBox.setAttribute("aria-expanded", "true");
-    giftBox.classList.add("is-opening");
-    burstPetals(sceneEl(7));
-    /* The letter opens by itself only once the flood is fully gone:
-       the last rose fades at ~6.1s and the layer is removed at 6.8s
-       (8s with reduced motion). It never appears under the flowers,
-       and the page never scrolls on reveal. */
+    giftBox.classList.add("is-opening", "is-untying");
+    buzz([40]); // the box opens
+    later(() => giftBox.classList.add("is-lid-off"), 780); // lid lifts off and falls aside
+    later(() => burstPetals(sceneEl(7)), 1520); // the flood
+    /* The letter opens by itself only once the flood is fully gone: the
+       flood now starts at 1.52s, the last rose fades at ~7.6s and the
+       layer is removed at ~8.3s (9.5s with reduced motion). It never
+       appears under the flowers, and the page never scrolls on reveal. */
     later(() => {
       if (!giftLetter) return;
       giftLetter.classList.add("is-visible");
       giftLetter.setAttribute("aria-hidden", "false");
-    }, reduceMotion ? 8000 : 6800);
+    }, reduceMotion ? 9800 : 8600);
     window.dodyApp?.notify?.("كل اللي جوايا… في الجواب ده 💌", 2600);
   });
 
@@ -1341,6 +1475,7 @@
     const out = celebrationCake.classList.toggle("is-out");
     cakeFlameBtn.setAttribute("aria-pressed", String(!out));
     cakeFlameBtn.textContent = out ? "ولّعي الشمعة تاني ✨" : "اطفي الشمعة 🕯️";
+    if (!out) buzz([25]); // the candle lights
   });
 
   /* ---------------- memories ---------------- */
@@ -1402,6 +1537,7 @@
   function lightChandelier() {
     if (chandelierLit) return;
     chandelierLit = true;
+    buzz([30, 20, 50]); // the chandelier candles light
     chandelierScene?.classList.add("is-lit");
     chandelierGlow?.classList.add("is-lit");
     if (lightCandles) {
@@ -1693,7 +1829,7 @@
     bigEnvelope?.classList.remove("is-opening", "is-cracking", "is-cracked", "is-flap-open", "is-dismissed");
     if (bigEnvelope) bigEnvelope.hidden = false;
     if (envelopeInstruction) envelopeInstruction.textContent = envelopeInstructionText;
-    envelopeLetter?.classList.remove("is-visible");
+    envelopeLetter?.classList.remove("is-visible", "is-folded", "is-unfold-1", "is-unfold-2");
     envelopeLetter?.setAttribute("aria-hidden", "true");
 
     // Birthday cake candle back to lit
@@ -1715,7 +1851,7 @@
 
     // Gift
     giftBox?.setAttribute("aria-expanded", "false");
-    giftBox?.classList.remove("is-opening");
+    giftBox?.classList.remove("is-opening", "is-untying", "is-lid-off");
     giftLetter?.classList.remove("is-visible");
     giftLetter?.setAttribute("aria-hidden", "true");
     $$(".petal-burst-layer").forEach((layer) => layer.remove());
@@ -1773,6 +1909,13 @@
     revealWishes,
     lightChandelier,
     burstPetals,
+    buzz,
+    getBuzzState,
+    playTick,
+    getTickState,
+    dropBouquetRose,
+    startBouquetFalls,
+    stopBouquetFalls,
     getState: () => ({ computerBooted, computerTyped, chandelierLit, gardenEntered, memoryIndex })
   };
 })();

@@ -45,8 +45,18 @@
 .envelope-stage.is-opening .pointing-hand { opacity: 0; }
 /* Once the paper appears alone, the envelope is gone for good. */
 .envelope-stage.is-dismissed { opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility .6s; }
-.letter-paper { display: none; width: min(100%, 760px); margin: 0 auto; padding: clamp(26px, 5vw, 48px); border: 1px solid rgba(199, 163, 106, .27); border-radius: 4px 26px 4px 26px; background: repeating-linear-gradient(to bottom, transparent 0 34px, rgba(114, 81, 90, .075) 35px, transparent 36px), linear-gradient(160deg, #fffdf8, #fbf2e7); box-shadow: var(--shadow-soft); }
+.letter-paper { position: relative; display: none; width: min(100%, 760px); margin: 0 auto; padding: clamp(26px, 5vw, 48px); border: 1px solid rgba(199, 163, 106, .27); border-radius: 4px 26px 4px 26px; background: repeating-linear-gradient(to bottom, transparent 0 34px, rgba(114, 81, 90, .075) 35px, transparent 36px), linear-gradient(160deg, #fffdf8, #fbf2e7); box-shadow: var(--shadow-soft); }
 .letter-paper.is-visible { display: block; animation: letterUnfold .75s ease both; }
+/* The paper arrives folded in three; the creases fade one by one as it
+   unfolds by itself. Reduced motion: never folded (see JS). */
+.letter-crease { position: absolute; inset-inline: 0; height: 0; border-top: 1px solid rgba(114, 81, 90, .18); box-shadow: 0 1px 0 rgba(255, 255, 255, .5), 0 2px 3px rgba(114, 81, 90, .08); opacity: 0; transition: opacity .8s ease; pointer-events: none; }
+.letter-crease--a { top: 33%; }
+.letter-crease--b { top: 66%; }
+.letter-paper.is-folded .letter-crease { opacity: 1; }
+.letter-paper.is-folded.is-unfold-1 .letter-crease--a { opacity: 0; }
+.letter-paper.is-folded.is-unfold-2 .letter-crease--b { opacity: 0; }
+/* A shard of the broken wax seal stays stuck on the paper corner. */
+.wax-remnant { position: absolute; top: -11px; inset-inline-end: 26px; z-index: 2; width: 26px; height: 22px; border-radius: 55% 45% 50% 50%; background: radial-gradient(circle at 35% 30%, #d84a38, #9c2214 60%, #701208); box-shadow: inset 0 0 0 2px rgba(94, 16, 10, .45), 0 2px 5px rgba(42, 25, 37, .3); transform: rotate(14deg); }
 .letter-paper__ornament { display: block; color: var(--champagne); font-size: 1.3rem; text-align: center; }
 .letter-paper__date { margin: 4px 0 20px; color: var(--champagne); font-family: var(--font-code); font-size: .7rem; letter-spacing: .16em; text-align: center; }
 .letter-paper h3 { margin: 0 0 1.1rem; color: var(--deep-rose); font-family: var(--font-hand); font-size: clamp(1.7rem, 4vw, 2.35rem); }
@@ -107,6 +117,8 @@
 .typing-dots { display: inline-block; width: 22px; overflow: hidden; vertical-align: bottom; animation: dots 1.4s steps(4, end) infinite; }
 .digital-bouquet { position: relative; z-index: 2; width: min(78vw, 360px); margin: 1.5rem auto .5rem; overflow: hidden; border-radius: 18px; background: #000; box-shadow: 0 0 40px rgba(231, 84, 128, .12); }
 .digital-bouquet canvas { display: block; width: 100%; height: auto; }
+/* Roses that drift down from the finished bouquet (Web Animations in JS). */
+.bouquet-falling-rose { position: absolute; z-index: 3; background-size: cover; background-repeat: no-repeat; background-position: center; pointer-events: none; transform: translate(-50%, 0); }
 .for-card { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; width: min(100%, 420px); margin: 1rem auto 0; padding: 18px 24px; color: #e6eeea; border: 1px solid rgba(169, 187, 170, .2); border-radius: 14px; background: rgba(8, 23, 14, .7); box-shadow: inset 0 0 30px rgba(126, 167, 137, .05), 0 16px 40px rgba(0, 0, 0, .22); backdrop-filter: blur(10px); opacity: 0; transform: translateY(16px); animation: softReveal .9s ease 3.2s forwards; }
 .for-card__small { color: #a9d6a4; font-family: var(--font-code); font-size: .7rem; letter-spacing: .18em; }
 .for-card strong { color: #f6dde2; font-family: var(--font-hand); font-size: clamp(2.2rem, 7vw, 3.3rem); line-height: 1.3; text-shadow: 0 0 25px rgba(246, 221, 226, .22); }

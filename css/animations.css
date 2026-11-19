@@ -28,6 +28,11 @@
 @keyframes waxFlyB { from { opacity: 1; transform: translate(-50%, -50%) rotate(0); } to { opacity: 0; transform: translate(calc(-50% + 78px), calc(-50% - 30px)) rotate(64deg); } }
 @keyframes waxFlyC { from { opacity: 1; transform: translate(-50%, -50%) rotate(0); } to { opacity: 0; transform: translate(calc(-50% + 12px), calc(-50% + 62px)) rotate(118deg); } }
 @keyframes letterUnfold { from { opacity: 0; transform: perspective(900px) rotateX(-24deg) translateY(14px); } to { opacity: 1; transform: perspective(900px) rotateX(0) translateY(0); } }
+@keyframes smokeRise {
+  0% { stroke-dashoffset: 72; opacity: 0; }
+  18% { opacity: .75; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
 @keyframes dots { 0% { width: 0; } 100% { width: 22px; } }
 @keyframes scanlineShift { from { transform: translateY(0); } to { transform: translateY(4px); } }
 @keyframes heartsFloat { 0% { transform: translateY(0) scale(.8) rotate(-8deg); opacity: 0; } 12% { opacity: .75; } 100% { transform: translateY(-340px) scale(1.1) rotate(8deg); opacity: 0; } }
@@ -110,5 +115,6 @@
   .digital-bouquet, .for-card, .matrix-actions { opacity: 1 !important; transform: none !important; }
   .digital-bouquet, .for-card, .matrix-actions { animation-delay: 0s !important; }
   .ambient-petals, .twinkle-field, .night-stars, .fireflies, #celebrationCanvas, .chandelier-stars { display: none !important; }
+  .cake-smoke { display: none; }
   .hero-heart__halo, .love-orb, .chandelier-glow, .celebration-rays { animation: none !important; }
 }

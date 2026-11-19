@@ -51,6 +51,11 @@
 .cake-candle b::after { content: ""; position: absolute; top: -14px; left: 50%; width: 7px; height: 13px; margin-left: -3.5px; border-radius: 50%; background: radial-gradient(ellipse, rgba(120, 120, 120, .55), transparent 70%); opacity: 0; transition: opacity .5s ease; }
 .celebration-cake.is-out .cake-candle i { opacity: 0; animation-play-state: paused; }
 .celebration-cake.is-out .cake-candle b::after { opacity: 1; }
+/* Smoke wisp that curls up from the wick when the candle is blown out. */
+.cake-smoke { position: absolute; top: -80px; left: 50%; width: 40px; height: 64px; margin-left: -20px; z-index: 6; pointer-events: none; }
+.cake-smoke path { fill: none; stroke: rgba(110, 110, 110, .55); stroke-width: 2.4; stroke-linecap: round; stroke-dasharray: 72; stroke-dashoffset: 72; opacity: 0; }
+.celebration-cake.is-out .cake-smoke path { animation: smokeRise 2.4s ease-out forwards; }
+.celebration-cake.is-out .cake-smoke path:nth-child(2) { animation-delay: .25s; }
 /* Frosting dollop the candle is sunk into: painted after (above) the
    candle so it wraps around the candle's base. */
 .cake-dollop { position: absolute; top: -12px; left: 50%; width: 36px; height: 18px; margin-left: -18px; border-radius: 50% 50% 46% 46% / 75% 75% 30% 30%; background: radial-gradient(circle at 50% 20%, #fffaf2, #f3ddc8 70%, #e8cdb2); box-shadow: inset 0 -2px 3px rgba(194, 139, 118, .25); z-index: 5; }

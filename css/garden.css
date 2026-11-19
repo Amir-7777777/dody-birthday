@@ -37,10 +37,10 @@
 .gift-box__lid::before { content: ""; position: absolute; inset: 0; border-radius: inherit; background-image: radial-gradient(circle at 20% 28%, #b83f53 0 2px, transparent 2.5px), radial-gradient(circle at 72% 66%, #b83f53 0 2px, transparent 2.5px); background-size: 44px 36px; opacity: .5; }
 .gift-box__base { position: absolute; inset-block-start: 42%; inset-inline: 4%; bottom: 6%; overflow: hidden; border-radius: 8px; background: linear-gradient(145deg, #fff6e8, #e6d2b6); box-shadow: 0 18px 28px rgba(59, 14, 23, .3), inset 0 2px 2px rgba(255, 255, 255, .38); }
 .gift-dots { position: absolute; inset: 0; background-image: radial-gradient(circle at 20% 25%, #b83f53 0 3px, transparent 3.5px), radial-gradient(circle at 72% 62%, #b83f53 0 3px, transparent 3.5px); background-size: 48px 42px; opacity: .6; }
-.gift-box__ribbon { position: absolute; z-index: 1; background: linear-gradient(90deg, #a6293f, #d75b69 45%, #9c263a); box-shadow: 0 0 6px rgba(80, 20, 30, .2); }
+.gift-box__ribbon { position: absolute; z-index: 1; background: linear-gradient(90deg, #a6293f, #d75b69 45%, #9c263a); box-shadow: 0 0 6px rgba(80, 20, 30, .2); transition: opacity .45s ease, transform .7s ease; }
 .gift-box__ribbon--v { inset-block: 0; inset-inline-start: 42%; width: 16%; }
 .gift-box__ribbon--h { inset-inline: 0; inset-block-start: 43%; height: 16%; }
-.gift-box__bow { position: absolute; inset-block-start: -25%; inset-inline-start: 50%; width: 150px; height: 92px; transform: translateX(-50%); }
+.gift-box__bow { position: absolute; inset-block-start: -25%; inset-inline-start: 50%; width: 150px; height: 92px; transform: translateX(-50%); transition: transform .7s ease, opacity .7s ease; }
 [dir="rtl"] .gift-box__bow { transform: translateX(50%); }
 .gift-box__bow i { position: absolute; inset-block-start: 12px; width: 63px; height: 50px; border: 9px solid #b42d45; border-radius: 50% 50% 50% 10%; background: rgba(174, 36, 62, .36); box-shadow: inset 0 0 7px rgba(255, 255, 255, .15), 0 4px 5px rgba(70, 15, 26, .2); }
 .gift-box__bow i:nth-child(1) { left: 8px; transform: rotate(22deg) skewX(10deg); }
@@ -51,7 +51,12 @@
 .gift-box__hint { position: absolute; inset-block-end: -38px; inset-inline-start: 50%; z-index: 5; display: inline-block; padding: 6px 14px; color: #701f30; border-radius: 99px; background: rgba(255, 249, 245, .9); font-family: var(--font-hand); font-size: .9rem; font-weight: 700; transform: translateX(50%); white-space: nowrap; }
 [dir="rtl"] .gift-box__hint { transform: translateX(50%); }
 .gift-box:hover .gift-box__lid { transform: translateY(-4px) rotate(-1deg); }
-.gift-box.is-opening .gift-box__lid { transform: translate(-18%, -100%) rotate(-19deg); }
+/* Ribbon unties first (0ms): the bow loosens and the ribbons fall aside. */
+.gift-box.is-untying .gift-box__bow { transform: translateX(-50%) translateY(16px) rotate(6deg) scale(.8); opacity: .5; }
+[dir="rtl"] .gift-box.is-untying .gift-box__bow { transform: translateX(50%) translateY(16px) rotate(-6deg) scale(.8); opacity: .5; }
+.gift-box.is-untying .gift-box__ribbon { opacity: 0; transform: translateY(12px); }
+/* Lid lifts off, flips and falls beside the box — and STAYS (opacity: 1). */
+.gift-box.is-lid-off .gift-box__lid { transform: translate(-18%, 122%) rotate(-38deg) scale(.88); }
 .gift-box.is-opening .gift-box__hint { opacity: 0; transition: opacity .3s; }
 .gift-letter { display: none; width: min(100%, 720px); margin: 1.5rem auto 0; padding: clamp(28px, 5vw, 48px); color: #58444a; border-radius: 3px 25px 3px 25px; background: repeating-linear-gradient(to bottom, transparent 0 32px, rgba(114, 81, 90, .07) 33px, transparent 34px), linear-gradient(155deg, #fffdf7, #f8eddd); box-shadow: 0 22px 60px rgba(49, 10, 20, .28); }
 .gift-letter.is-visible { display: block; animation: letterUnfold .8s ease both; }
