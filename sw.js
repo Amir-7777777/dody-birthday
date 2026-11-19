@@ -1,5 +1,5 @@
 /* Offline-first cache for the birthday journey. */
-const CACHE = "dody-birthday-v1";
+const CACHE = "dody-birthday-v2";
 const CORE = [
   "./",
   "index.html",

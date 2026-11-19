@@ -8,7 +8,7 @@
 .botanical-line--right { inset-block-start: 4%; inset-inline-end: 0; transform: scaleX(-1) rotate(-12deg); }
 .envelope-layout { display: flex; flex-direction: column; align-items: center; }
 .envelope-stage { position: relative; display: block; width: min(100%, 490px); margin: 0 auto 1.5rem; padding: 32px 0 44px; border: 0; background: none; cursor: pointer; perspective: 1200px; }
-.envelope-instruction { display: inline-block; margin-block-end: 22px; padding: 8px 17px; color: var(--deep-rose); border: 1px dashed rgba(185, 110, 121, .38); border-radius: 999px; background: rgba(255, 249, 245, .55); font-family: var(--font-hand); font-size: 1.03rem; font-weight: 700; transition: transform .3s; }
+.envelope-instruction { display: inline-block; margin-block-end: 22px; padding: 8px 17px; color: var(--deep-rose); border: 1px dashed rgba(185, 110, 121, .38); border-radius: 999px; background: rgba(255, 249, 245, .55); font-family: var(--font-hand); font-size: 1.03rem; font-weight: 700; transition: transform .3s, opacity .35s, visibility .35s; }
 .envelope-stage:hover .envelope-instruction { transform: translateY(-3px) rotate(-1deg); }
 .envelope-drawn { position: relative; display: block; width: 100%; aspect-ratio: 1.55; filter: drop-shadow(0 24px 30px rgba(105, 62, 64, .22)); transform-style: preserve-3d; transition: transform .45s; }
 .envelope-drawn__back, .envelope-drawn__front, .envelope-drawn__flap, .envelope-drawn__paper { position: absolute; inset: 0; display: block; }
@@ -27,16 +27,16 @@
 .envelope-stage.is-opening .wax-seal { opacity: 0; transform: translate(50%, -50%) rotate(30deg) scale(.55); }
 .envelope-stage.is-opening .envelope-drawn__paper { transform: translateY(-30%); }
 .envelope-stage.is-opening .pointing-hand { opacity: 0; }
-.peony-bloom { position: absolute; inset-block-start: 12%; inset-inline-start: 50%; z-index: 7; width: min(62vw, 300px); aspect-ratio: 1; pointer-events: none; opacity: 0; transform: translateX(-50%) scale(.15) rotate(-25deg); }
-[dir="rtl"] .peony-bloom { transform: translateX(50%) scale(.15) rotate(-25deg); }
+.envelope-stage.is-opening .envelope-instruction { opacity: 0; visibility: hidden; }
+.peony-bloom { position: absolute; inset-block-start: 44%; left: 50%; right: auto; z-index: 7; width: min(56vw, 240px); aspect-ratio: 1; pointer-events: none; opacity: 0; transform: translate(-50%, -50%) scale(.15) rotate(-25deg); }
 .envelope-stage.is-opening .peony-bloom { animation: peonyRise 1.6s cubic-bezier(.18, .8, .25, 1) .35s both; }
-.peony-stem { position: absolute; inset-block-start: 50%; inset-inline-start: 50%; width: 6px; height: 155%; border-radius: 99px; background: linear-gradient(#79917e, #526d58); transform: translateX(-50%); }
-[dir="rtl"] .peony-stem { transform: translateX(50%); }
+.peony-stem, .peony-leaf { display: none; }
+.peony-stem { position: absolute; inset-block-start: 50%; left: 50%; right: auto; width: 6px; height: 155%; border-radius: 99px; background: linear-gradient(#79917e, #526d58); transform: translateX(-50%); }
 .peony-leaf { position: absolute; width: 54px; height: 24px; border-radius: 80% 10% 80% 10%; background: linear-gradient(135deg, #a9bbaa, #5e7c64); }
 .peony-leaf--one { inset-block-start: 63%; inset-inline-end: 66%; transform: rotate(-28deg); }
 .peony-leaf--two { inset-block-start: 73%; inset-inline-start: 65%; transform: rotate(32deg) scaleX(-1); }
 .peony-petals { position: absolute; inset: 0; border-radius: 50%; filter: drop-shadow(0 15px 20px rgba(185, 110, 121, .28)); }
-.peony-petals i { position: absolute; inset-block-start: 50%; inset-inline-start: 50%; width: 43%; height: 43%; border-radius: 55% 55% 45% 55%; background: radial-gradient(circle at 30% 25%, #ffe0e6, #e8b7c2 45%, #c17f90); transform-origin: 0 0; box-shadow: inset -5px -4px 12px rgba(150, 75, 93, .18), inset 3px 4px 10px rgba(255, 255, 255, .25); }
+.peony-petals i { position: absolute; inset-block-start: 50%; left: 50%; right: auto; width: 43%; height: 43%; border-radius: 55% 55% 45% 55%; background: radial-gradient(circle at 30% 25%, #ffe0e6, #e8b7c2 45%, #c17f90); transform-origin: 0 0; box-shadow: inset -5px -4px 12px rgba(150, 75, 93, .18), inset 3px 4px 10px rgba(255, 255, 255, .25); }
 .peony-petals i:nth-child(1) { transform: rotate(0deg) translate(-20%, -100%) scale(.76); }
 .peony-petals i:nth-child(2) { transform: rotate(36deg) translate(-20%, -100%) scale(.78); }
 .peony-petals i:nth-child(3) { transform: rotate(72deg) translate(-20%, -100%) scale(.74); }
@@ -47,8 +47,7 @@
 .peony-petals i:nth-child(8) { transform: rotate(252deg) translate(-20%, -100%) scale(.8); }
 .peony-petals i:nth-child(9) { transform: rotate(288deg) translate(-20%, -100%) scale(.76); }
 .peony-petals i:nth-child(10) { transform: rotate(324deg) translate(-20%, -100%) scale(.78); }
-.peony-center { position: absolute; inset-block-start: 50%; inset-inline-start: 50%; width: 30%; height: 30%; border-radius: 50%; background: radial-gradient(circle, #f1cbd0 0 32%, #b96e79 34% 65%, #975462 68%); box-shadow: 0 0 0 10px rgba(255, 228, 229, .14); transform: translate(-50%, -50%); }
-[dir="rtl"] .peony-center { transform: translate(50%, -50%); }
+.peony-center { position: absolute; inset-block-start: 50%; left: 50%; right: auto; width: 30%; height: 30%; border-radius: 50%; background: radial-gradient(circle, #f1cbd0 0 32%, #b96e79 34% 65%, #975462 68%); box-shadow: 0 0 0 10px rgba(255, 228, 229, .14); transform: translate(-50%, -50%); }
 .letter-paper { display: none; width: min(100%, 760px); margin: 0 auto; padding: clamp(26px, 5vw, 48px); border: 1px solid rgba(199, 163, 106, .27); border-radius: 4px 26px 4px 26px; background: repeating-linear-gradient(to bottom, transparent 0 34px, rgba(114, 81, 90, .075) 35px, transparent 36px), linear-gradient(160deg, #fffdf8, #fbf2e7); box-shadow: var(--shadow-soft); }
 .letter-paper.is-visible { display: block; animation: letterUnfold .75s ease both; }
 .letter-paper__ornament { display: block; color: var(--champagne); font-size: 1.3rem; text-align: center; }

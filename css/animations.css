@@ -20,10 +20,10 @@
 @keyframes envelopeNudge { 0%, 100% { transform: translateX(-50%) rotate(-2deg); } 25% { transform: translateX(-50%) rotate(-4deg) translateY(-2px); } 65% { transform: translateX(-50%) rotate(1deg) translateY(-1px); } }
 @keyframes pointBounce { 0%, 100% { transform: translateY(0) rotate(20deg); } 50% { transform: translateY(-9px) rotate(20deg); } }
 @keyframes peonyRise {
-  0% { opacity: 0; transform: translateX(-50%) scale(.15) rotate(-25deg); }
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(.15) rotate(-25deg); }
   22% { opacity: 1; }
-  65% { opacity: 1; transform: translateX(-50%) translateY(-55px) scale(1.05) rotate(4deg); }
-  100% { opacity: 0; transform: translateX(-50%) translateY(-85px) scale(1.15) rotate(8deg); }
+  65% { opacity: 1; transform: translate(-50%, -50%) translateY(-45px) scale(1.02) rotate(4deg); }
+  100% { opacity: 0; transform: translate(-50%, -50%) translateY(-70px) scale(1.1) rotate(8deg); }
 }
 @keyframes letterUnfold { from { opacity: 0; transform: translateY(16px) scaleY(.96); } to { opacity: 1; transform: translateY(0) scaleY(1); } }
 @keyframes dots { 0% { width: 0; } 100% { width: 22px; } }

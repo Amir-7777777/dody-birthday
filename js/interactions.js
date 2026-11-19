@@ -226,9 +226,6 @@
       envelopeLetter.classList.add("is-visible");
       envelopeLetter.setAttribute("aria-hidden", "false");
     }, reduceMotion ? 50 : 1050);
-    later(() => {
-      bigEnvelope.classList.remove("is-opening");
-    }, 2300);
   });
 
   /* ---------------- retro computer ---------------- */
