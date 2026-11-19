@@ -85,3 +85,7 @@
 .celebration-petal { position: absolute; inset-block-start: -8%; width: var(--cp-w, 12px); height: var(--cp-h, 18px); border-radius: 75% 15% 70% 20%; background: var(--cp-color, #d6a5ad); opacity: var(--cp-opacity, .7); animation: confettiFall var(--cp-duration, 9s) linear infinite; animation-delay: var(--cp-delay, 0s); }
 .petal-burst-layer { position: absolute; inset: 0; z-index: 8; overflow: hidden; pointer-events: none; }
 .burst-petal { position: absolute; width: 13px; height: 20px; border-radius: 75% 15% 70% 20%; background: var(--bcolor, #d6a5ad); box-shadow: inset -2px -2px 3px rgba(114, 81, 90, .13); opacity: 0; animation: petalBurst var(--bd, 3s) cubic-bezier(.15, .65, .35, 1) var(--bdelay, 0s) forwards; }
+/* Realistic roses stamped over the whole screen (canvas sprites, no files). */
+.burst-rose { position: absolute; background-size: cover; background-repeat: no-repeat; background-position: center; opacity: 0; animation: rosePop .55s cubic-bezier(.2, 1.4, .4, 1) var(--rdelay, 0s) both; will-change: transform, opacity; }
+/* Petals that keep raining down over the roses after the burst. */
+.burst-petal.burst-petal--fall { opacity: 0; animation: petalFallDown var(--fd, 4s) linear var(--fdelay, 1.5s) both; }

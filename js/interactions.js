@@ -244,9 +244,6 @@
   const songWindow = document.getElementById("songWindow");
   const songToggle = document.getElementById("songToggle");
   const songStatus = document.getElementById("songStatus");
-  const voiceApp = document.getElementById("voiceApp");
-  const voiceToggle = document.getElementById("voiceToggle");
-  const voiceNow = document.getElementById("voiceNow");
   const personalAudio = document.getElementById("personalAudio");
   let lastWindowTrigger = null;
 
@@ -263,7 +260,6 @@
     computerIntervals.forEach((id) => window.clearInterval(id)); computerIntervals.length = 0;
     if (computerMatrixRaf) window.cancelAnimationFrame(computerMatrixRaf);
     computerMatrixRaf = 0;
-    stopVoice();
   }
 
   /* ---------- كيبورد مرسوم ---------- */
@@ -286,18 +282,6 @@
         div.appendChild(k);
       });
       kb.appendChild(div);
-    });
-  })();
-
-  /* ---------- موجة الصوت ---------- */
-  (function buildWave() {
-    var wave = document.getElementById("voiceWave");
-    var heights = [34,58,42,76,50,88,64,95,58,80,44,70,92,52,84,40,66,90,48,74,38,60,82,46];
-    heights.forEach(function (h, i) {
-      var bar = document.createElement("i");
-      bar.style.height = h + "%";
-      bar.style.animationDelay = (i * 0.06) + "s";
-      wave.appendChild(bar);
     });
   })();
 
@@ -381,7 +365,7 @@
   }
 
   /* ---------- التشغيل ---------- */
-  var loadFiles = ["heart.exe", "letter.txt", "our_song.mp3", "photos\\dody", "future_plans.exe", "voice_memo.wav"];
+  var loadFiles = ["heart.exe", "letter.txt", "our_song.mp3", "future_plans.exe"];
   function powerOnComputer() {
     if (computerPowered) return;
     computerPowered = true;
@@ -431,8 +415,6 @@
     letterTypewriter.textContent = "يا دعاء…"; letterTypewriter.classList.remove("done");
     fakeCursor.classList.remove("show");
     pcSubtitle.textContent = "بس جواه حاجات لسه جديدة خالص. دوسي زرار الباور، واستني التحميل، وبعدين دوسي على كل أيقونة.";
-    selectPhoto(0);
-    voiceSec = 0; voiceNow.textContent = "0:00";
     syncSongVisual();
   }
 
@@ -488,7 +470,6 @@
     if (!win) return;
     win.classList.add("is-hidden");
     win.setAttribute("aria-hidden", "true");
-    if (id === "voiceWindow") stopVoice();
     if (options.restoreFocus !== false && lastWindowTrigger instanceof HTMLElement) {
       lastWindowTrigger.focus({ preventScroll: true });
     }
@@ -560,40 +541,6 @@
       }
     }, 4200);
   }
-
-  /* ---------- الصور ---------- */
-  var photoIndex = 0;
-  var photoNames = ["photo_01.jpg","photo_02.jpg","photo_03.jpg","photo_04.jpg","photo_05.jpg","photo_06.jpg"];
-  function selectPhoto(i) {
-    photoIndex = (i + 6) % 6;
-    document.querySelectorAll(".photo-scene").forEach(function (s) { s.classList.toggle("active", Number(s.getAttribute("data-scene")) === photoIndex); });
-    document.querySelectorAll(".photo-thumb").forEach(function (t) { t.classList.toggle("selected", Number(t.getAttribute("data-photo")) === photoIndex); });
-    document.getElementById("photoName").textContent = photoNames[photoIndex];
-    document.getElementById("photoCount").textContent = (photoIndex + 1) + " / 6";
-  }
-  document.getElementById("photoPrev").addEventListener("click", function () { selectPhoto(photoIndex - 1); });
-  document.getElementById("photoNext").addEventListener("click", function () { selectPhoto(photoIndex + 1); });
-  document.getElementById("photoGrid").addEventListener("click", function (e) {
-    var t = e.target.closest("[data-photo]"); if (t) selectPhoto(Number(t.getAttribute("data-photo")));
-  });
-
-  /* ---------- المذكرة الصوتية ---------- */
-  var voiceTimer = null, voiceSec = 0, voicePlaying = false;
-  function fmt(s) { return "0:" + (s < 10 ? "0" : "") + s; }
-  function stopVoice() {
-    voicePlaying = false;
-    if (voiceTimer) { clearInterval(voiceTimer); voiceTimer = null; }
-    voiceApp.classList.remove("is-playing"); voiceToggle.textContent = "▶";
-  }
-  voiceToggle.addEventListener("click", function () {
-    if (voicePlaying) { stopVoice(); return; }
-    voicePlaying = true; voiceApp.classList.add("is-playing"); voiceToggle.textContent = "❚❚";
-    voiceTimer = setInterval(function () {
-      voiceSec += 1; if (voiceSec > 18) { voiceSec = 0; stopVoice(); return; }
-      voiceNow.textContent = fmt(voiceSec);
-    }, 1000);
-    computerIntervals.push(voiceTimer);
-  });
 
   /* ---------- الأغنية — تشغيل حقيقي عبر js/music.js ---------- */
   /* The window only mirrors the site's real player (personal song =
@@ -667,7 +614,7 @@
     if (giftBox.getAttribute("aria-expanded") === "true") return;
     giftBox.setAttribute("aria-expanded", "true");
     giftBox.classList.add("is-opening");
-    burstPetals(sceneEl(7), 46);
+    burstPetals(sceneEl(7));
     later(() => {
       if (!giftLetter) return;
       giftLetter.classList.add("is-visible");
@@ -677,26 +624,184 @@
     window.dodyApp?.notify?.("كل اللي جوايا… في الجواب ده 💌", 2600);
   });
 
-  function burstPetals(scene, count) {
+  /* ---------------- realistic rose flood (gift) ---------------- */
+  /* Five rose palettes. Each palette is painted once to an offscreen
+     canvas at runtime and stamped as data-URL backgrounds on the grid
+     spans. Canvas sprites are code-generated, not image files. */
+  var ROSE_PALETTES = [
+    { deep: "#8c2f45", base: "#c65a72", mid: "#e08a99", light: "#f6cdd4", cream: "#fdeef0", core: "#5e1a28" },
+    { deep: "#a83a52", base: "#d16b7e", mid: "#e89aa8", light: "#f8d3d8", cream: "#fdf0f1", core: "#6e1f30" },
+    { deep: "#7d4e63", base: "#a86a82", mid: "#c99aad", light: "#e8c9d6", cream: "#f9ecf0", core: "#54253a" },
+    { deep: "#b06a3e", base: "#d99a6b", mid: "#eab98f", light: "#f6dcc4", cream: "#fdf3e7", core: "#7c4522" },
+    { deep: "#96506b", base: "#c07a92", mid: "#dda6b8", light: "#f2d3dc", cream: "#fbeef1", core: "#5f2a3e" }
+  ];
+  var roseSprites = null;
+  /* Gradient with a solid-color fallback (jsdom canvas stubs have no
+     addColorStop, and a failed gradient must never throw). */
+  function safeGradient(ctx, kind, args, stops) {
+    try {
+      var g = kind === "radial"
+        ? ctx.createRadialGradient.apply(ctx, args)
+        : ctx.createLinearGradient.apply(ctx, args);
+      if (g && typeof g.addColorStop === "function") {
+        stops.forEach(function (s) { g.addColorStop(s[0], s[1]); });
+        return g;
+      }
+    } catch (e) { /* fall through to solid */ }
+    return stops[stops.length - 1][1];
+  }
+  /* Paint one realistic rose: ruffled layered petals, radial shading,
+     spiral core, veins, highlight, soft shadow. Returns a data URL. */
+  function paintRoseSprite(palette, size) {
+    var c = document.createElement("canvas");
+    c.width = size; c.height = size;
+    var ctx = c.getContext("2d");
+    if (!ctx) return null;
+    var cx = size / 2, cy = size / 2, R = size / 2;
+    var i, a, px, py;
+    try {
+      ctx.save();
+      ctx.fillStyle = "rgba(90,20,35,.28)";
+      ctx.beginPath();
+      ctx.ellipse(cx + R * .06, cy + R * .1, R * .86, R * .8, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+      for (i = 0; i < 6; i += 1) { // outer ruffled petals
+        a = (i / 6) * Math.PI * 2 + .35;
+        px = cx + Math.cos(a) * R * .52; py = cy + Math.sin(a) * R * .52;
+        ctx.save();
+        ctx.translate(px, py); ctx.rotate(a + Math.PI / 2);
+        ctx.fillStyle = safeGradient(ctx, "radial", [0, 0, 4, 0, 0, R * .52],
+          [[0, palette.light], [.7, palette.base], [1, palette.deep]]);
+        ctx.beginPath(); ctx.ellipse(0, 0, R * .34, R * .5, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+      }
+      for (i = 0; i < 5; i += 1) { // middle layer, deeper
+        a = (i / 5) * Math.PI * 2 + .9;
+        px = cx + Math.cos(a) * R * .3; py = cy + Math.sin(a) * R * .3;
+        ctx.save();
+        ctx.translate(px, py); ctx.rotate(a + Math.PI / 2);
+        ctx.fillStyle = safeGradient(ctx, "radial", [0, 0, 2, 0, 0, R * .34],
+          [[0, palette.mid], [.75, palette.base], [1, palette.deep]]);
+        ctx.beginPath(); ctx.ellipse(0, 0, R * .24, R * .34, 0, 0, Math.PI * 2); ctx.fill();
+        ctx.restore();
+      }
+      ctx.save(); // inner cup + spiral core
+      ctx.fillStyle = safeGradient(ctx, "radial", [cx, cy, 1, cx, cy, R * .3],
+        [[0, palette.cream], [.6, palette.light], [1, palette.mid]]);
+      ctx.beginPath(); ctx.arc(cx, cy, R * .3, 0, Math.PI * 2); ctx.fill();
+      ctx.strokeStyle = palette.core;
+      ctx.lineWidth = Math.max(1.5, size * .02);
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      for (var t = 0; t <= Math.PI * 4.5; t += .25) {
+        var r = (t / (Math.PI * 4.5)) * R * .2;
+        var sx = cx + Math.cos(t) * r, sy = cy + Math.sin(t) * r;
+        if (t === 0) ctx.moveTo(sx, sy); else ctx.lineTo(sx, sy);
+      }
+      ctx.stroke();
+      ctx.restore();
+      ctx.save(); // veins
+      ctx.strokeStyle = "rgba(255,255,255,.28)";
+      ctx.lineWidth = Math.max(1, size * .008);
+      for (i = 0; i < 6; i += 1) {
+        a = (i / 6) * Math.PI * 2 + .5;
+        ctx.beginPath();
+        ctx.moveTo(cx + Math.cos(a) * R * .18, cy + Math.sin(a) * R * .18);
+        ctx.quadraticCurveTo(
+          cx + Math.cos(a + .2) * R * .55, cy + Math.sin(a + .2) * R * .55,
+          cx + Math.cos(a) * R * .82, cy + Math.sin(a) * R * .82);
+        ctx.stroke();
+      }
+      ctx.restore();
+      ctx.save(); // highlight
+      ctx.fillStyle = "rgba(255,255,255,.35)";
+      ctx.beginPath(); ctx.ellipse(cx - R * .3, cy - R * .38, R * .2, R * .12, -.5, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
+    } catch (e) { return null; }
+    try { return c.toDataURL(); } catch (e) { return null; }
+  }
+  function roseSprite(index) {
+    if (!roseSprites) {
+      roseSprites = ROSE_PALETTES.map(function (p) { return paintRoseSprite(p, 240); });
+    }
+    return roseSprites[index % roseSprites.length];
+  }
+
+  function burstPetals(scene) {
     if (!scene || reduceMotion) return;
     const layer = document.createElement("div");
     layer.className = "petal-burst-layer";
     layer.setAttribute("aria-hidden", "true");
-    for (let i = 0; i < count; i += 1) {
-      const petal = document.createElement("span");
-      petal.className = "burst-petal";
-      petal.style.setProperty("--bx", `${rand(-70, 70)}vw`);
-      petal.style.setProperty("--by", `${rand(-75, -15)}vh`);
-      petal.style.setProperty("--br", `${rand(-540, 540)}deg`);
-      petal.style.setProperty("--bd", `${rand(1.8, 4.2)}s`);
-      petal.style.setProperty("--bdelay", `${rand(0, .7)}s`);
-      petal.style.setProperty("--bcolor", ["#d6a5ad", "#b96e79", "#f6dde2", "#fff9f5", "#7d4e63", "#e8c0b6"][i % 6]);
-      petal.style.insetInlineStart = `${rand(35, 65)}%`;
-      petal.style.insetBlockStart = `${rand(32, 58)}%`;
+    const paletteColors = ["#d6a5ad", "#b96e79", "#f6dde2", "#fff9f5", "#7d4e63", "#e8c0b6"];
+    let i, petal, rose;
+
+    function burstWave(count, delayMin, delayMax, upOnly) {
+      for (let k = 0; k < count; k += 1) {
+        petal = document.createElement("span");
+        petal.className = "burst-petal";
+        petal.style.setProperty("--bx", `${rand(-90, 90)}vw`);
+        petal.style.setProperty("--by", upOnly ? `${rand(-85, -10)}vh` : `${rand(-85, 25)}vh`);
+        petal.style.setProperty("--br", `${rand(-540, 540)}deg`);
+        petal.style.setProperty("--bd", `${rand(2.2, 4.5)}s`);
+        petal.style.setProperty("--bdelay", `${rand(delayMin, delayMax)}s`);
+        petal.style.setProperty("--bcolor", paletteColors[k % paletteColors.length]);
+        const size = rand(12, 30);
+        petal.style.width = `${size}px`;
+        petal.style.height = `${size * 1.5}px`;
+        petal.style.insetInlineStart = `${rand(35, 65)}%`;
+        petal.style.insetBlockStart = `${rand(32, 58)}%`;
+        layer.appendChild(petal);
+      }
+    }
+    burstWave(90, 0, .5, true);      // wave 1: fast, upward
+    burstWave(60, .45, 1.1, false);  // wave 2: wider, drifts down too
+
+    // Rose grid: two offset passes, edge to edge, no gaps.
+    // ~270 roses on a phone (390x844), ~600 on a desktop viewport.
+    const w = scene.clientWidth || window.innerWidth || 390;
+    const h = scene.clientHeight || window.innerHeight || 844;
+    const step = 56;
+    const cols = Math.ceil(w / step) + 1;
+    const rows = Math.ceil(h / step) + 1;
+    for (let pass = 0; pass < 2; pass += 1) {
+      for (let r = 0; r < rows; r += 1) {
+        for (let cI = 0; cI < cols; cI += 1) {
+          rose = document.createElement("span");
+          rose.className = "burst-rose";
+          const rs = rand(62, 100);
+          rose.style.width = `${rs}px`;
+          rose.style.height = `${rs}px`;
+          rose.style.left = `${cI * step + (pass ? step / 2 : 0) - rs / 2}px`;
+          rose.style.top = `${r * step + (pass ? step / 2 : 0) - rs / 2}px`;
+          rose.style.setProperty("--rdelay", `${rand(0, .8)}s`);
+          rose.style.setProperty("--rrot", `${rand(-18, 18)}deg`);
+          const sprite = roseSprite((r * cols + cI + pass) % ROSE_PALETTES.length);
+          if (sprite) rose.style.backgroundImage = `url(${sprite})`;
+          else rose.style.background = "radial-gradient(circle at 35% 30%, #f6cdd4, #c65a72 55%, #8c2f45)";
+          layer.appendChild(rose);
+        }
+      }
+    }
+
+    // Falling petals afterward, raining down over the roses.
+    for (i = 0; i < 120; i += 1) {
+      petal = document.createElement("span");
+      petal.className = "burst-petal burst-petal--fall";
+      const fs = rand(10, 22);
+      petal.style.width = `${fs}px`;
+      petal.style.height = `${fs * 1.5}px`;
+      petal.style.left = `${rand(0, 100)}%`;
+      petal.style.top = "-24px";
+      petal.style.setProperty("--fdelay", `${rand(1.2, 2.5)}s`);
+      petal.style.setProperty("--fd", `${rand(3.5, 5)}s`);
+      petal.style.setProperty("--fdrift", `${rand(-70, 70)}px`);
+      petal.style.setProperty("--bcolor", paletteColors[i % paletteColors.length]);
       layer.appendChild(petal);
     }
+
     scene.appendChild(layer);
-    later(() => layer.remove(), 4800);
+    later(() => layer.remove(), 8000);
   }
 
   /* ---------------- memories ---------------- */

@@ -426,8 +426,6 @@
                         <button class="desktop-icon" type="button" data-window-open="futureWindow"><span aria-hidden="true">✦</span><bdi>future plans.exe</bdi></button>
                         <button class="desktop-icon" type="button" data-window-open="songWindow"><span aria-hidden="true">♫</span><bdi>our song</bdi></button>
                         <button class="desktop-icon" type="button" data-window-open="heartWindow"><span aria-hidden="true">♥</span><bdi>heart.exe</bdi></button>
-                        <button class="desktop-icon" type="button" data-window-open="photosWindow"><span aria-hidden="true">▦</span><bdi>photos</bdi></button>
-                        <button class="desktop-icon" type="button" data-window-open="voiceWindow"><span aria-hidden="true">🎙</span><bdi>voice memo</bdi></button>
                       </div>
                       <!-- letter.txt -->
                       <div class="retro-window retro-window--letter is-hidden" id="letterWindow" role="dialog" aria-labelledby="letterWindowTitle" aria-hidden="true">
@@ -498,52 +496,6 @@
                           <p>فيه أغاني بتبقى حلوة لوحدها، بس لما ترتبط بحد بتحبه بتبقى ليها حكاية تانية.</p>
                           <p>ودي واحدة من الأغاني اللي حبيت تكون جزء من عالمك النهارده.</p>
                           <p>اسمعيها براحتك… وخليها ذكرى حلوة من يومك. 🎧</p>
-                        </div>
-                      </div>
-                      <!-- photos -->
-                      <div class="retro-window retro-window--photos is-hidden" id="photosWindow" role="dialog" aria-labelledby="photosWindowTitle" aria-hidden="true">
-                        <div class="retro-window__bar" data-drag>
-                          <span id="photosWindowTitle"><span aria-hidden="true">▦</span> Photos</span>
-                          <span class="retro-window__controls"><button type="button" class="win-close" data-window-close="photosWindow" aria-label="إغلاق Photos">✕</button></span>
-                        </div>
-                        <div class="retro-window__body photos-app">
-                          <div class="photo-preview" id="photoPreview">
-                            <svg class="photo-scene active" data-scene="0" viewBox="0 0 400 190"><rect width="400" height="190" fill="#f7b267"/><rect y="110" width="400" height="80" fill="#c2516f"/><circle cx="200" cy="112" r="34" fill="#ffe9a8"/><path d="M0 118 Q100 84 200 110 T400 100 V190 H0Z" fill="#8f3550"/></svg>
-                            <svg class="photo-scene" data-scene="1" viewBox="0 0 400 190"><rect width="400" height="190" fill="#a8d4f2"/><path d="M0 120 Q120 70 240 108 T400 96 V190 H0Z" fill="#7cc45c"/><path d="M0 150 Q140 112 280 142 T400 136 V190 H0Z" fill="#478a33"/><circle cx="70" cy="42" r="20" fill="#fff3b0"/><g fill="#e2608a"><circle cx="120" cy="150" r="6"/><circle cx="250" cy="162" r="5"/><circle cx="320" cy="146" r="6"/></g></svg>
-                            <svg class="photo-scene" data-scene="2" viewBox="0 0 400 190"><rect width="400" height="120" fill="#8ec9e8"/><rect y="120" width="400" height="70" fill="#3d87a3"/><path d="M0 122 Q50 112 100 122 T200 122 T300 122 T400 122" stroke="#eafcff" stroke-width="5" fill="none"/><circle cx="330" cy="36" r="22" fill="#fff3b0"/><path d="M60 150 l14-26 14 26z" fill="#fdf6e8"/><path d="M88 150 l10-18 10 18z" fill="#f2a9c0"/></svg>
-                            <svg class="photo-scene" data-scene="3" viewBox="0 0 400 190"><rect width="400" height="190" fill="#232046"/><g fill="#fff"><circle cx="40" cy="30" r="2"/><circle cx="120" cy="60" r="2.4"/><circle cx="210" cy="26" r="2"/><circle cx="300" cy="66" r="2.4"/><circle cx="360" cy="30" r="2"/><circle cx="80" cy="100" r="1.8"/><circle cx="330" cy="110" r="1.8"/></g><circle cx="318" cy="52" r="24" fill="#f6ead2"/><circle cx="308" cy="46" r="20" fill="#232046"/><path d="M200 158 c-16-20-52-8-52 14 0 16 14 24 52 40 38-16 52-24 52-40 0-22-36-34-52-14z" fill="#e2608a" transform="scale(.62) translate(124 -34)"/></svg>
-                            <svg class="photo-scene" data-scene="4" viewBox="0 0 400 190"><rect width="400" height="190" fill="#bfe3f7"/><path d="M40 190 A170 150 0 0 1 360 190" fill="none" stroke="#e2608a" stroke-width="13"/><path d="M66 190 A144 124 0 0 1 334 190" fill="none" stroke="#f4a259" stroke-width="12"/><path d="M92 190 A118 98 0 0 1 308 190" fill="none" stroke="#7cc45c" stroke-width="12"/><ellipse cx="110" cy="52" rx="52" ry="14" fill="#fff"/><ellipse cx="300" cy="38" rx="44" ry="12" fill="#fff"/></svg>
-                            <svg class="photo-scene" data-scene="5" viewBox="0 0 400 190"><rect width="400" height="190" fill="#fdeef4"/><g><ellipse cx="90" cy="70" rx="24" ry="30" fill="#f28bb1"/><path d="M90 100 v34" stroke="#a03c58" stroke-width="2"/><ellipse cx="180" cy="52" rx="20" ry="26" fill="#b07fd4"/><path d="M180 78 v30" stroke="#6d4391" stroke-width="2"/><ellipse cx="272" cy="76" rx="24" ry="30" fill="#f4a259"/><path d="M272 106 v30" stroke="#a85f22" stroke-width="2"/><ellipse cx="342" cy="56" rx="18" ry="23" fill="#7cc45c"/><path d="M342 79 v28" stroke="#3f7029" stroke-width="2"/></g><rect y="160" width="400" height="30" fill="#f2c9d8"/></svg>
-                          </div>
-                          <div class="photo-nav">
-                            <button type="button" id="photoPrev" aria-label="الصورة السابقة">&lt;</button>
-                            <span><span id="photoName">photo_01.jpg</span> &nbsp;•&nbsp; <span id="photoCount">1 / 6</span> &nbsp;♥</span>
-                            <button type="button" id="photoNext" aria-label="الصورة اللي بعدها">&gt;</button>
-                          </div>
-                          <div class="photo-grid" id="photoGrid">
-                            <button type="button" class="photo-thumb selected" data-photo="0"><svg viewBox="0 0 400 190"><rect width="400" height="190" fill="#f7b267"/><rect y="110" width="400" height="80" fill="#c2516f"/><circle cx="200" cy="112" r="34" fill="#ffe9a8"/><path d="M0 118 Q100 84 200 110 T400 100 V190 H0Z" fill="#8f3550"/></svg><span>photo_01.jpg</span></button>
-                            <button type="button" class="photo-thumb" data-photo="1"><svg viewBox="0 0 400 190"><rect width="400" height="190" fill="#a8d4f2"/><path d="M0 120 Q120 70 240 108 T400 96 V190 H0Z" fill="#7cc45c"/><path d="M0 150 Q140 112 280 142 T400 136 V190 H0Z" fill="#478a33"/><circle cx="70" cy="42" r="20" fill="#fff3b0"/></svg><span>photo_02.jpg</span></button>
-                            <button type="button" class="photo-thumb" data-photo="2"><svg viewBox="0 0 400 190"><rect width="400" height="120" fill="#8ec9e8"/><rect y="120" width="400" height="70" fill="#3d87a3"/><circle cx="330" cy="36" r="22" fill="#fff3b0"/></svg><span>photo_03.jpg</span></button>
-                            <button type="button" class="photo-thumb" data-photo="3"><svg viewBox="0 0 400 190"><rect width="400" height="190" fill="#232046"/><circle cx="318" cy="52" r="24" fill="#f6ead2"/><circle cx="308" cy="46" r="20" fill="#232046"/></svg><span>photo_04.jpg</span></button>
-                            <button type="button" class="photo-thumb" data-photo="4"><svg viewBox="0 0 400 190"><rect width="400" height="190" fill="#bfe3f7"/><path d="M40 190 A170 150 0 0 1 360 190" fill="none" stroke="#e2608a" stroke-width="13"/><path d="M92 190 A118 98 0 0 1 308 190" fill="none" stroke="#7cc45c" stroke-width="12"/></svg><span>photo_05.jpg</span></button>
-                            <button type="button" class="photo-thumb" data-photo="5"><svg viewBox="0 0 400 190"><rect width="400" height="190" fill="#fdeef4"/><ellipse cx="90" cy="70" rx="24" ry="30" fill="#f28bb1"/><ellipse cx="200" cy="56" rx="22" ry="28" fill="#b07fd4"/><ellipse cx="310" cy="72" rx="24" ry="30" fill="#f4a259"/><rect y="160" width="400" height="30" fill="#f2c9d8"/></svg><span>photo_06.jpg</span></button>
-                          </div>
-                        </div>
-                        <div class="retro-window__status"><span>6 drawn memories</span><span>♥♥♥</span></div>
-                      </div>
-                      <!-- voice memo -->
-                      <div class="retro-window retro-window--voice is-hidden" id="voiceWindow" role="dialog" aria-labelledby="voiceWindowTitle" aria-hidden="true">
-                        <div class="retro-window__bar" data-drag>
-                          <span id="voiceWindowTitle"><span aria-hidden="true">🎙</span> voice memo</span>
-                          <span class="retro-window__controls"><button type="button" class="win-close" data-window-close="voiceWindow" aria-label="إغلاق voice memo">✕</button></span>
-                        </div>
-                        <div class="retro-window__body voice-app" id="voiceApp">
-                          <div class="voice-wave" id="voiceWave" aria-hidden="true"></div>
-                          <div class="voice-controls">
-                            <button class="voice-play" type="button" id="voiceToggle" aria-label="تشغيل المذكرة الصوتية">▶</button>
-                            <span class="voice-time"><span id="voiceNow">0:00</span> / 0:18</span>
-                          </div>
-                          <p>رسالة صوتية صغيرة… من قلبي لقلبك، اسمعيها لما يوحشك صوتي. 💗</p>
                         </div>
                       </div>
                       <div class="desktop-taskbar">
