@@ -310,32 +310,70 @@
   tickClock(); setInterval(tickClock, 20000);
 
   /* ---------- الماتريكس ---------- */
-  function startComputerMatrix(done) {
-    if (reduceMotion || !computerMatrixCanvas) { done(); return; }
-    var ctx = computerMatrixCanvas.getContext("2d");
-    if (!ctx) { done(); return; }
-    var W = computerMatrixCanvas.width, H = computerMatrixCanvas.height;
+  /* One rain column set + one painted frame, shared by the animated and the
+     reduced-motion paths so both show the same green rain. */
+  function buildMatrixCols(W, H) {
     var glyphs = "01DODYLOVE♡♥✦✧";
     var words = ["XOXO", "LOVE", "DODY", "21.11", "HAPPY", "SMILE", "♥", "✦"];
     var gap = 34, cols = [];
     for (var i = 0; i < Math.ceil(W / gap); i++) cols.push({ x: i * gap + 14, y: Math.random() * -H, s: 60 + Math.random() * 90 });
+    return { glyphs: glyphs, words: words, cols: cols };
+  }
+  function paintMatrixFrame(ctx, W, H, rain, fade) {
+    if (fade) { ctx.fillStyle = "rgba(4,11,6,.16)"; ctx.fillRect(0, 0, W, H); }
+    ctx.font = "17px monospace"; ctx.textAlign = "center";
+    rain.cols.forEach(function (c, idx) {
+      var ch = Math.random() > .88 ? rain.words[(Math.random() * rain.words.length) | 0] : rain.glyphs[(Math.random() * rain.glyphs.length) | 0];
+      ctx.fillStyle = idx % 7 === 0 ? "rgba(240,216,140,.95)" : (idx % 9 === 0 ? "rgba(246,200,214,.9)" : "rgba(150,226,145,.85)");
+      ctx.fillText(ch, c.x, c.y);
+      c.y += c.s * .016;
+      if (c.y > H + 24) { c.y = Math.random() * -160; c.s = 60 + Math.random() * 90; }
+    });
+  }
+  function startComputerMatrix(done) {
+    if (!computerMatrixCanvas) { done(); return; }
+    var ctx = computerMatrixCanvas.getContext("2d");
+    if (!ctx) { done(); return; }
+    var W = computerMatrixCanvas.width, H = computerMatrixCanvas.height;
+    var dur = 2000, finished = false;
+    function finish() {
+      if (finished) return; finished = true;
+      if (computerMatrixRaf) { window.cancelAnimationFrame(computerMatrixRaf); computerMatrixRaf = 0; }
+      computerMatrixCanvas.classList.remove("show");
+      try { ctx.clearRect(0, 0, W, H); } catch (e) {}
+      done();
+    }
     computerMatrixCanvas.classList.add("show");
-    var start = null, dur = 2000;
+    if (reduceMotion) {
+      /* Reduced motion: no animation, but the rain must still be SEEN. The old
+         code skipped the matrix entirely here, so on any browser with
+         prefers-reduced-motion the boot jumped straight to the loading screen
+         and the rain never appeared. Paint one still frame of the rain and
+         hold it for the same ~2s instead. */
+      var rain = buildMatrixCols(W, H);
+      rain.cols.forEach(function (c) { c.y = Math.random() * H; });
+      ctx.fillStyle = "#040b06"; ctx.fillRect(0, 0, W, H);
+      paintMatrixFrame(ctx, W, H, rain, false);
+      var stillTimer = window.setTimeout(finish, dur);
+      computerTimers.push(stillTimer);
+      return;
+    }
+    var live = buildMatrixCols(W, H);
+    /* Paint the first frame immediately, so the rain is visible even if the
+       browser throttles requestAnimationFrame. */
+    paintMatrixFrame(ctx, W, H, live, true);
+    var start = null;
     function frame(ts) {
+      if (finished) return;
       if (!start) start = ts;
-      ctx.fillStyle = "rgba(4,11,6,.16)"; ctx.fillRect(0, 0, W, H);
-      ctx.font = "17px monospace"; ctx.textAlign = "center";
-      cols.forEach(function (c, idx) {
-        var ch = Math.random() > .88 ? words[(Math.random() * words.length) | 0] : glyphs[(Math.random() * glyphs.length) | 0];
-        ctx.fillStyle = idx % 7 === 0 ? "rgba(240,216,140,.95)" : (idx % 9 === 0 ? "rgba(246,200,214,.9)" : "rgba(150,226,145,.85)");
-        ctx.fillText(ch, c.x, c.y);
-        c.y += c.s * .016;
-        if (c.y > H + 24) { c.y = Math.random() * -160; c.s = 60 + Math.random() * 90; }
-      });
+      paintMatrixFrame(ctx, W, H, live, true);
       if (ts - start < dur) { computerMatrixRaf = requestAnimationFrame(frame); }
-      else { computerMatrixRaf = 0; computerMatrixCanvas.classList.remove("show"); ctx.clearRect(0, 0, W, H); done(); }
+      else { finish(); }
     }
     computerMatrixRaf = requestAnimationFrame(frame);
+    /* Watchdog: if rAF stalls (background tab), the boot must still finish. */
+    var watchdog = window.setTimeout(finish, dur + 600);
+    computerTimers.push(watchdog);
   }
 
   /* ---------- التشغيل ---------- */
@@ -406,10 +444,16 @@
     if (reduceMotion) { openRetroWindow("letterWindow"); startTypewriter(); return; }
     fakeCursor.classList.add("show");
     moveCursor(52, 58);
-    computerLater(function () { if (computerTouched) return; moveCursor(90.5, 6); }, 500);
+    /* Letter icon position depends on the layout: on phones the icons are a
+       2-row × 3-col RTL grid, so letter.txt is the top-right cell; on desktop
+       they are a column at the inline-end side (left in RTL), so it is the
+       top of that column. The old fixed (90.5, 6) pointed at empty space on
+       desktop and slightly off the cell on phones. */
+    var letterPos = window.matchMedia("(max-width: 680px)").matches ? [82, 9] : [8, 6];
+    computerLater(function () { if (computerTouched) return; moveCursor(letterPos[0], letterPos[1]); }, 500);
     computerLater(function () {
       if (computerTouched) return;
-      cursorClickAt(90.5, 6);
+      cursorClickAt(letterPos[0], letterPos[1]);
       var icon = document.getElementById("iconLetter");
       icon.classList.remove("picked"); void icon.offsetWidth; icon.classList.add("picked");
       openRetroWindow("letterWindow"); startTypewriter();

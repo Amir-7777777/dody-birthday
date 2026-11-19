@@ -52,8 +52,13 @@
   background: linear-gradient(180deg, #d9b28f 0%, #c49a72 30%, #a97c58 72%, #8a6244 100%);
   border-top: 5px solid #e8cba6;
   box-shadow: 0 -14px 34px rgba(120,70,40,.18);
-  -webkit-mask-image: linear-gradient(180deg, #000 0, #000 84%, transparent 100%); mask-image: linear-gradient(180deg, #000 0, #000 84%, transparent 100%);
 }
+/* Floor strip: starts exactly at the desk's bottom edge and runs down to the
+   scene bottom, so the desk never floats on wallpaper with a gap under it.
+   (The old bottom-fade mask on .desk made it look like a floating board.)
+   The scene clips the excess (overflow: hidden). */
+.computer-stage::after { content: ""; position: absolute; top: calc(100% + 6px); left: 50%; transform: translateX(-50%); width: 130%; height: 400px; z-index: 0; pointer-events: none;
+  background: linear-gradient(180deg, #c99a7a 0%, #a97c58 55%, #8a6244 100%); }
 /* Tabletop lip: a lighter rounded surface at the top of the desk, so the
    desk reads as a surface with depth instead of a flat strip. */
 .desk::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 18px;
@@ -66,7 +71,7 @@
 
 /* الوسادة النعناعية اللي جنب الشاشة في الفيديو — قاعدة على سطح المكتب
    (bottom = حافة المكتب) وسانِدة على الشاشة، شكلها وسادة مش كورة. */
-.cushion { position: absolute; z-index: 3; right: 1.5%; bottom: var(--desk-top); width: clamp(74px, 13%, 128px); aspect-ratio: 1 / .8; pointer-events: none;
+.cushion { position: absolute; z-index: 3; right: 1.5%; bottom: calc(var(--desk-top) - 4px); width: clamp(74px, 13%, 128px); aspect-ratio: 1 / .8; pointer-events: none;
   background: radial-gradient(circle at 34% 28%, #d9f4e4 0%, #a9dfc0 46%, #7fc79e 100%);
   border-radius: 24% 28% 26% 22% / 34% 36% 30% 32%;
   box-shadow: inset -8px -10px 18px rgba(46,110,74,.28), inset 6px 8px 14px rgba(255,255,255,.55), 0 16px 26px rgba(90,50,60,.22);
@@ -111,7 +116,10 @@
   background: linear-gradient(150deg, #cdb09a, #b99e83 55%, #a98a6c);
   box-shadow: inset 0 3px 7px rgba(60,38,20,.5), inset 0 -2px 4px rgba(255,255,255,.35), 0 1px 2px rgba(255,255,255,.5); }
 .crt__screen { position: relative; aspect-ratio: 1.36; overflow: hidden; border-radius: 2.6cqw / 2.2cqw; background: #060a08;
-  box-shadow: inset 0 0 3.5cqw rgba(0,0,0,.85), inset 0 0 1cqw rgba(0,0,0,.9); }
+  box-shadow: inset 0 0 3.5cqw rgba(0,0,0,.85), inset 0 0 1cqw rgba(0,0,0,.9);
+  /* Shared taskbar height: the taskbar uses it, and the phone window rules
+     anchor their bottoms to it, so a window can never slide under it. */
+  --taskbar-h: max(21px, 4.6cqw); }
 .crt__screen::before { content: ""; position: absolute; inset: 0; z-index: 30; border-radius: inherit; pointer-events: none;
   box-shadow: inset 0 0 9cqw rgba(0,0,0,.6), inset 0 0 2cqw rgba(0,0,0,.55); }
 .scanlines { position: absolute; inset: 0; z-index: 28; pointer-events: none; opacity: 0; transition: opacity 1s ease;
@@ -307,7 +315,7 @@
 .voice-app p { color: #7c5560; font-size: max(9px, 1.75cqw); }
 
 /* شريط المهام الوردي زي الفيديو */
-.desktop-taskbar { position: absolute; inset-inline: 0; bottom: 0; z-index: 30; display: flex; align-items: center; gap: .9cqw; height: max(21px, 4.6cqw); padding: .3cqw 1cqw;
+.desktop-taskbar { position: absolute; inset-inline: 0; bottom: 0; z-index: 30; display: flex; align-items: center; gap: .9cqw; height: var(--taskbar-h); padding: .3cqw 1cqw;
   color: #fff; background: linear-gradient(#f4a9c4, #e2719c 55%, #d65c8d); border-top: 1px solid #ffd3e3; box-shadow: 0 -2px 6px rgba(120,30,70,.25);
   font-family: var(--font-body); font-size: max(8px, 1.6cqw); }
 .start-button { height: max(18px, 3.6cqw); min-height: 0; padding: 0 1.6cqw; color: #fff; border: 1px solid #ffcede; border-radius: 1.6cqw .5cqw .5cqw 1.6cqw;
@@ -385,8 +393,53 @@
   .fake-cursor { transition-duration: .05s; }
 }
 
-/* On short screens the decorative keyboard row hides so the CRT still fits. */
+/* On short screens the decorative keyboard row hides so the CRT still fits.
+   With the row gone, the content under the CRT is shorter, so the desk top
+   (and the cushion on it) must come down too — otherwise the desk rides up
+   over the CRT chin. */
 @media (max-height: 700px) {
   .desk-row { display: none; }
   .computer-actions { margin-top: 10px; padding-bottom: 24px; }
+  .computer-stage { --desk-top: 120px; }
+}
+
+/* ===== Phones: icon grid + window placement =====
+   These rules live HERE (not in responsive.css) so they beat the base rules
+   on specificity (.scene--computer .retro-window--* = 0,2,0 vs 0,1,0)
+   regardless of stylesheet load order — the old round-1 rules in
+   responsive.css lost that fight in practice.
+   Windows are bounded between the icon strip and the taskbar: `top` clears
+   the 2-row icon grid, `bottom` sits exactly above the taskbar via
+   --taskbar-h, `height` is free and `max-height` is lifted, so `bottom` can
+   never be ignored in favour of a fixed height. */
+@media (max-width: 680px) {
+  /* Desk-top cap: the old vw formula grew with width while the content under
+     the CRT stays the same height, so on wider phones the desk (and the
+     cushion) rode up over the CRT chin. A fixed value keeps the desk top
+     just under the monitor stand. */
+  .computer-stage { --desk-top: 150px; }
+
+  /* Icons: two rows of three. One row of six gave each icon ~30px, so the
+     labels overflowed their buttons and collided (and got clipped at the
+     screen edges). Three per row gives each label ~105px — "future
+     plans.exe" fits on one line, nothing overflows, nothing overlaps. */
+  .scene--computer .desktop-icons { top: 1.5%; inset-inline: 1.5%; width: auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px 2%; }
+  .scene--computer .desktop-icon { min-width: 0; font-size: max(7px, 1.5cqw); }
+  .scene--computer .desktop-icon > span { height: 3.6cqw; min-height: 16px; }
+
+  .scene--computer .retro-window--letter { inset-inline: 4%; width: auto; top: 68px; bottom: calc(var(--taskbar-h) + 4px); height: auto; max-height: none; }
+  .scene--computer .retro-window--heart { inset-inline: 10%; width: auto; top: 68px; bottom: calc(var(--taskbar-h) + 4px); height: auto; max-height: none; }
+  .scene--computer .retro-window--future { inset-inline: 6%; width: auto; top: 68px; bottom: calc(var(--taskbar-h) + 4px); height: auto; max-height: none; }
+  .scene--computer .retro-window--song { inset-inline: 4%; width: auto; top: 68px; bottom: calc(var(--taskbar-h) + 4px); height: auto; max-height: none; }
+  .scene--computer .retro-window--photos { inset-inline: 4%; width: auto; top: 68px; bottom: calc(var(--taskbar-h) + 4px); height: auto; max-height: none; }
+  .scene--computer .retro-window--voice { inset-inline: 12%; width: auto; top: 68px; bottom: calc(var(--taskbar-h) + 4px); height: auto; max-height: none; }
+
+  /* Slimmer window chrome on phones so more content fits above the taskbar. */
+  .scene--computer .retro-window__bar { min-height: 18px; font-size: max(9px, 1.7cqw); }
+  /* heart.exe is the tightest window: shrink its pixel heart and text a touch
+     so the title, the warning and the "aww, ok" button all fit on screen. */
+  .scene--computer .retro-window--heart .pixel-heart { width: 7cqw; height: 6.4cqw; min-width: 30px; min-height: 27px; margin-bottom: .4cqw; }
+  .scene--computer .heart-app h3 { font-size: max(9px, 1.9cqw); margin-bottom: .4cqw; }
+  .scene--computer .heart-app p { font-size: max(8px, 1.6cqw); line-height: 1.6; }
+  .scene--computer .heart-app .retro-btn { margin-top: .5cqw; padding: .6cqw 1.4cqw; }
 }

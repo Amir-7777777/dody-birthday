@@ -85,34 +85,28 @@
   .for-card { padding: 14px 16px; }
   .for-card strong { font-size: 2.35rem; }
   .for-card p { font-size: .74rem; }
-  /* Computer scene on phones: compact heading, smaller CRT so the whole
-     scene fits above the fixed nav, keyboard hidden (mouse stays, smaller),
-     icons in a top row, windows below the icons and above the taskbar. */
+  /* Computer scene on phones: compact heading, CRT as wide as the height
+     budget allows (the 1.32 factor is the screen aspect: 1px of height buys
+     ~1.32px of CRT width), keyboard hidden (mouse stays, smaller).
+     Icon grid + window placement now live in computer.css (scoped, higher
+     specificity) — see the "Phones" block there. */
   .scene.scene--computer { padding-top: calc(var(--header-h) + 1.1rem); padding-bottom: calc(var(--nav-h) + 1.6rem); }
   .scene--computer .section-heading { margin-bottom: .6rem; }
   .scene--computer .eyebrow { margin-block-end: .5rem; }
   .scene--computer h2 { font-size: clamp(1.45rem, 6vw, 1.9rem); line-height: 1.3; }
   #pcSubtitle { font-size: .92rem; line-height: 1.65; }
-  .crt-wrap { width: min(100%, max(190px, calc((100svh - 560px) * 1))); }
+  .crt-wrap { width: min(100%, max(190px, calc((100svh - 560px) * 1.32))); }
   .computer-stage { margin-top: 4px; }
   .keyboard { display: none; }
   .mouse-wrap { width: 11%; max-width: 90px; padding-top: 0; }
   .mouse-cord { display: none; }
   .desk-row { margin-top: 6px; padding-bottom: 4px; justify-content: center; }
-  .desktop-icons { top: 1.5%; inset-inline: 1.5%; width: auto; flex-direction: row; gap: 1%; }
-  .desktop-icon { flex: 1 1 0; min-width: 0; font-size: max(7px, 1.5cqw); }
-  .retro-window--letter { inset-inline: 4%; width: auto; top: 54px; bottom: 26px; height: auto; }
-  .retro-window--heart { inset-inline: 10%; width: auto; top: 66px; bottom: 26px; }
-  .retro-window--future { inset-inline: 6%; width: auto; top: 54px; bottom: 26px; }
-  .retro-window--song { inset-inline: 4%; width: auto; top: 54px; bottom: 26px; }
-  .retro-window--photos { inset-inline: 4%; width: auto; top: 54px; bottom: 26px; height: auto; }
-  .retro-window--voice { inset-inline: 12%; width: auto; top: 60px; bottom: 26px; }
   .retro-window__body { padding: 1.4cqw 1.6cqw; }
   .letter-dynamic p { margin-block-end: .4em; }
   .computer-tip { font-size: .78rem; line-height: 1.5; }
   .computer-actions { margin-top: 10px; padding-bottom: 0; gap: 8px; }
   #mainPower { min-height: 48px; padding: 12px 30px; font-size: 1.02rem; }
-  .cushion { width: 58px; bottom: var(--desk-top); }
+  .cushion { width: 58px; }
   .garden-intro { padding-block: .6rem; }
   .garden-intro h2 { font-size: 3.2rem; }
   .garden-moon { width: 64px; height: 64px; }
