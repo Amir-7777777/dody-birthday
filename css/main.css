@@ -296,7 +296,7 @@ body[data-theme="dark"] .sound-peek { color: var(--warm-ivory); border-color: rg
 .password-sep { color: var(--dusty-rose); font-family: var(--font-code); font-size: .8rem; }
 .password-help { min-height: 26px; margin: 8px 0 4px; color: var(--ink-soft); font-size: .73rem; text-align: center; }
 .password-error { min-height: 25px; margin: 0 0 6px; color: #a54456; font-size: .8rem; font-weight: 700; text-align: center; }
-.numpad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.numpad { direction: ltr; display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
 .numpad button { min-height: 46px; color: var(--soft-chocolate); border: 1px solid rgba(185, 110, 121, .16); border-radius: 12px; background: rgba(255, 249, 245, .88); font-family: var(--font-code); font-size: 1.02rem; font-weight: 700; cursor: pointer; transition: background .15s, transform .15s, color .15s; }
 .numpad button:hover { background: var(--blush-pink); }
 .numpad button:active { transform: scale(.95); }

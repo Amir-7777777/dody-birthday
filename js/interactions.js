@@ -247,7 +247,7 @@
     window.clearTimeout(bootTimer);
     loadingInterval = window.setInterval(() => {
       const currentValue = Number(loadBar?.dataset.progress || 0);
-      const step = currentValue > 82 ? 2 : rand(4, 8);
+      const step = currentValue > 82 ? 3 : rand(6, 11);
       const nextValue = Math.min(100, Math.round(currentValue + step));
       if (loadBar) {
         loadBar.style.width = `${nextValue}%`;
@@ -259,7 +259,7 @@
         loadingInterval = 0;
         bootTimer = window.setTimeout(finishComputerBoot, reduceMotion ? 80 : 700);
       }
-    }, 260);
+    }, 190);
   }
 
   function finishComputerBoot() {
@@ -267,9 +267,7 @@
     crtBoot?.classList.add("is-done");
     retroDesktop?.classList.add("is-visible");
     retroDesktop?.setAttribute("aria-hidden", "false");
-    openRetroWindow("letterWindow", { focus: false });
-    startTypewriter();
-    window.dodyApp?.notify?.("سطح المكتب جاهز… دوسي على الأيقونات 💻", 2800);
+    window.dodyApp?.notify?.("سطح المكتب جاهز… افتحي الأيقونات 💻", 3000);
   }
 
   function startTypewriter() {
@@ -483,6 +481,7 @@
           chandelierSvg?.classList.add("is-lit");
           chandelierGlow?.classList.add("is-lit");
           if (chandelierPrompt) chandelierPrompt.hidden = false;
+          if (lightCandles) lightCandles.hidden = true;
           createChandelierSparkles();
           window.dodyApp?.notify?.("اتمني أمنيتك… الشموع سامعاها ✨", 3600);
         }
@@ -781,7 +780,7 @@
     chandelierSvg?.classList.remove("is-lit");
     chandelierGlow?.classList.remove("is-lit");
     $$(".candle", chandelierSvg || document).forEach((candle) => candle.classList.remove("is-lit"));
-    if (lightCandles) { lightCandles.classList.remove("is-lit"); lightCandles.disabled = false; lightCandles.setAttribute("aria-pressed", "false"); }
+    if (lightCandles) { lightCandles.hidden = false; lightCandles.classList.remove("is-lit"); lightCandles.disabled = false; lightCandles.setAttribute("aria-pressed", "false"); }
     if (chandelierPrompt) chandelierPrompt.hidden = true;
     if (sparkleLayer) sparkleLayer.innerHTML = "";
 

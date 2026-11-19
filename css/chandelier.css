@@ -8,7 +8,7 @@
 .chandelier-layout { display: flex; flex-direction: column; align-items: center; }
 .chandelier-layout .section-heading h2 em { color: #f2d6a5; font-family: var(--font-hand); }
 .chandelier-stage { position: relative; width: min(100%, 610px); margin-block: .4rem -.2rem; }
-.chandelier-svg { display: block; width: 100%; height: auto; max-height: 56svh; overflow: visible; filter: drop-shadow(0 22px 24px rgba(0, 0, 0, .34)); transform-origin: 50% 4%; animation: chandelierSway 14s ease-in-out infinite; }
+.chandelier-svg { display: block; width: 100%; height: auto; max-height: 52svh; overflow: visible; filter: drop-shadow(0 22px 24px rgba(0, 0, 0, .34)); transform-origin: 50% 4%; animation: chandelierSway 14s ease-in-out infinite; }
 .chandelier-body, .candle-arms, .lotus-holders, .chandelier-chain, .bead-chains { transition: filter .8s; }
 .chandelier-svg.is-lit .chandelier-body, .chandelier-svg.is-lit .candle-arms, .chandelier-svg.is-lit .lotus-holders { filter: drop-shadow(0 0 5px rgba(199, 163, 106, .25)); }
 .flame { opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(.35); transition: opacity .7s ease, transform .8s cubic-bezier(.2, .8, .3, 1.3); }
