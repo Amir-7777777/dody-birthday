@@ -9,10 +9,6 @@
   let celebrationRaf = 0;
   let memoryTimer = 0;
   let memoryIndex = 0;
-  let bootTimer = 0;
-  let loadingInterval = 0;
-  let typeTimer = 0;
-  let heartPopupTimer = 0;
   let computerBooted = false;
   let computerTyped = false;
   let chandelierLit = false;
@@ -229,107 +225,232 @@
   });
 
   /* ---------------- retro computer ---------------- */
-  const crtBoot = document.getElementById("crtBoot");
+  const computerSceneEl = sceneEl(5);
   const retroDesktop = document.getElementById("retroDesktop");
+  const bootLoad = document.getElementById("bootLoad");
   const loadBar = document.getElementById("loadBar");
   const loadPercent = document.getElementById("loadPercent");
+  const loadFile = document.getElementById("loadFile");
+  const powerFlash = document.getElementById("powerFlash");
+  const computerMatrixCanvas = document.getElementById("computerMatrixCanvas");
+  const fakeCursor = document.getElementById("fakeCursor");
+  const mainPower = document.getElementById("mainPower");
+  const powerBtn = document.getElementById("powerBtn");
+  const restartBtn = document.getElementById("restartBtn");
+  const bootedLabel = document.getElementById("bootedLabel");
+  const pcSubtitle = document.getElementById("pcSubtitle");
   const letterTypewriter = document.getElementById("letterTypewriter");
   const letterDynamic = document.getElementById("letterDynamic");
+  const songWindow = document.getElementById("songWindow");
+  const songToggle = document.getElementById("songToggle");
+  const songStatus = document.getElementById("songStatus");
+  const voiceApp = document.getElementById("voiceApp");
+  const voiceToggle = document.getElementById("voiceToggle");
+  const voiceNow = document.getElementById("voiceNow");
+  const personalAudio = document.getElementById("personalAudio");
   let lastWindowTrigger = null;
 
-  function startComputer() {
-    const scene = sceneEl(5);
-    if (!scene || !scene.classList.contains("is-active") || computerBooted) return;
-    window.clearInterval(loadingInterval);
-    window.clearTimeout(bootTimer);
-    loadingInterval = window.setInterval(() => {
-      const currentValue = Number(loadBar?.dataset.progress || 0);
-      const step = currentValue > 82 ? 3 : rand(6, 11);
-      const nextValue = Math.min(100, Math.round(currentValue + step));
-      if (loadBar) {
-        loadBar.style.width = `${nextValue}%`;
-        loadBar.dataset.progress = String(nextValue);
-      }
-      if (loadPercent) loadPercent.textContent = `${nextValue}%`;
-      if (nextValue >= 100) {
-        window.clearInterval(loadingInterval);
-        loadingInterval = 0;
-        bootTimer = window.setTimeout(finishComputerBoot, reduceMotion ? 80 : 700);
-      }
-    }, 190);
+  let computerPowered = false;
+  let computerTouched = false;
+  const computerTimers = [];
+  const computerIntervals = [];
+  let computerZTop = 20;
+  let computerMatrixRaf = 0;
+  function computerLater(fn, ms) { const t = window.setTimeout(fn, reduceMotion ? Math.min(ms, 70) : ms); computerTimers.push(t); return t; }
+  function computerEvery(fn, ms) { const i = window.setInterval(fn, ms); computerIntervals.push(i); return i; }
+  function clearComputerTimers() {
+    computerTimers.forEach((id) => window.clearTimeout(id)); computerTimers.length = 0;
+    computerIntervals.forEach((id) => window.clearInterval(id)); computerIntervals.length = 0;
+    if (computerMatrixRaf) window.cancelAnimationFrame(computerMatrixRaf);
+    computerMatrixRaf = 0;
+    stopVoice();
   }
 
+  /* ---------- كيبورد مرسوم ---------- */
+  (function buildKeyboard() {
+    var kb = document.getElementById("keyboard");
+    var rows = [
+      ["Q","W","E","R","T","Y","U","I","O","P"],
+      ["A","S","D","F","G","H","J","K","L"],
+      ["Z","X","C","V","B","N","M","♥"],
+      ["Ctrl","Alt","", "DODY ♥", ""]
+    ];
+    rows.forEach(function (row, ri) {
+      var div = document.createElement("div"); div.className = "kb-row";
+      row.forEach(function (label, ci) {
+        var k = document.createElement("span"); k.className = "key";
+        if (ri === 3 && ci === 2) { k.className = "key key--space"; }
+        else if (ri === 3) { k.className = "key key--wide" + (ci === 3 ? " key--pink" : " key--mint"); }
+        else if (label === "♥") { k.className = "key key--pink"; }
+        k.textContent = label;
+        div.appendChild(k);
+      });
+      kb.appendChild(div);
+    });
+  })();
+
+  /* ---------- موجة الصوت ---------- */
+  (function buildWave() {
+    var wave = document.getElementById("voiceWave");
+    var heights = [34,58,42,76,50,88,64,95,58,80,44,70,92,52,84,40,66,90,48,74,38,60,82,46];
+    heights.forEach(function (h, i) {
+      var bar = document.createElement("i");
+      bar.style.height = h + "%";
+      bar.style.animationDelay = (i * 0.06) + "s";
+      wave.appendChild(bar);
+    });
+  })();
+
+  /* ---------- ساعة شريط المهام ---------- */
+  function tickClock() {
+    var el = document.getElementById("taskClock");
+    if (!el) return;
+    try { el.textContent = new Date().toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }); } catch (e) {}
+  }
+  tickClock(); setInterval(tickClock, 20000);
+
+  /* ---------- الماتريكس ---------- */
+  function startComputerMatrix(done) {
+    if (reduceMotion || !computerMatrixCanvas) { done(); return; }
+    var ctx = computerMatrixCanvas.getContext("2d");
+    if (!ctx) { done(); return; }
+    var W = computerMatrixCanvas.width, H = computerMatrixCanvas.height;
+    var glyphs = "01DODYLOVE♡♥✦✧";
+    var words = ["XOXO", "LOVE", "DODY", "21.11", "HAPPY", "SMILE", "♥", "✦"];
+    var gap = 34, cols = [];
+    for (var i = 0; i < Math.ceil(W / gap); i++) cols.push({ x: i * gap + 14, y: Math.random() * -H, s: 60 + Math.random() * 90 });
+    computerMatrixCanvas.classList.add("show");
+    var start = null, dur = 2000;
+    function frame(ts) {
+      if (!start) start = ts;
+      ctx.fillStyle = "rgba(4,11,6,.16)"; ctx.fillRect(0, 0, W, H);
+      ctx.font = "17px monospace"; ctx.textAlign = "center";
+      cols.forEach(function (c, idx) {
+        var ch = Math.random() > .88 ? words[(Math.random() * words.length) | 0] : glyphs[(Math.random() * glyphs.length) | 0];
+        ctx.fillStyle = idx % 7 === 0 ? "rgba(240,216,140,.95)" : (idx % 9 === 0 ? "rgba(246,200,214,.9)" : "rgba(150,226,145,.85)");
+        ctx.fillText(ch, c.x, c.y);
+        c.y += c.s * .016;
+        if (c.y > H + 24) { c.y = Math.random() * -160; c.s = 60 + Math.random() * 90; }
+      });
+      if (ts - start < dur) { computerMatrixRaf = requestAnimationFrame(frame); }
+      else { computerMatrixRaf = 0; computerMatrixCanvas.classList.remove("show"); ctx.clearRect(0, 0, W, H); done(); }
+    }
+    computerMatrixRaf = requestAnimationFrame(frame);
+  }
+
+  /* ---------- التشغيل ---------- */
+  var loadFiles = ["heart.exe", "letter.txt", "our_song.mp3", "photos\\dody", "future_plans.exe", "voice_memo.wav"];
+  function powerOnComputer() {
+    if (computerPowered) return;
+    computerPowered = true;
+    computerSceneEl.classList.add("is-on");
+    mainPower.setAttribute("aria-pressed", "true");
+    powerBtn.setAttribute("aria-pressed", "true");
+    mainPower.hidden = true;
+    powerFlash.classList.remove("go"); void powerFlash.offsetWidth; powerFlash.classList.add("go");
+    pcSubtitle.textContent = "بيفتح… استني ثواني يا دودي 💗";
+    startComputerMatrix(function () {
+      bootLoad.classList.add("show"); bootLoad.setAttribute("aria-hidden", "false");
+      var p = 0;
+      var iv = computerEvery(function () {
+        p = Math.min(100, p + 3 + Math.random() * 6);
+        loadBar.style.width = p + "%";
+        loadPercent.textContent = Math.floor(p) + "%";
+        loadFile.textContent = loadFiles[Math.min(loadFiles.length - 1, Math.floor(p / (100 / loadFiles.length)))];
+        if (p >= 100) {
+          window.clearInterval(iv);
+          computerLater(finishComputerBoot, 620);
+        }
+      }, 130);
+    });
+  }
   function finishComputerBoot() {
     computerBooted = true;
-    crtBoot?.classList.add("is-done");
-    retroDesktop?.classList.add("is-visible");
-    retroDesktop?.setAttribute("aria-hidden", "false");
-    window.dodyApp?.notify?.("سطح المكتب جاهز… افتحي الأيقونات 💻", 3000);
+    bootLoad.classList.remove("show"); bootLoad.setAttribute("aria-hidden", "true");
+    retroDesktop.classList.add("is-visible"); retroDesktop.setAttribute("aria-hidden", "false");
+    pcSubtitle.textContent = "سطح المكتب جاهز… دوسي على كل أيقونة وشوفي اللي جواها.";
+    bootedLabel.hidden = false; restartBtn.hidden = false;
+    runCursorStory();
+  }
+  function powerOffComputer() {
+    clearComputerTimers();
+    computerPowered = false; computerBooted = false; computerTyped = false; computerTouched = false;
+    computerSceneEl.classList.remove("is-on");
+    mainPower.setAttribute("aria-pressed", "false");
+    powerBtn.setAttribute("aria-pressed", "false");
+    mainPower.hidden = false; bootedLabel.hidden = true; restartBtn.hidden = true;
+    bootLoad.classList.remove("show"); bootLoad.setAttribute("aria-hidden", "true");
+    retroDesktop.classList.remove("is-visible"); retroDesktop.setAttribute("aria-hidden", "true");
+    computerMatrixCanvas.classList.remove("show");
+    var ctx = computerMatrixCanvas.getContext("2d"); if (ctx) ctx.clearRect(0, 0, computerMatrixCanvas.width, computerMatrixCanvas.height);
+    loadBar.style.width = "0%"; loadPercent.textContent = "0%";
+    document.querySelectorAll(".retro-window").forEach(function (w) { w.classList.add("is-hidden"); w.setAttribute("aria-hidden", "true"); w.style.left = ""; w.style.top = ""; w.style.right = ""; w.style.bottom = ""; });
+    letterDynamic.hidden = true; letterDynamic.classList.remove("is-visible");
+    letterTypewriter.textContent = "يا دعاء…"; letterTypewriter.classList.remove("done");
+    fakeCursor.classList.remove("show");
+    pcSubtitle.textContent = "بس جواه حاجات لسه جديدة خالص. دوسي زرار الباور، واستني التحميل، وبعدين دوسي على كل أيقونة.";
+    selectPhoto(0);
+    voiceSec = 0; voiceNow.textContent = "0:00";
+    syncSongVisual();
   }
 
-  function startTypewriter() {
-    if (!letterTypewriter || computerTyped) return;
-    const fullText = "يا دعاء…";
-    if (reduceMotion) {
-      letterTypewriter.textContent = fullText;
-      showDynamicLetter();
-      return;
-    }
-    letterTypewriter.textContent = "";
-    let cursor = 0;
-    const type = () => {
-      letterTypewriter.textContent = fullText.slice(0, cursor);
-      cursor += 1;
-      if (cursor <= fullText.length) {
-        typeTimer = window.setTimeout(type, 105);
-      } else {
-        showDynamicLetter();
-      }
-    };
-    typeTimer = window.setTimeout(type, 400);
+  /* ---------- قصة المؤشر ---------- */
+  function moveCursor(leftPct, topPct) { fakeCursor.style.left = leftPct + "%"; fakeCursor.style.top = topPct + "%"; }
+  function cursorClickAt(leftPct, topPct) {
+    fakeCursor.classList.remove("clicking"); void fakeCursor.offsetWidth; fakeCursor.classList.add("clicking");
+    var r = document.createElement("span"); r.className = "click-ripple";
+    r.style.left = (leftPct + 1) + "%"; r.style.top = (topPct + 1) + "%";
+    retroDesktop.appendChild(r); setTimeout(function () { r.remove(); }, 600);
   }
-
-  function showDynamicLetter() {
-    if (!letterDynamic || computerTyped) return;
-    computerTyped = true;
-    letterDynamic.hidden = false;
-    letterDynamic.classList.add("is-visible");
-    window.clearTimeout(heartPopupTimer);
-    heartPopupTimer = window.setTimeout(() => {
-      if (document.body.dataset.scene === "5" && !document.getElementById("heartWindow")?.classList.contains("is-hidden")) return;
-      if (document.body.dataset.scene === "5") openRetroWindow("heartWindow", { focus: false, automatic: true });
-    }, reduceMotion ? 1200 : 7000);
+  function runCursorStory() {
+    if (reduceMotion) { openRetroWindow("letterWindow"); startTypewriter(); return; }
+    fakeCursor.classList.add("show");
+    moveCursor(52, 58);
+    computerLater(function () { if (computerTouched) return; moveCursor(90.5, 6); }, 500);
+    computerLater(function () {
+      if (computerTouched) return;
+      cursorClickAt(90.5, 6);
+      var icon = document.getElementById("iconLetter");
+      icon.classList.remove("picked"); void icon.offsetWidth; icon.classList.add("picked");
+      openRetroWindow("letterWindow"); startTypewriter();
+    }, 1650);
+    computerLater(function () { if (computerTouched) return; moveCursor(46, 84); }, 2300);
+    computerLater(function () { fakeCursor.classList.remove("show"); }, 3600);
   }
+  retroDesktop.addEventListener("pointerdown", function () {
+    if (!computerTouched) { computerTouched = true; fakeCursor.classList.remove("show"); }
+  });
 
+  /* ---------- النوافذ ---------- */
   function openRetroWindow(id, options = {}) {
     const win = document.getElementById(id);
     if (!win) return;
     lastWindowTrigger = options.focus === false ? lastWindowTrigger : document.activeElement;
-    $$(".retro-window").forEach((other) => other.classList.remove("is-front"));
+    const wasHidden = win.classList.contains("is-hidden");
     win.classList.remove("is-hidden");
     win.setAttribute("aria-hidden", "false");
-    win.classList.add("is-front");
-    if (options.focus !== false) {
-      win.querySelector("[data-window-close]")?.focus({ preventScroll: true });
-    }
+    win.style.zIndex = String(++computerZTop);
+    if (wasHidden) { win.classList.remove("opening"); void win.offsetWidth; win.classList.add("opening"); }
+    if (options.focus !== false) win.querySelector("[data-window-close]")?.focus({ preventScroll: true });
     if (id === "letterWindow" && computerBooted && !computerTyped) startTypewriter();
+    if (id === "songWindow") syncSongVisual();
   }
-
   function closeRetroWindow(id, options = {}) {
     const win = document.getElementById(id);
     if (!win) return;
     win.classList.add("is-hidden");
     win.setAttribute("aria-hidden", "true");
-    win.classList.remove("is-front");
+    if (id === "voiceWindow") stopVoice();
     if (options.restoreFocus !== false && lastWindowTrigger instanceof HTMLElement) {
       lastWindowTrigger.focus({ preventScroll: true });
     }
   }
-
   document.addEventListener("click", (event) => {
     const openTrigger = event.target.closest("[data-window-open]");
     if (openTrigger) {
       event.preventDefault();
+      computerTouched = true;
+      fakeCursor.classList.remove("show");
       openRetroWindow(openTrigger.dataset.windowOpen);
       return;
     }
@@ -339,13 +460,129 @@
       closeRetroWindow(closeTrigger.dataset.windowClose);
     }
   });
+  document.querySelectorAll(".retro-window").forEach(function (win) {
+    win.addEventListener("pointerdown", function () { win.style.zIndex = ++computerZTop; });
+  });
 
-  $$(".retro-window").forEach((win) => {
-    win.addEventListener("pointerdown", () => {
-      $$(".retro-window").forEach((other) => other.classList.remove("is-front"));
-      win.classList.add("is-front");
+  /* سحب النوافذ من الشريط الأزرق */
+  document.querySelectorAll("[data-drag]").forEach(function (bar) {
+    bar.addEventListener("pointerdown", function (e) {
+      if (e.target.closest("button")) return;
+      var win = bar.closest(".retro-window");
+      var dRect = retroDesktop.getBoundingClientRect();
+      var wRect = win.getBoundingClientRect();
+      var startX = e.clientX, startY = e.clientY;
+      var startL = wRect.left - dRect.left, startT = wRect.top - dRect.top;
+      win.style.left = startL + "px"; win.style.top = startT + "px";
+      win.style.right = "auto"; win.style.bottom = "auto"; win.style.insetInlineStart = "auto"; win.style.insetInlineEnd = "auto";
+      win.style.margin = "0"; win.style.zIndex = ++computerZTop;
+      function move(ev) {
+        var nl = Math.max(-wRect.width * .35, Math.min(dRect.width - 60, startL + ev.clientX - startX));
+        var nt = Math.max(0, Math.min(dRect.height - 34, startT + ev.clientY - startY));
+        win.style.left = nl + "px"; win.style.top = nt + "px";
+      }
+      function up() { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); }
+      window.addEventListener("pointermove", move);
+      window.addEventListener("pointerup", up);
     });
   });
+
+  /* ---------- آلة الكتابة + بوب أب القلب ---------- */
+  function startTypewriter() {
+    if (computerTyped || !letterTypewriter) return;
+    var full = "يا دعاء…";
+    if (reduceMotion) { letterTypewriter.textContent = full; showDynamicLetter(); return; }
+    letterTypewriter.textContent = "";
+    var i = 0;
+    var iv = computerEvery(function () {
+      i++; letterTypewriter.textContent = full.slice(0, i);
+      if (i >= full.length) { window.clearInterval(iv); showDynamicLetter(); }
+    }, 120);
+  }
+  function showDynamicLetter() {
+    if (!letterDynamic || computerTyped) return;
+    computerTyped = true;
+    letterTypewriter.classList.add("done");
+    letterDynamic.hidden = false;
+    window.requestAnimationFrame(() => { letterDynamic.classList.add("is-visible"); });
+    computerLater(() => {
+      const heart = document.getElementById("heartWindow");
+      if (document.body.dataset.scene === "5" && computerPowered && heart?.classList.contains("is-hidden")) {
+        openRetroWindow("heartWindow", { focus: false, automatic: true });
+      }
+    }, 4200);
+  }
+
+  /* ---------- الصور ---------- */
+  var photoIndex = 0;
+  var photoNames = ["photo_01.jpg","photo_02.jpg","photo_03.jpg","photo_04.jpg","photo_05.jpg","photo_06.jpg"];
+  function selectPhoto(i) {
+    photoIndex = (i + 6) % 6;
+    document.querySelectorAll(".photo-scene").forEach(function (s) { s.classList.toggle("active", Number(s.getAttribute("data-scene")) === photoIndex); });
+    document.querySelectorAll(".photo-thumb").forEach(function (t) { t.classList.toggle("selected", Number(t.getAttribute("data-photo")) === photoIndex); });
+    document.getElementById("photoName").textContent = photoNames[photoIndex];
+    document.getElementById("photoCount").textContent = (photoIndex + 1) + " / 6";
+  }
+  document.getElementById("photoPrev").addEventListener("click", function () { selectPhoto(photoIndex - 1); });
+  document.getElementById("photoNext").addEventListener("click", function () { selectPhoto(photoIndex + 1); });
+  document.getElementById("photoGrid").addEventListener("click", function (e) {
+    var t = e.target.closest("[data-photo]"); if (t) selectPhoto(Number(t.getAttribute("data-photo")));
+  });
+
+  /* ---------- المذكرة الصوتية ---------- */
+  var voiceTimer = null, voiceSec = 0, voicePlaying = false;
+  function fmt(s) { return "0:" + (s < 10 ? "0" : "") + s; }
+  function stopVoice() {
+    voicePlaying = false;
+    if (voiceTimer) { clearInterval(voiceTimer); voiceTimer = null; }
+    voiceApp.classList.remove("is-playing"); voiceToggle.textContent = "▶";
+  }
+  voiceToggle.addEventListener("click", function () {
+    if (voicePlaying) { stopVoice(); return; }
+    voicePlaying = true; voiceApp.classList.add("is-playing"); voiceToggle.textContent = "❚❚";
+    voiceTimer = setInterval(function () {
+      voiceSec += 1; if (voiceSec > 18) { voiceSec = 0; stopVoice(); return; }
+      voiceNow.textContent = fmt(voiceSec);
+    }, 1000);
+    computerIntervals.push(voiceTimer);
+  });
+
+  /* ---------- الأغنية — تشغيل حقيقي عبر js/music.js ---------- */
+  /* The window only mirrors the site's real player (personal song =
+     "Rewrite The Stars", assets/audio/personal-song.mp4). It never fakes
+     playback: the toggle calls window.dodyMusic and the visuals follow the
+     audio element and the dody:track-change event. */
+  function songIsPlaying() {
+    return Boolean(window.dodyMusic && window.dodyMusic.current() === "personal" && window.dodyMusic.isPlaying());
+  }
+  function syncSongVisual() {
+    if (!songWindow || !songToggle || !songStatus) return;
+    const playing = songIsPlaying();
+    songWindow.classList.toggle("is-playing", playing);
+    songToggle.textContent = playing ? "❚❚ إيقاف مؤقت" : "▶ شغّلي Our Song";
+    songStatus.textContent = playing ? "♪ now playing — Rewrite The Stars ♥" : "♪ ready — our song";
+  }
+  songToggle?.addEventListener("click", () => {
+    if (!window.dodyMusic) return;
+    if (songIsPlaying()) window.dodyMusic.pause();
+    else window.dodyMusic.playPersonal();
+  });
+  document.addEventListener("dody:track-change", syncSongVisual);
+  personalAudio?.addEventListener("play", syncSongVisual);
+  personalAudio?.addEventListener("pause", syncSongVisual);
+  personalAudio?.addEventListener("ended", syncSongVisual);
+
+  /* ---------- أزرار الباور ---------- */
+  mainPower.addEventListener("click", powerOnComputer);
+  powerBtn.addEventListener("click", function () { computerPowered ? powerOffComputer() : powerOnComputer(); });
+  restartBtn.addEventListener("click", function () { powerOffComputer(); computerLater(powerOnComputer, 450); });
+  document.getElementById("crt").addEventListener("dblclick", function () { if (!computerPowered) powerOnComputer(); });
+
+  /* Reset the computer to its off state (used by resetJourney). */
+  function resetComputer() {
+    powerOffComputer();
+  }
+  syncSongVisual();
 
   /* ---------------- garden of words ---------------- */
   const enterGarden = document.getElementById("enterGarden");
@@ -723,7 +960,6 @@
 
     switch (index) {
       case 4: later(startMatrix, 220); break;
-      case 5: if (!computerBooted) startComputer(); break;
       case 8: startMemories(); break;
       case 9: prepareChandelierStars(); break;
       case 10: revealWishes(); break;
@@ -743,10 +979,6 @@
     stopMatrix();
     stopMemories();
     stopCelebration();
-    window.clearInterval(loadingInterval);
-    window.clearTimeout(bootTimer);
-    window.clearTimeout(typeTimer);
-    window.clearTimeout(heartPopupTimer);
 
     // Gate
     window.dodyGate?.reset();
@@ -758,16 +990,7 @@
     envelopeLetter?.setAttribute("aria-hidden", "true");
 
     // Computer
-    computerBooted = false;
-    computerTyped = false;
-    crtBoot?.classList.remove("is-done");
-    retroDesktop?.classList.remove("is-visible");
-    retroDesktop?.setAttribute("aria-hidden", "true");
-    if (loadBar) { loadBar.style.width = "0%"; loadBar.dataset.progress = "0"; }
-    if (loadPercent) loadPercent.textContent = "0%";
-    $$(".retro-window").forEach((win) => { win.classList.add("is-hidden"); win.setAttribute("aria-hidden", "true"); win.classList.remove("is-front"); });
-    if (letterDynamic) { letterDynamic.hidden = true; letterDynamic.classList.remove("is-visible"); }
-    if (letterTypewriter) letterTypewriter.textContent = "يا دعاء…";
+    resetComputer();
 
     // Garden
     gardenEntered = false;
@@ -827,7 +1050,8 @@
   window.dodyInteractions = {
     resetJourney,
     startMatrix,
-    startComputer,
+    startComputer: powerOnComputer,
+    resetComputer,
     startCelebration,
     startMemories,
     revealWishes,

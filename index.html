@@ -366,122 +366,230 @@
       <!-- 05 — RETRO COMPUTER -->
       <section class="scene scene--computer" data-scene="5" data-chapter="عالم الكمبيوتر" aria-labelledby="computerTitle">
         <div class="scene-bg scene-bg--compute" aria-hidden="true">
-          <span class="compute-grid"></span>
           <div class="ambient-petals" data-petals="7"></div>
         </div>
+        <div class="computer-glow" aria-hidden="true"></div>
+        <div class="computer-dust" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         <div class="scene-inner computer-layout">
           <div class="section-heading">
             <p class="eyebrow"><span></span>DODY OS • VERSION 20.0<span></span></p>
             <h2 id="computerTitle">ياه… الكمبيوتر ده <em>شكله قديم</em></h2>
-            <p>بس جواه حاجات لسه جديدة خالص. استني التحميل، وبعدين دوسي على كل أيقونة.</p>
+            <p id="pcSubtitle">بس جواه حاجات لسه جديدة خالص. دوسي زرار الباور، واستني التحميل، وبعدين دوسي على كل أيقونة.</p>
           </div>
-
-          <div class="crt-wrap">
-            <div class="crt" id="crt">
-              <span class="crt__vent" aria-hidden="true"></span>
-              <div class="crt__screen">
-                <div class="crt__scanlines" aria-hidden="true"></div>
-                <div class="crt__boot" id="crtBoot">
-                  <span class="crt__brand">DODY COMPUTER</span>
-                  <p>Loading your birthday surprise...</p>
-                  <div class="load-track"><span id="loadBar"></span></div>
-                  <div class="load-meta"><span id="loadPercent">0%</span><span>♥</span></div>
-                  <p class="load-hint">Please do not turn off your heart.</p>
+          <div class="computer-stage">
+            <div class="desk" aria-hidden="true"></div>
+            <div class="desk-light" aria-hidden="true"></div>
+            <div class="cushion" aria-hidden="true">
+              <svg viewBox="0 0 100 88"><circle cx="36" cy="38" r="4.5" fill="#2e5d43"/><circle cx="64" cy="38" r="4.5" fill="#2e5d43"/><path d="M34 54 Q50 68 66 54" fill="none" stroke="#2e5d43" stroke-width="4" stroke-linecap="round"/><circle cx="24" cy="50" r="5" fill="rgba(240,140,165,.5)"/><circle cx="76" cy="50" r="5" fill="rgba(240,140,165,.5)"/></svg>
+            </div>
+            <div class="crt-wrap">
+              <div class="screen-glow" aria-hidden="true"></div>
+              <div class="crt" id="crt">
+                <span class="crt__screw crt__screw--tl" aria-hidden="true"></span>
+                <span class="crt__screw crt__screw--tr" aria-hidden="true"></span>
+                <span class="crt__vents" aria-hidden="true"></span>
+                <span class="crt__sticker" aria-hidden="true">for Dody ♥</span>
+                <div class="crt__bezel">
+                  <div class="crt__screen" id="crtScreen">
+                    <div class="off-reflection" aria-hidden="true"></div>
+                    <canvas id="computerMatrixCanvas" width="880" height="648" aria-hidden="true"></canvas>
+                    <span class="matrix-square" aria-hidden="true"></span>
+                    <div class="boot-load" id="bootLoad" aria-hidden="true">
+                      <span class="boot-load__os">DODY OS v20.0</span>
+                      <span class="boot-load__heart" aria-hidden="true">♥</span>
+                      <p lang="en" dir="ltr">Loading your memories...</p>
+                      <div class="load-track"><span id="loadBar"></span></div>
+                      <div class="load-meta"><span class="load-pct" id="loadPercent">0%</span><span class="load-file" id="loadFile">heart.exe</span></div>
+                      <span class="load-hint" lang="en" dir="ltr">Please do not turn off your heart.</span>
+                    </div>
+                    <div class="desktop" id="retroDesktop" aria-hidden="true">
+                      <svg class="desktop__wall" viewBox="0 0 880 648" preserveAspectRatio="none" aria-hidden="true">
+                        <defs>
+                          <linearGradient id="skyG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#6db3e8"/><stop offset="55%" stop-color="#a8d4f2"/><stop offset="100%" stop-color="#d8ecfa"/></linearGradient>
+                          <linearGradient id="hillFar" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#8fce6e"/><stop offset="100%" stop-color="#5da244"/></linearGradient>
+                          <linearGradient id="hillNear" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#7cc45c"/><stop offset="100%" stop-color="#478a33"/></linearGradient>
+                        </defs>
+                        <rect width="880" height="648" fill="url(#skyG)"/>
+                        <g fill="#ffffff" opacity=".92">
+                          <ellipse cx="150" cy="88" rx="86" ry="24"/><ellipse cx="196" cy="72" rx="58" ry="20"/>
+                          <ellipse cx="660" cy="130" rx="104" ry="26"/><ellipse cx="716" cy="112" rx="62" ry="20"/>
+                          <ellipse cx="430" cy="52" rx="60" ry="15" opacity=".75"/>
+                        </g>
+                        <path d="M0 330 Q 180 250 400 306 T 880 286 V648 H0 Z" fill="url(#hillFar)"/>
+                        <path d="M0 448 Q 240 356 520 428 T 880 402 V648 H0 Z" fill="url(#hillNear)"/>
+                        <g fill="#ffffff" opacity=".85"><circle cx="120" cy="520" r="4"/><circle cx="196" cy="556" r="3"/><circle cx="700" cy="530" r="4"/><circle cx="770" cy="576" r="3"/><circle cx="330" cy="586" r="3"/></g>
+                        <g fill="#ffd9e6"><circle cx="150" cy="540" r="5"/><circle cx="730" cy="556" r="5"/><circle cx="560" cy="600" r="4"/></g>
+                      </svg>
+                      <div class="desktop__dither" aria-hidden="true"></div>
+                      <div class="desktop-icons" aria-label="أيقونات سطح المكتب">
+                        <button class="desktop-icon" type="button" data-window-open="letterWindow" id="iconLetter"><span aria-hidden="true">✉</span><bdi>letter.txt</bdi></button>
+                        <button class="desktop-icon" type="button" data-window-open="futureWindow"><span aria-hidden="true">✦</span><bdi>future plans.exe</bdi></button>
+                        <button class="desktop-icon" type="button" data-window-open="songWindow"><span aria-hidden="true">♫</span><bdi>our song</bdi></button>
+                        <button class="desktop-icon" type="button" data-window-open="heartWindow"><span aria-hidden="true">♥</span><bdi>heart.exe</bdi></button>
+                        <button class="desktop-icon" type="button" data-window-open="photosWindow"><span aria-hidden="true">▦</span><bdi>photos</bdi></button>
+                        <button class="desktop-icon" type="button" data-window-open="voiceWindow"><span aria-hidden="true">🎙</span><bdi>voice memo</bdi></button>
+                      </div>
+                      <!-- letter.txt -->
+                      <div class="retro-window retro-window--letter is-hidden" id="letterWindow" role="dialog" aria-labelledby="letterWindowTitle" aria-hidden="true">
+                        <div class="retro-window__bar" data-drag>
+                          <span id="letterWindowTitle"><span aria-hidden="true">▣</span> letter.txt</span>
+                          <span class="retro-window__controls"><button type="button" aria-label="تصغير">–</button><button type="button" class="win-close" data-window-close="letterWindow" aria-label="إغلاق letter.txt">✕</button></span>
+                        </div>
+                        <div class="retro-window__menu" aria-hidden="true"><span>File</span><span>Edit</span><span>Format</span><span>Help</span></div>
+                        <div class="retro-window__body letter-body">
+                          <p class="typewriter" id="letterTypewriter">يا دعاء…</p>
+                          <div class="letter-dynamic" id="letterDynamic" hidden>
+                            <p>عارفة إيه اللي مميز فيكي؟</p>
+                            <p>إنك مش محتاجة تعملي حاجة خارقة عشان تبقي مميزة.</p>
+                            <p>فيه حاجات صغيرة فيكي ممكن متاخديش بالك منها، لكنها بتسيب أثر كبير.</p>
+                            <p>طريقة كلامك، ضحكتك، هزارك، تفاصيلك اللي يمكن تشوفيها عادية، لكنها بالنسبالي مش عادية خالص.</p>
+                            <p>أنا مش بكتبلك الكلام ده عشان عيد ميلادك وبس، أنا بكتبه عشان نفسي تعرفي إنك تستاهلي يتقالك كلام حلو، وتتحبي، وتتقدري، وتتحطي في مكانة تليق بيكي.</p>
+                            <p>ونفسي السنة الجديدة من عمرك تكون أحن عليكي من كل السنين اللي فاتت.</p>
+                            <p>تلاقي فيها راحة لقلبك، وفرحة تستاهليها، وأحلام كنتِ فاكرة إنها بعيدة وتلاقيها بتقرب منك واحدة واحدة.</p>
+                            <p class="letter-body__closing">كل سنة وإنتِ أجمل من السنة اللي قبلها يا دودي.</p>
+                            <p class="letter-body__sign">— أمير ❤️</p>
+                          </div>
+                          <div class="letter-hearts" aria-hidden="true"><span>♥</span><span>♥</span><span>♥</span><span>♥</span><span>♥</span></div>
+                        </div>
+                        <div class="retro-window__status"><span>Ln 8, Col 21</span><span>100%</span></div>
+                      </div>
+                      <!-- heart.exe -->
+                      <div class="retro-window retro-window--heart is-hidden" id="heartWindow" role="dialog" aria-labelledby="heartWindowTitle" aria-hidden="true">
+                        <div class="retro-window__bar" data-drag>
+                          <span id="heartWindowTitle"><span aria-hidden="true">♥</span> heart.exe</span>
+                          <span class="retro-window__controls"><button type="button" class="win-close" data-window-close="heartWindow" aria-label="إغلاق heart.exe">✕</button></span>
+                        </div>
+                        <div class="retro-window__body heart-app">
+                          <svg class="pixel-heart" viewBox="0 0 14 12" aria-hidden="true"><g fill="#e2608a"><rect x="1" y="1" width="5" height="4"/><rect x="8" y="1" width="5" height="4"/><rect x="1" y="4" width="12" height="3"/><rect x="2" y="7" width="10" height="2"/><rect x="4" y="9" width="6" height="2"/><rect x="6" y="11" width="2" height="1"/></g><g fill="#f7a8bf"><rect x="2" y="2" width="3" height="2"/></g><g fill="#c74a77"><rect x="8" y="8" width="4" height="1" opacity=".55"/></g></svg>
+                          <h3>تم تثبيت جرعة حب غير محدودة!</h3>
+                          <p>تحذير: صاحبة القلب ده محبوبة جدًا، وممنوع عليها تقلل من جمالها أو تشك في قيمتها. 😂</p>
+                          <p class="heart-app__strong">البرنامج ده مفيهوش زرار Uninstall.</p>
+                          <button class="retro-btn" type="button" data-window-close="heartWindow">aww, ok</button>
+                        </div>
+                      </div>
+                      <!-- future plans -->
+                      <div class="retro-window retro-window--future is-hidden" id="futureWindow" role="dialog" aria-labelledby="futureWindowTitle" aria-hidden="true">
+                        <div class="retro-window__bar" data-drag>
+                          <span id="futureWindowTitle"><span aria-hidden="true">✦</span> Future plans.exe</span>
+                          <span class="retro-window__controls"><button type="button" class="win-close" data-window-close="futureWindow" aria-label="إغلاق Future plans">✕</button></span>
+                        </div>
+                        <div class="retro-window__body">
+                          <p>نفسي أشوفك بتكبري وتحققي كل اللي بتحلمي بيه.</p>
+                          <p>نفسي تفضلي دايمًا عندك شغف لحاجات جديدة، وتفضلي تضحكي من قلبك، ومتخليش أي حاجة تطفي النور اللي جواكي.</p>
+                          <p>وأتمنى لما تيجي تبصي لورا بعد سنين، تلاقي إن السنين دي كانت مليانة حاجات تستاهل تتفتكر.</p>
+                        </div>
+                        <div class="retro-window__status"><span>future = beautiful</span><span>♥</span></div>
+                      </div>
+                      <!-- our song -->
+                      <div class="retro-window retro-window--song is-hidden" id="songWindow" role="dialog" aria-labelledby="songWindowTitle" aria-hidden="true">
+                        <div class="retro-window__bar" data-drag>
+                          <span id="songWindowTitle"><span aria-hidden="true">♫</span> our song</span>
+                          <span class="retro-window__controls"><button type="button" class="win-close" data-window-close="songWindow" aria-label="إغلاق our song">✕</button></span>
+                        </div>
+                        <div class="retro-window__body song-app">
+                          <div class="song-app__head">
+                            <div class="song-app__disc" aria-hidden="true">♫</div>
+                            <div>
+                              <div class="song-eq" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+                              <div class="song-status" id="songStatus">♪ ready — our song</div>
+                            </div>
+                            <button class="retro-btn" type="button" id="songToggle">▶ شغّلي Our Song</button>
+                          </div>
+                          <p>فيه أغاني بتبقى حلوة لوحدها، بس لما ترتبط بحد بتحبه بتبقى ليها حكاية تانية.</p>
+                          <p>ودي واحدة من الأغاني اللي حبيت تكون جزء من عالمك النهارده.</p>
+                          <p>اسمعيها براحتك… وخليها ذكرى حلوة من يومك. 🎧</p>
+                        </div>
+                      </div>
+                      <!-- photos -->
+                      <div class="retro-window retro-window--photos is-hidden" id="photosWindow" role="dialog" aria-labelledby="photosWindowTitle" aria-hidden="true">
+                        <div class="retro-window__bar" data-drag>
+                          <span id="photosWindowTitle"><span aria-hidden="true">▦</span> Photos</span>
+                          <span class="retro-window__controls"><button type="button" class="win-close" data-window-close="photosWindow" aria-label="إغلاق Photos">✕</button></span>
+                        </div>
+                        <div class="retro-window__body photos-app">
+                          <div class="photo-preview" id="photoPreview">
+                            <svg class="photo-scene active" data-scene="0" viewBox="0 0 400 190"><rect width="400" height="190" fill="#f7b267"/><rect y="110" width="400" height="80" fill="#c2516f"/><circle cx="200" cy="112" r="34" fill="#ffe9a8"/><path d="M0 118 Q100 84 200 110 T400 100 V190 H0Z" fill="#8f3550"/></svg>
+                            <svg class="photo-scene" data-scene="1" viewBox="0 0 400 190"><rect width="400" height="190" fill="#a8d4f2"/><path d="M0 120 Q120 70 240 108 T400 96 V190 H0Z" fill="#7cc45c"/><path d="M0 150 Q140 112 280 142 T400 136 V190 H0Z" fill="#478a33"/><circle cx="70" cy="42" r="20" fill="#fff3b0"/><g fill="#e2608a"><circle cx="120" cy="150" r="6"/><circle cx="250" cy="162" r="5"/><circle cx="320" cy="146" r="6"/></g></svg>
+                            <svg class="photo-scene" data-scene="2" viewBox="0 0 400 190"><rect width="400" height="120" fill="#8ec9e8"/><rect y="120" width="400" height="70" fill="#3d87a3"/><path d="M0 122 Q50 112 100 122 T200 122 T300 122 T400 122" stroke="#eafcff" stroke-width="5" fill="none"/><circle cx="330" cy="36" r="22" fill="#fff3b0"/><path d="M60 150 l14-26 14 26z" fill="#fdf6e8"/><path d="M88 150 l10-18 10 18z" fill="#f2a9c0"/></svg>
+                            <svg class="photo-scene" data-scene="3" viewBox="0 0 400 190"><rect width="400" height="190" fill="#232046"/><g fill="#fff"><circle cx="40" cy="30" r="2"/><circle cx="120" cy="60" r="2.4"/><circle cx="210" cy="26" r="2"/><circle cx="300" cy="66" r="2.4"/><circle cx="360" cy="30" r="2"/><circle cx="80" cy="100" r="1.8"/><circle cx="330" cy="110" r="1.8"/></g><circle cx="318" cy="52" r="24" fill="#f6ead2"/><circle cx="308" cy="46" r="20" fill="#232046"/><path d="M200 158 c-16-20-52-8-52 14 0 16 14 24 52 40 38-16 52-24 52-40 0-22-36-34-52-14z" fill="#e2608a" transform="scale(.62) translate(124 -34)"/></svg>
+                            <svg class="photo-scene" data-scene="4" viewBox="0 0 400 190"><rect width="400" height="190" fill="#bfe3f7"/><path d="M40 190 A170 150 0 0 1 360 190" fill="none" stroke="#e2608a" stroke-width="13"/><path d="M66 190 A144 124 0 0 1 334 190" fill="none" stroke="#f4a259" stroke-width="12"/><path d="M92 190 A118 98 0 0 1 308 190" fill="none" stroke="#7cc45c" stroke-width="12"/><ellipse cx="110" cy="52" rx="52" ry="14" fill="#fff"/><ellipse cx="300" cy="38" rx="44" ry="12" fill="#fff"/></svg>
+                            <svg class="photo-scene" data-scene="5" viewBox="0 0 400 190"><rect width="400" height="190" fill="#fdeef4"/><g><ellipse cx="90" cy="70" rx="24" ry="30" fill="#f28bb1"/><path d="M90 100 v34" stroke="#a03c58" stroke-width="2"/><ellipse cx="180" cy="52" rx="20" ry="26" fill="#b07fd4"/><path d="M180 78 v30" stroke="#6d4391" stroke-width="2"/><ellipse cx="272" cy="76" rx="24" ry="30" fill="#f4a259"/><path d="M272 106 v30" stroke="#a85f22" stroke-width="2"/><ellipse cx="342" cy="56" rx="18" ry="23" fill="#7cc45c"/><path d="M342 79 v28" stroke="#3f7029" stroke-width="2"/></g><rect y="160" width="400" height="30" fill="#f2c9d8"/></svg>
+                          </div>
+                          <div class="photo-nav">
+                            <button type="button" id="photoPrev" aria-label="الصورة السابقة">&lt;</button>
+                            <span><span id="photoName">photo_01.jpg</span> &nbsp;•&nbsp; <span id="photoCount">1 / 6</span> &nbsp;♥</span>
+                            <button type="button" id="photoNext" aria-label="الصورة اللي بعدها">&gt;</button>
+                          </div>
+                          <div class="photo-grid" id="photoGrid">
+                            <button type="button" class="photo-thumb selected" data-photo="0"><svg viewBox="0 0 400 190"><rect width="400" height="190" fill="#f7b267"/><rect y="110" width="400" height="80" fill="#c2516f"/><circle cx="200" cy="112" r="34" fill="#ffe9a8"/><path d="M0 118 Q100 84 200 110 T400 100 V190 H0Z" fill="#8f3550"/></svg><span>photo_01.jpg</span></button>
+                            <button type="button" class="photo-thumb" data-photo="1"><svg viewBox="0 0 400 190"><rect width="400" height="190" fill="#a8d4f2"/><path d="M0 120 Q120 70 240 108 T400 96 V190 H0Z" fill="#7cc45c"/><path d="M0 150 Q140 112 280 142 T400 136 V190 H0Z" fill="#478a33"/><circle cx="70" cy="42" r="20" fill="#fff3b0"/></svg><span>photo_02.jpg</span></button>
+                            <button type="button" class="photo-thumb" data-photo="2"><svg viewBox="0 0 400 190"><rect width="400" height="120" fill="#8ec9e8"/><rect y="120" width="400" height="70" fill="#3d87a3"/><circle cx="330" cy="36" r="22" fill="#fff3b0"/></svg><span>photo_03.jpg</span></button>
+                            <button type="button" class="photo-thumb" data-photo="3"><svg viewBox="0 0 400 190"><rect width="400" height="190" fill="#232046"/><circle cx="318" cy="52" r="24" fill="#f6ead2"/><circle cx="308" cy="46" r="20" fill="#232046"/></svg><span>photo_04.jpg</span></button>
+                            <button type="button" class="photo-thumb" data-photo="4"><svg viewBox="0 0 400 190"><rect width="400" height="190" fill="#bfe3f7"/><path d="M40 190 A170 150 0 0 1 360 190" fill="none" stroke="#e2608a" stroke-width="13"/><path d="M92 190 A118 98 0 0 1 308 190" fill="none" stroke="#7cc45c" stroke-width="12"/></svg><span>photo_05.jpg</span></button>
+                            <button type="button" class="photo-thumb" data-photo="5"><svg viewBox="0 0 400 190"><rect width="400" height="190" fill="#fdeef4"/><ellipse cx="90" cy="70" rx="24" ry="30" fill="#f28bb1"/><ellipse cx="200" cy="56" rx="22" ry="28" fill="#b07fd4"/><ellipse cx="310" cy="72" rx="24" ry="30" fill="#f4a259"/><rect y="160" width="400" height="30" fill="#f2c9d8"/></svg><span>photo_06.jpg</span></button>
+                          </div>
+                        </div>
+                        <div class="retro-window__status"><span>6 drawn memories</span><span>♥♥♥</span></div>
+                      </div>
+                      <!-- voice memo -->
+                      <div class="retro-window retro-window--voice is-hidden" id="voiceWindow" role="dialog" aria-labelledby="voiceWindowTitle" aria-hidden="true">
+                        <div class="retro-window__bar" data-drag>
+                          <span id="voiceWindowTitle"><span aria-hidden="true">🎙</span> voice memo</span>
+                          <span class="retro-window__controls"><button type="button" class="win-close" data-window-close="voiceWindow" aria-label="إغلاق voice memo">✕</button></span>
+                        </div>
+                        <div class="retro-window__body voice-app" id="voiceApp">
+                          <div class="voice-wave" id="voiceWave" aria-hidden="true"></div>
+                          <div class="voice-controls">
+                            <button class="voice-play" type="button" id="voiceToggle" aria-label="تشغيل المذكرة الصوتية">▶</button>
+                            <span class="voice-time"><span id="voiceNow">0:00</span> / 0:18</span>
+                          </div>
+                          <p>رسالة صوتية صغيرة… من قلبي لقلبك، اسمعيها لما يوحشك صوتي. 💗</p>
+                        </div>
+                      </div>
+                      <div class="desktop-taskbar">
+                        <button class="start-button" type="button" data-window-open="letterWindow">start</button>
+                        <span class="taskbar-title">Dody's birthday desktop</span>
+                        <span class="taskbar-tray" aria-hidden="true">♥ <span id="taskClock">12:00</span></span>
+                      </div>
+                      <svg class="fake-cursor" id="fakeCursor" viewBox="0 0 24 30" aria-hidden="true"><path d="M3 1 L3 24 L9.5 18.6 L13 27 L16.4 25.6 L12.9 17 L21 17 Z" fill="#111" stroke="#fff" stroke-width="1.6"/></svg>
+                    </div><!-- /desktop -->
+                    <div class="flicker" aria-hidden="true"></div>
+                    <div class="scanlines" aria-hidden="true"></div>
+                    <div class="glass" aria-hidden="true"></div>
+                    <div class="power-flash" id="powerFlash" aria-hidden="true"></div>
+                  </div>
                 </div>
-
-                <div class="desktop" id="retroDesktop" aria-hidden="true">
-                  <div class="desktop-icons" aria-label="أيقونات سطح المكتب">
-                    <button class="desktop-icon" type="button" data-window-open="letterWindow"><span aria-hidden="true">✉</span><bdi>letter.txt</bdi></button>
-                    <button class="desktop-icon" type="button" data-window-open="futureWindow"><span aria-hidden="true">✦</span><bdi>future plans.exe</bdi></button>
-                    <button class="desktop-icon" type="button" data-window-open="songWindow"><span aria-hidden="true">♫</span><bdi>our song</bdi></button>
-                    <button class="desktop-icon" type="button" data-window-open="heartWindow"><span aria-hidden="true">♥</span><bdi>heart.exe</bdi></button>
+                <div class="crt__chin">
+                  <div class="chin-group">
+                    <span class="crt__led" id="powerLed" aria-hidden="true"></span>
+                    <span class="crt__brand-emboss">DODY • 2006</span>
                   </div>
-
-                  <div class="retro-window retro-window--letter is-hidden" id="letterWindow" role="dialog" aria-modal="false" aria-labelledby="letterWindowTitle" aria-hidden="true">
-                    <div class="retro-window__bar">
-                      <span id="letterWindowTitle"><span aria-hidden="true">▣</span> letter.txt</span>
-                      <span class="retro-window__controls"><button type="button" data-window-close="letterWindow" aria-label="إغلاق letter.txt">×</button></span>
-                    </div>
-                    <div class="retro-window__menu" aria-hidden="true"><span>File</span><span>Edit</span><span>Format</span><span>Help</span></div>
-                    <div class="retro-window__body letter-body">
-                      <p class="typewriter" id="letterTypewriter" data-typewriter>يا دعاء…</p>
-                      <div class="letter-dynamic" id="letterDynamic" hidden>
-                        <p>عارفة إيه اللي مميز فيكي؟</p>
-                        <p>إنك مش محتاجة تعملي حاجة خارقة عشان تبقي مميزة.</p>
-                        <p>فيه حاجات صغيرة فيكي ممكن متاخديش بالك منها، لكنها بتسيب أثر كبير.</p>
-                        <p>طريقة كلامك، ضحكتك، هزارك، تفاصيلك اللي يمكن تشوفيها عادية، لكنها بالنسبالي مش عادية خالص.</p>
-                        <p>أنا مش بكتبلك الكلام ده عشان عيد ميلادك وبس، أنا بكتبه عشان نفسي تعرفي إنك تستاهلي يتقالك كلام حلو، وتتحبي، وتتقدري، وتتحطي في مكانة تليق بيكي.</p>
-                        <p>ونفسي السنة الجديدة من عمرك تكون أحن عليكي من كل السنين اللي فاتت.</p>
-                        <p>تلاقي فيها راحة لقلبك، وفرحة تستاهليها، وأحلام كنتِ فاكرة إنها بعيدة وتلاقيها بتقرب منك واحدة واحدة.</p>
-                        <p class="letter-body__closing">كل سنة وإنتِ أجمل من السنة اللي قبلها يا دودي.</p>
-                        <p class="letter-body__sign">— أمير ❤️</p>
-                      </div>
-                      <div class="letter-hearts" aria-hidden="true"><span>♥</span><span>♥</span><span>♥</span><span>♥</span><span>♥</span></div>
-                    </div>
-                    <div class="retro-window__status"><span>Ln 8, Col 21</span><span>100%</span></div>
+                  <div class="chin-group" aria-hidden="true">
+                    <button class="chin-btn" type="button" tabindex="-1"></button>
+                    <button class="chin-btn" type="button" tabindex="-1"></button>
+                    <span class="knob knob--b"></span>
+                    <span class="knob knob--c"></span>
                   </div>
-
-                  <div class="retro-window retro-window--heart is-hidden" id="heartWindow" role="dialog" aria-modal="false" aria-labelledby="heartWindowTitle">
-                    <div class="retro-window__bar">
-                      <span id="heartWindowTitle"><span aria-hidden="true">♥</span> heart.exe</span>
-                      <span class="retro-window__controls"><button type="button" data-window-close="heartWindow" aria-label="إغلاق heart.exe">×</button></span>
-                    </div>
-                    <div class="retro-window__body heart-app">
-                      <div class="pixel-heart" aria-hidden="true">♥</div>
-                      <h3>تم تثبيت جرعة حب غير محدودة!</h3>
-                      <p>تحذير: صاحبة القلب ده محبوبة جدًا، وممنوع عليها تقلل من جمالها أو تشك في قيمتها. 😂</p>
-                      <p class="heart-app__strong">البرنامج ده مفيهوش زرار Uninstall.</p>
-                      <button class="retro-btn" type="button" data-window-close="heartWindow">aww, ok</button>
-                    </div>
-                  </div>
-
-                  <div class="retro-window retro-window--future is-hidden" id="futureWindow" role="dialog" aria-modal="false" aria-labelledby="futureWindowTitle">
-                    <div class="retro-window__bar">
-                      <span id="futureWindowTitle"><span aria-hidden="true">✦</span> Future plans.exe</span>
-                      <span class="retro-window__controls"><button type="button" data-window-close="futureWindow" aria-label="إغلاق Future plans.exe">×</button></span>
-                    </div>
-                    <div class="retro-window__body">
-                      <p>نفسي أشوفك بتكبري وتحققي كل اللي بتحلمي بيه.</p>
-                      <p>نفسي تفضلي دايمًا عندك شغف لحاجات جديدة، وتفضلي تضحكي من قلبك، ومتخليش أي حاجة تطفي النور اللي جواكي.</p>
-                      <p>وأتمنى لما تيجي تبصي لورا بعد سنين، تلاقي إن السنين دي كانت مليانة حاجات تستاهل تتفتكر.</p>
-                    </div>
-                    <div class="retro-window__status"><span>future=beautiful</span><span>♥</span></div>
-                  </div>
-
-                  <div class="retro-window retro-window--song is-hidden" id="songWindow" role="dialog" aria-modal="false" aria-labelledby="songWindowTitle">
-                    <div class="retro-window__bar">
-                      <span id="songWindowTitle"><span aria-hidden="true">♫</span> our song</span>
-                      <span class="retro-window__controls"><button type="button" data-window-close="songWindow" aria-label="إغلاق our song">×</button></span>
-                    </div>
-                    <div class="retro-window__body song-app">
-                      <div class="song-app__disc" aria-hidden="true">♫</div>
-                      <p>فيه أغاني بتبقى حلوة لوحدها، بس لما ترتبط بحد بتحبه بتبقى ليها حكاية تانية.</p>
-                      <p>ودي واحدة من الأغاني اللي حبيت تكون جزء من عالمك النهارده.</p>
-                      <p>اسمعيها براحتك… وخليها ذكرى حلوة من يومك. 🎧</p>
-                      <div class="song-app__actions">
-                        <button class="retro-btn" type="button" data-music-action="play-personal">▶ شغّلي Our Song</button>
-                        <button class="retro-btn retro-btn--soft" type="button" data-music-action="pause">إيقاف مؤقت</button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="desktop-taskbar">
-                    <button class="start-button" type="button" data-window-open="letterWindow">start</button>
-                    <span class="taskbar-title">Dody's birthday desktop</span>
-                    <span class="taskbar-tray" aria-hidden="true">♥ <bdi>12:00</bdi></span>
-                  </div>
+                  <button class="power-btn" type="button" id="powerBtn" aria-label="زرار الباور — شغّلي أو اطفي الكمبيوتر" aria-pressed="false">⏻</button>
                 </div>
               </div>
-              <div class="crt__chin">
-                <span class="crt__led"></span>
-                <span class="crt__brand-emboss">DODY • 2006</span>
-                <span class="crt__knob"></span>
+              <div class="stand" aria-hidden="true"><div class="stand__neck"></div><div class="stand__base"></div></div>
+              <div class="crt-shadow" aria-hidden="true"></div>
+            </div>
+            <div class="desk-row">
+              <div class="keyboard" id="keyboard" aria-hidden="true"></div>
+              <div class="mouse-wrap" aria-hidden="true">
+                <svg class="mouse-cord" viewBox="0 0 60 44"><path d="M30 44 C 30 26, 8 30, 12 14 C 15 2, 34 4, 40 0" fill="none" stroke="#8a6a48" stroke-width="2.4"/></svg>
+                <div class="mouse"></div>
               </div>
             </div>
-            <span class="crt-shadow" aria-hidden="true"></span>
           </div>
-
-          <p class="computer-tip">💡 لو النوافذ اتزاحمت، اقفلي اللي مش محتاجاه وافتحي اللي بعده.</p>
+          <div class="computer-actions">
+            <button type="button" id="mainPower" aria-pressed="false">شغّلي الكمبيوتر <span aria-hidden="true">⏻</span></button>
+            <p class="booted-label" id="bootedLabel" lang="en" dir="ltr" hidden>Welcome back, Dody… <span aria-hidden="true">♥</span></p>
+            <button type="button" id="restartBtn" hidden>اطفيه وشغّليه من الأول</button>
+            <p class="computer-tip">💡 النوافذ بتتحرك — اسحبيها من الشريط الأزرق، ولو اتزاحمت اقفلي اللي مش محتاجاه من الزرار الوردي.</p>
+          </div>
         </div>
       </section>
 
