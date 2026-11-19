@@ -316,7 +316,11 @@
     var glyphs = "01DODYLOVE♡♥✦✧";
     var words = ["XOXO", "LOVE", "DODY", "21.11", "HAPPY", "SMILE", "♥", "✦"];
     var gap = 34, cols = [];
-    for (var i = 0; i < Math.ceil(W / gap); i++) cols.push({ x: i * gap + 14, y: Math.random() * -H, s: 60 + Math.random() * 90 });
+    /* Columns must START inside the visible canvas (y in [0, H]): the old
+       code spawned them above it (y in [-H, 0]) at 60-150px/s, so in the
+       2s matrix phase almost no glyph ever fell into view — the rain was
+       invisible in a real browser even though fillText was being called. */
+    for (var i = 0; i < Math.ceil(W / gap); i++) cols.push({ x: i * gap + 14, y: Math.random() * H, s: 60 + Math.random() * 90 });
     return { glyphs: glyphs, words: words, cols: cols };
   }
   function paintMatrixFrame(ctx, W, H, rain, fade) {
