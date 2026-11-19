@@ -78,7 +78,6 @@
   animation: cushionBob 5.5s ease-in-out infinite; }
 .cushion svg { position: absolute; inset: 0; width: 100%; height: 100%; }
 @keyframes cushionBob { 0%,100%{ transform: translateY(0) rotate(-2deg); } 50%{ transform: translateY(-2px) rotate(1.5deg); } }
-@media (max-width: 620px) { .cushion { width: 62px; bottom: var(--desk-top); right: 1.5%; z-index: 5; } }
 
 /* ===== جسم الـ CRT — أكبر وأتقل ===== */
 .crt-wrap { position: relative; z-index: 2; width: min(860px, 100%, max(300px, calc((100svh - 600px) * 1.25))); container-type: inline-size; }
@@ -175,8 +174,13 @@
 .desktop-icons { position: absolute; top: 1.6%; inset-inline-end: 1.6%; z-index: 7; display: flex; flex-direction: column; gap: .55cqw; width: 12.5cqw; }
 .desktop-icon { display: flex; flex-direction: column; align-items: center; gap: .3cqw; padding: .45cqw .1cqw; min-height: 0;
   color: #fff; border: 1px solid transparent; border-radius: .7cqw; background: transparent; cursor: pointer;
-  font-family: var(--font-code); font-size: max(7px, 1.4cqw); line-height: 1.2; text-shadow: 1px 1px 2px rgba(20,50,20,.85); overflow-wrap: normal; word-break: keep-all; }
-.desktop-icon bdi { overflow-wrap: normal; word-break: keep-all; hyphens: none; }
+  font-family: var(--font-code); font-size: max(7px, 1.4cqw); line-height: 1.2; overflow-wrap: normal; word-break: keep-all;
+  /* Labels must read over ANY part of the wallpaper — pale sky, white
+     clouds and green hills alike. A dark outline all round the glyphs,
+     plus a dark pill behind the label (below), so white text never sits
+     on white. */
+  text-shadow: 0 1px 2px rgba(10,30,45,.85), 0 0 4px rgba(10,30,45,.6), -1px 0 1px rgba(10,30,45,.55), 1px 0 1px rgba(10,30,45,.55), 0 -1px 1px rgba(10,30,45,.55); }
+.desktop-icon bdi { overflow-wrap: normal; word-break: keep-all; hyphens: none; background: rgba(15,35,55,.42); border-radius: 999px; padding: .5px 5px; }
 .desktop-icon > span { display: grid; place-items: center; width: 5cqw; height: 4.4cqw; min-width: 20px; min-height: 18px; border-radius: .8cqw;
   border: 1px solid rgba(255,255,255,.65); box-shadow: inset 0 1px 3px rgba(255,255,255,.6), 1px 2px 4px rgba(0,0,0,.3); font-size: max(10px, 2.2cqw); }
 .desktop-icon:nth-child(1) > span { color: #fff7dd; background: linear-gradient(145deg, #f4cd6d, #dd9a2e); }
@@ -394,13 +398,14 @@
 }
 
 /* On short screens the decorative keyboard row hides so the CRT still fits.
-   With the row gone, the content under the CRT is shorter, so the desk top
-   (and the cushion on it) must come down too — otherwise the desk rides up
-   over the CRT chin. */
+   With the row gone, nothing sits under the stand except its own shadow
+   (34px + 4px margin), so the desk top is exactly 38px above the stage
+   bottom — the stand base level. Any larger value puts the desk (and the
+   cushion on it) up at the CRT chin. */
 @media (max-height: 700px) {
   .desk-row { display: none; }
   .computer-actions { margin-top: 10px; padding-bottom: 24px; }
-  .computer-stage { --desk-top: 120px; }
+  .computer-stage { --desk-top: 38px; }
 }
 
 /* ===== Phones: icon grid + window placement =====
@@ -413,11 +418,23 @@
    --taskbar-h, `height` is free and `max-height` is lifted, so `bottom` can
    never be ignored in favour of a fixed height. */
 @media (max-width: 680px) {
-  /* Desk-top cap: the old vw formula grew with width while the content under
-     the CRT stays the same height, so on wider phones the desk (and the
-     cushion) rode up over the CRT chin. A fixed value keeps the desk top
-     just under the monitor stand. */
-  .computer-stage { --desk-top: 150px; }
+  /* Desk-top, derived from the real phone geometry (round 3): on phones the
+     keyboard is hidden, so under the CRT there is only the mouse row and
+     the stand shadow. Desk-row height = mouse height (11% of the 96vw
+     desk-row = 10.56vw) + 6px margin + 4px padding; the stand base sits
+     38px above the crt-wrap bottom (shadow 34px + 4px margin). So the desk
+     top — the stand-base level — is 10.56vw + 10px + 38px above the stage
+     bottom. The old fixed 150px put the desk top ~60px too high, up at the
+     CRT chin, and the cushion (bottom = desk-top) floated beside the
+     screen covering the "DODY • 2006" brand text. */
+  .computer-stage { --desk-top: calc(10.56vw + 48px); }
+  /* Cushion, 52px on phones: with the desk-top above, its top edge
+     (desk-top - 4px sink + 52px * 0.8) sits ~6px below the CRT chin
+     bottom, so it rests on the desk and never touches the chin, the LED
+     or the brand text — at any phone width, since both sides of the gap
+     scale with the same desk-row term. Scoped (0,2,0) so it beats the
+     58px rule in responsive.css regardless of load order. */
+  .scene--computer .cushion { width: 52px; }
 
   /* Icons: two rows of three. One row of six gave each icon ~30px, so the
      labels overflowed their buttons and collided (and got clipped at the
@@ -436,10 +453,30 @@
 
   /* Slimmer window chrome on phones so more content fits above the taskbar. */
   .scene--computer .retro-window__bar { min-height: 18px; font-size: max(9px, 1.7cqw); }
-  /* heart.exe is the tightest window: shrink its pixel heart and text a touch
-     so the title, the warning and the "aww, ok" button all fit on screen. */
-  .scene--computer .retro-window--heart .pixel-heart { width: 7cqw; height: 6.4cqw; min-width: 30px; min-height: 27px; margin-bottom: .4cqw; }
-  .scene--computer .heart-app h3 { font-size: max(9px, 1.9cqw); margin-bottom: .4cqw; }
-  .scene--computer .heart-app p { font-size: max(8px, 1.6cqw); line-height: 1.6; }
-  .scene--computer .heart-app .retro-btn { margin-top: .5cqw; padding: .6cqw 1.4cqw; }
+  /* Slimmer taskbar on phones (19px still fits the 18px start button once
+     the taskbar's own padding is trimmed): every window gains 2px of
+     height above it. */
+  .scene--computer .crt__screen { --taskbar-h: 19px; }
+  .scene--computer .desktop-taskbar { padding-block: .15cqw; }
+  /* heart.exe is the tightest window: at the reference phone the body is
+     only ~75–127px tall, so the content is compacted hard — a 12–16px
+     pixel heart, 8px text with tight leading, and the button gets an
+     explicit line-height (it inherited the body's 1.95, which alone made
+     it ~24px tall). The window also starts 2px higher (top 66px still
+     clears the ~65px icon grid). All words verbatim. */
+  .scene--computer .retro-window--heart { top: 66px; }
+  .scene--computer .retro-window--heart .retro-window__body { padding: .6cqw 1.6cqw; }
+  .scene--computer .retro-window--heart .pixel-heart { width: 5.5cqw; height: 4.5cqw; min-width: 16px; min-height: 12px; margin: 0 auto .2cqw; }
+  .scene--computer .heart-app h3 { font-size: max(8px, 1.7cqw); line-height: 1.3; margin: 0 0 .2cqw; }
+  .scene--computer .heart-app p { font-size: max(8px, 1.6cqw); line-height: 1.35; margin-bottom: .35em; }
+  .scene--computer .heart-app p:last-of-type { margin-bottom: 0; }
+  .scene--computer .heart-app .retro-btn { margin-top: .3cqw; padding: .35cqw 1.4cqw; font-size: max(8px, 1.7cqw); line-height: 1.2; }
+}
+
+/* Phones that are ALSO short: the keyboard row is hidden (max-height rule
+   above), so the vw-based desk-top would put the desk ~48px too high.
+   With no desk-row at all the stand base is just 38px above the stage
+   bottom. This block comes last so it beats both rules above. */
+@media (max-width: 680px) and (max-height: 700px) {
+  .computer-stage { --desk-top: 38px; }
 }
