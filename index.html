@@ -303,51 +303,7 @@
           </div>
 
           <div class="digital-bouquet" id="digitalBouquet" aria-hidden="true">
-            <svg viewBox="0 0 330 400">
-              <defs>
-                <linearGradient id="stemGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stop-color="#A9BBAA"/>
-                  <stop offset="100%" stop-color="#526D58"/>
-                </linearGradient>
-                <filter id="flowerGlow"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-              </defs>
-              <g class="bouquet-stems" fill="none" stroke="url(#stemGrad)" stroke-width="4" stroke-linecap="round">
-                <path d="M165 355C159 290 149 224 126 145"/>
-                <path d="M165 355C166 286 171 212 173 124"/>
-                <path d="M165 355C174 286 191 218 216 151"/>
-                <path d="M165 355C153 300 118 253 92 203"/>
-                <path d="M165 355C180 298 209 249 235 206"/>
-                <path d="M156 292C129 270 106 273 80 288"/>
-                <path d="M174 277C201 254 226 251 250 268"/>
-              </g>
-              <g class="bouquet-leaves" fill="#7F9A83">
-                <ellipse cx="137" cy="255" rx="26" ry="10" transform="rotate(-36 137 255)"/>
-                <ellipse cx="200" cy="260" rx="27" ry="10" transform="rotate(32 200 260)"/>
-                <ellipse cx="109" cy="293" rx="23" ry="9" transform="rotate(-13 109 293)"/>
-                <ellipse cx="225" cy="299" rx="22" ry="9" transform="rotate(12 225 299)"/>
-                <ellipse cx="143" cy="315" rx="20" ry="8" transform="rotate(-42 143 315)"/>
-              </g>
-              <g filter="url(#flowerGlow)">
-                <g class="digital-flower digital-flower--one" fill="#D6A5AD">
-                  <circle cx="124" cy="130" r="24"/><circle cx="99" cy="111" r="20"/><circle cx="148" cy="109" r="21"/><circle cx="110" cy="86" r="19"/><circle cx="139" cy="88" r="18"/><circle cx="124" cy="110" r="17" fill="#F6DDE2"/>
-                </g>
-                <g class="digital-flower digital-flower--two" fill="#B96E79">
-                  <circle cx="175" cy="109" r="26"/><circle cx="149" cy="90" r="21"/><circle cx="201" cy="88" r="20"/><circle cx="162" cy="66" r="19"/><circle cx="191" cy="67" r="18"/><circle cx="176" cy="90" r="17" fill="#F6DDE2"/>
-                </g>
-                <g class="digital-flower digital-flower--three" fill="#9C789D">
-                  <circle cx="218" cy="141" r="23"/><circle cx="196" cy="121" r="19"/><circle cx="241" cy="119" r="20"/><circle cx="208" cy="97" r="17"/><circle cx="233" cy="99" r="17"/><circle cx="220" cy="120" r="15" fill="#EFE2EC"/>
-                </g>
-                <g class="digital-flower digital-flower--four" fill="#E8C9C5">
-                  <circle cx="91" cy="193" r="20"/><circle cx="69" cy="176" r="17"/><circle cx="112" cy="176" r="17"/><circle cx="80" cy="157" r="15"/><circle cx="103" cy="158" r="14"/><circle cx="91" cy="177" r="13" fill="#FFF9F5"/>
-                </g>
-                <g class="digital-flower digital-flower--five" fill="#C58B9B">
-                  <circle cx="238" cy="195" r="21"/><circle cx="217" cy="180" r="16"/><circle cx="259" cy="178" r="17"/><circle cx="228" cy="158" r="15"/><circle cx="251" cy="160" r="14"/><circle cx="238" cy="178" r="13" fill="#F6DDE2"/>
-                </g>
-              </g>
-              <g class="word-blooms" fill="#F6DDE2" font-family="monospace" font-size="9" text-anchor="middle">
-                <text x="74" y="70">XOXO</text><text x="276" y="90">LOVE</text><text x="56" y="340">DODY</text><text x="276" y="330">21.11.2006</text><text x="282" y="55">HAPPY</text><text x="42" y="180">SMILE</text>
-              </g>
-            </svg>
+            <canvas id="bouquetCanvas" width="360" height="430" aria-hidden="true"></canvas>
           </div>
 
           <div class="for-card" id="forCard">

@@ -46,6 +46,7 @@
     if (!document.hidden) {
       const scene = document.body.dataset.scene;
       if (scene === "4") window.dodyInteractions?.startMatrix?.();
+      if (scene === "4") window.dodyInteractions?.startBouquet?.();
       if (scene === "13") window.dodyInteractions?.startCelebration?.();
     }
   });

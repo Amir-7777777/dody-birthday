@@ -37,10 +37,13 @@
     reduceMotion = event.matches;
     if (reduceMotion) {
       stopMatrix();
+      stopBouquet();
       stopCelebration();
       document.querySelectorAll(".burst-petal, .star-spark").forEach((el) => el.remove());
+      if (document.body.dataset.scene === "4") startBouquet();
     } else if (document.body.dataset.scene === "4") {
       startMatrix();
+      startBouquet();
     } else if (document.body.dataset.scene === "13") {
       startCelebration();
     }
@@ -208,6 +211,427 @@
   function stopMatrix() {
     if (matrixRaf) window.cancelAnimationFrame(matrixRaf);
     matrixRaf = 0;
+  }
+
+  /* ---------------- dotted-particle bouquet (scene 4) ---------------- */
+  /* The bouquet is 20,000 tiny glowing dots on pure black — pink/magenta/
+     purple/white lily flowers, green stems and leaves, white sparkles.
+     Dots are smooth radial-gradient glow sprites (never hard squares).
+     Layout is fixed in a 360 x 430 space; the canvas is scaled by CSS.
+     Build timeline (ms): structural dots fall in bottom-up (0-~2000);
+     buds assemble ~1550; petal dots land in tight center clusters
+     from ~1750; flowers bloom from ~3450 (back layer first, wider and
+     longer, then front layer); buds bloom last from ~6150 into small
+     5-petal lilies; everything finishes open by ~7700; complete at 8000,
+     then the dots breathe gently and the sparkles twinkle. */
+  var BOUQUET_W = 360, BOUQUET_H = 430;
+  var BOUQUET_COMPLETE_MS = 8000;
+  var bouquetRaf = 0;
+  var bouquetParticles = null;
+  var bouquetStart = 0;
+  var bouquetState = "idle"; // idle | playing | complete | static
+  var bouquetSprites = null;
+  var bouquetBaked = null;
+
+  var BOUQUET_FLOWERS = [
+    { x: 58, y: 128, r: 30, palette: "pink" },
+    { x: 104, y: 96, r: 32, palette: "purple" },
+    { x: 148, y: 74, r: 34, palette: "pink" },
+    { x: 184, y: 64, r: 34, palette: "white" },
+    { x: 222, y: 76, r: 33, palette: "magenta" },
+    { x: 264, y: 98, r: 31, palette: "purple" },
+    { x: 306, y: 132, r: 29, palette: "pink" }
+  ];
+  var BOUQUET_BUDS = [
+    { x: 86, y: 42 }, { x: 124, y: 30 }, { x: 162, y: 24 },
+    { x: 200, y: 24 }, { x: 238, y: 32 }, { x: 276, y: 44 }
+  ];
+  var BOUQUET_TIE = { x: 180, y: 338 };
+  var BOUQUET_PALETTES = {
+    pink:    { light: "#f8c9d8", base: "#f2a0c0", mid: "#e75480", deep: "#b03070" },
+    purple:  { light: "#e3c8f5", base: "#c9a0e8", mid: "#a86bd6", deep: "#8b4fb8" },
+    white:   { light: "#ffffff", base: "#fdf6f8", mid: "#f2c9d8", deep: "#d18ba5" },
+    magenta: { light: "#f7b8d4", base: "#ef7fb2", mid: "#d1477a", deep: "#9e2a63" }
+  };
+  var BOUQUET_GREENS = ["#7ed957", "#5cbf4e", "#3fae4a", "#2e8b3a", "#8fd07a"];
+  var BOUQUET_CENTERS = ["#fff6e8", "#f1d27d", "#fdf6f8"];
+  var BOUQUET_LEAVES = [
+    { x: 137, y: 255, rx: 26, ry: 10, rot: -0.63 },
+    { x: 200, y: 260, rx: 27, ry: 10, rot: 0.56 },
+    { x: 109, y: 293, rx: 23, ry: 9, rot: -0.23 },
+    { x: 225, y: 299, rx: 22, ry: 9, rot: 0.21 },
+    { x: 143, y: 315, rx: 20, ry: 8, rot: -0.73 },
+    { x: 165, y: 282, rx: 24, ry: 9, rot: 0.35 },
+    { x: 120, y: 232, rx: 22, ry: 9, rot: -0.5 },
+    { x: 238, y: 236, rx: 23, ry: 9, rot: 0.45 },
+    { x: 180, y: 306, rx: 21, ry: 8, rot: 0.1 },
+    { x: 96, y: 322, rx: 18, ry: 8, rot: -0.4 }
+  ];
+  /* Dense green mass: half-width of the teardrop blob at a given y. */
+  var BOUQUET_MASS_PROFILE = [[195, 78], [230, 86], [270, 72], [300, 55], [320, 30], [338, 10], [365, 2]];
+  function bouquetMassHalfWidth(y) {
+    var pts = BOUQUET_MASS_PROFILE;
+    if (y <= pts[0][0]) return pts[0][1];
+    for (var i = 1; i < pts.length; i += 1) {
+      if (y <= pts[i][0]) {
+        var t = (y - pts[i - 1][0]) / (pts[i][0] - pts[i - 1][0]);
+        return pts[i - 1][1] + (pts[i][1] - pts[i - 1][1]) * t;
+      }
+    }
+    return pts[pts.length - 1][1];
+  }
+
+  function hexA(hex, a) {
+    var n = parseInt(hex.slice(1), 16);
+    return "rgba(" + ((n >> 16) & 255) + "," + ((n >> 8) & 255) + "," + (n & 255) + "," + a + ")";
+  }
+  function makeDotSprite(color) {
+    var size = 24;
+    var c = document.createElement("canvas");
+    c.width = size; c.height = size;
+    var ctx = c.getContext("2d");
+    if (!ctx) return null;
+    try {
+      ctx.fillStyle = safeGradient(ctx, "radial",
+        [size / 2, size / 2, 0, size / 2, size / 2, size / 2],
+        [[0, "rgba(255,255,255,.9)"], [.12, hexA(color, 1)], [.55, hexA(color, .55)], [1, hexA(color, 0)]]);
+      ctx.fillRect(0, 0, size, size);
+    } catch (e) {
+      ctx.fillStyle = color;
+      ctx.beginPath(); ctx.arc(size / 2, size / 2, size / 2, 0, Math.PI * 2); ctx.fill();
+    }
+    return c;
+  }
+  function getBouquetSprites() {
+    if (bouquetSprites) return bouquetSprites;
+    bouquetSprites = {};
+    var colors = BOUQUET_GREENS.concat(BOUQUET_CENTERS).concat(["#ffffff"]);
+    Object.keys(BOUQUET_PALETTES).forEach(function (key) {
+      var pal = BOUQUET_PALETTES[key];
+      colors.push(pal.light, pal.base, pal.mid, pal.deep);
+    });
+    colors.forEach(function (color) {
+      if (!bouquetSprites[color]) bouquetSprites[color] = makeDotSprite(color);
+    });
+    return bouquetSprites;
+  }
+
+  function bouquetQuad(p0, p1, p2, t) {
+    var u = 1 - t;
+    return {
+      x: u * u * p0.x + 2 * u * t * p1.x + t * t * p2.x,
+      y: u * u * p0.y + 2 * u * t * p1.y + t * t * p2.y
+    };
+  }
+  function bouquetEllipsePoint(cx, cy, rx, ry, rot) {
+    var a = Math.random() * Math.PI * 2;
+    var r = Math.sqrt(Math.random());
+    var x = Math.cos(a) * rx * r, y = Math.sin(a) * ry * r;
+    var c = Math.cos(rot), s = Math.sin(rot);
+    return { x: cx + x * c - y * s, y: cy + x * s + y * c };
+  }
+
+  /* Build the exact 20,000-dot particle list:
+     green structural 10,540 (stems 13x220 + leaves 10x260 + mass 5,080)
+     + petals 8,964 (flowers 7x2x513 + buds 6x297)
+     + centers 376 (flowers 7x40 + buds 6x16) + stars 120 = 20,000. */
+  function buildBouquetParticles() {
+    var list = [];
+    var i, j;
+    function structDot(x, y) {
+      list.push({
+        kind: "struct", head: -1, layer: null, bud: false,
+        x0: x + rand(-30, 30), y0: -20 - rand(0, 140),
+        cx: x, cy: y, tx: x, ty: y,
+        color: BOUQUET_GREENS[Math.floor(Math.random() * BOUQUET_GREENS.length)],
+        size: 1.2 + Math.random() * 0.8,
+        lockDelay: (1 - y / BOUQUET_H) * 900, lockDur: 600 + Math.random() * 500,
+        bloomStart: 0, bloomDur: 0, bloomEnd: 0, phase: Math.random() * Math.PI * 2
+      });
+    }
+    function petalDot(head, layer, isBud) {
+      var c = isBud ? BOUQUET_BUDS[head] : BOUQUET_FLOWERS[head];
+      var petals = isBud ? 5 : 6;
+      var petalLen = isBud ? 13 : (c.r * (layer === "back" ? 1.18 : 1));
+      var k = Math.floor(Math.random() * petals);
+      var a = (k / petals) * Math.PI * 2 + (layer === "back" ? Math.PI / petals : 0) + rand(-0.22, 0.22);
+      var d = petalLen * (0.25 + 0.75 * Math.sqrt(Math.random()));
+      var tx = c.x + Math.cos(a) * d;
+      var ty = c.y + Math.sin(a) * d * 0.85;
+      var pal = isBud ? BOUQUET_PALETTES.pink : BOUQUET_PALETTES[c.palette];
+      var frac = d / petalLen;
+      var color = frac < 0.35 ? pal.light : (frac < 0.7 ? pal.base : (Math.random() < 0.6 ? pal.mid : pal.deep));
+      var bloomStart, bloomDur;
+      if (isBud) { bloomStart = 6150 + head * 140; bloomDur = 800; }
+      else if (layer === "back") { bloomStart = 3450 + head * 480; bloomDur = 1300; }
+      else { bloomStart = 3700 + head * 480; bloomDur = 950; }
+      var cluster = isBud
+        ? { x: c.x + rand(-4, 4), y: (c.y - 3) + rand(-7, 7) }
+        : { x: c.x + rand(-4, 4), y: c.y + rand(-4, 4) };
+      list.push({
+        kind: "petal", head: head, layer: layer, bud: isBud,
+        x0: c.x + rand(-20, 20), y0: -20 - rand(0, 120),
+        cx: cluster.x, cy: cluster.y, tx: tx, ty: ty,
+        color: color, size: 1.3 + Math.random() * 0.9,
+        lockDelay: isBud ? 1550 + Math.random() * 300 : 1750 + Math.random() * 400,
+        lockDur: 500,
+        bloomStart: bloomStart, bloomDur: bloomDur, bloomEnd: bloomStart + bloomDur,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+    function centerDot(x, y, bloomStart, colors) {
+      list.push({
+        kind: "center", head: -1, layer: null, bud: false,
+        x0: x + rand(-15, 15), y0: -20 - rand(0, 100),
+        cx: x + rand(-3, 3), cy: y + rand(-3, 3), tx: x, ty: y,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        size: 1.5 + Math.random() * 1.0,
+        lockDelay: 1750 + Math.random() * 400, lockDur: 500,
+        bloomStart: bloomStart, bloomDur: 400, bloomEnd: bloomStart + 400,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+    function starDot(x, y) {
+      list.push({
+        kind: "star", head: -1, layer: null, bud: false,
+        x0: x, y0: y, cx: x, cy: y, tx: x, ty: y,
+        color: "#ffffff", size: 1.0 + Math.random() * 1.0,
+        lockDelay: 0, lockDur: 0, bloomStart: 0, bloomDur: 0, bloomEnd: 0,
+        phase: Math.random() * Math.PI * 2
+      });
+    }
+
+    /* Stems: one quadratic curve per head and per bud, fanning out from
+       the tie point. 13 stems x 220 dots = 2,860. */
+    var targets = [];
+    BOUQUET_FLOWERS.forEach(function (f) { targets.push({ x: f.x, y: f.y + f.r * 0.4 }); });
+    BOUQUET_BUDS.forEach(function (b) { targets.push({ x: b.x, y: b.y + 8 }); });
+    targets.forEach(function (end) {
+      var bend = (end.x - BOUQUET_TIE.x) * 0.28;
+      var ctrl = { x: (BOUQUET_TIE.x + end.x) / 2 + bend, y: (BOUQUET_TIE.y + end.y) / 2 };
+      for (i = 0; i < 220; i += 1) {
+        var pt = bouquetQuad(BOUQUET_TIE, ctrl, end, Math.random());
+        structDot(pt.x + rand(-2.5, 2.5), pt.y + rand(-2.5, 2.5));
+      }
+    });
+    /* Leaves: 10 ellipses x 260 dots = 2,600. */
+    BOUQUET_LEAVES.forEach(function (leaf) {
+      for (i = 0; i < 260; i += 1) {
+        var lp = bouquetEllipsePoint(leaf.x, leaf.y, leaf.rx, leaf.ry, leaf.rot);
+        structDot(lp.x, lp.y);
+      }
+    });
+    /* Dense green mass narrowing to the tie point: 5,080 dots. */
+    for (i = 0; i < 5080; i += 1) {
+      var my = rand(195, 365);
+      var mw = bouquetMassHalfWidth(my);
+      structDot(BOUQUET_TIE.x + rand(-mw, mw), my);
+    }
+    /* Petals: 7 flowers x 2 layers x 513 + 6 buds x 297 = 8,964. */
+    for (i = 0; i < 7; i += 1) {
+      for (j = 0; j < 513; j += 1) petalDot(i, "back", false);
+      for (j = 0; j < 513; j += 1) petalDot(i, "front", false);
+    }
+    for (i = 0; i < 6; i += 1) {
+      for (j = 0; j < 297; j += 1) petalDot(i, null, true);
+    }
+    /* Centers: 7 flowers x 40 + 6 buds x 16 = 376. */
+    BOUQUET_FLOWERS.forEach(function (f, fi) {
+      for (i = 0; i < 40; i += 1) {
+        var cp = bouquetEllipsePoint(f.x, f.y, 6, 5, 0);
+        centerDot(cp.x, cp.y, 3700 + fi * 480 + 150, BOUQUET_CENTERS);
+      }
+    });
+    BOUQUET_BUDS.forEach(function (b, bi) {
+      for (i = 0; i < 16; i += 1) {
+        var bp = bouquetEllipsePoint(b.x, b.y, 3.5, 3, 0);
+        centerDot(bp.x, bp.y, 6150 + bi * 140 + 100,
+          [BOUQUET_PALETTES.pink.light, BOUQUET_PALETTES.pink.base, BOUQUET_PALETTES.pink.mid]);
+      }
+    });
+    /* Stars: 120 white sparkles, mostly below the bouquet. */
+    for (i = 0; i < 96; i += 1) starDot(rand(8, 352), rand(345, 425));
+    for (i = 0; i < 24; i += 1) {
+      starDot(Math.random() < 0.5 ? rand(8, 60) : rand(300, 352), rand(10, 200));
+    }
+    return list;
+  }
+
+  function bouquetEaseOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+  function bouquetEaseOutBack(t) {
+    var c1 = 1.70158, c3 = c1 + 1;
+    return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+  }
+  function bouquetClamp01(v) { return v < 0 ? 0 : (v > 1 ? 1 : v); }
+
+  /* Position + alpha of one dot at elapsed ms t. */
+  function bouquetDotAt(p, t) {
+    if (p.kind === "star") {
+      var tw = 0.35 + 0.65 * Math.abs(Math.sin(t / 900 + p.phase));
+      return { x: p.tx, y: p.ty, alpha: bouquetClamp01(t / 1500) * tw };
+    }
+    var lt = bouquetClamp01((t - p.lockDelay) / p.lockDur);
+    var e = bouquetEaseOutCubic(lt);
+    var x = p.x0 + (p.cx - p.x0) * e;
+    var y = p.y0 + (p.cy - p.y0) * e;
+    var alpha = bouquetClamp01((t - p.lockDelay) / 200);
+    if (p.kind === "struct") return { x: x, y: y, alpha: alpha };
+    if (p.kind === "center") {
+      var ca = bouquetClamp01((t - p.bloomStart) / p.bloomDur);
+      var ce = bouquetEaseOutCubic(ca);
+      return { x: p.cx + (p.tx - p.cx) * ce, y: p.cy + (p.ty - p.cy) * ce, alpha: alpha * ca };
+    }
+    var bt = bouquetClamp01((t - p.bloomStart) / p.bloomDur);
+    var be = bouquetEaseOutBack(bt);
+    return {
+      x: p.cx + (p.tx - p.cx) * be,
+      y: p.cy + (p.ty - p.cy) * be,
+      alpha: alpha
+    };
+  }
+
+  function drawBouquetAt(ctx, t, finalOnly) {
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, BOUQUET_W, BOUQUET_H);
+    ctx.globalCompositeOperation = "lighter";
+    var sprites = getBouquetSprites();
+    for (var i = 0; i < bouquetParticles.length; i += 1) {
+      var p = bouquetParticles[i];
+      var at = finalOnly ? { x: p.tx, y: p.ty, alpha: 1 } : bouquetDotAt(p, t);
+      if (at.alpha <= 0.01) continue;
+      var s = p.size * 2;
+      ctx.globalAlpha = at.alpha;
+      var spr = sprites[p.color];
+      if (spr) ctx.drawImage(spr, at.x - s / 2, at.y - s / 2, s, s);
+    }
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "source-over";
+  }
+
+  function bakeBouquet() {
+    var canvas = document.getElementById("bouquetCanvas");
+    if (!canvas) return;
+    var dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+    var baked = document.createElement("canvas");
+    baked.width = Math.floor(BOUQUET_W * dpr);
+    baked.height = Math.floor(BOUQUET_H * dpr);
+    var ctx = baked.getContext("2d");
+    if (!ctx) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    drawBouquetAt(ctx, 0, true);
+    bouquetBaked = baked;
+  }
+
+  function bouquetFrame(ts) {
+    if (!bouquetStart) bouquetStart = ts;
+    var t = ts - bouquetStart;
+    var canvas = document.getElementById("bouquetCanvas");
+    var ctx = canvas && canvas.getContext("2d");
+    if (!canvas || !ctx) { bouquetRaf = 0; return; }
+    drawBouquetAt(ctx, t, false);
+    if (t < BOUQUET_COMPLETE_MS) {
+      bouquetRaf = window.requestAnimationFrame(bouquetFrame);
+    } else {
+      bakeBouquet();
+      bouquetState = "complete";
+      bouquetRaf = window.requestAnimationFrame(bouquetIdle);
+    }
+  }
+
+  function bouquetIdle(ts) {
+    var canvas = document.getElementById("bouquetCanvas");
+    var ctx = canvas && canvas.getContext("2d");
+    if (!canvas || !ctx || !bouquetBaked) { bouquetRaf = 0; return; }
+    ctx.fillStyle = "#000";
+    ctx.fillRect(0, 0, BOUQUET_W, BOUQUET_H);
+    ctx.globalAlpha = 0.94 + 0.06 * Math.sin(ts / 900);
+    ctx.drawImage(bouquetBaked, 0, 0, BOUQUET_W, BOUQUET_H);
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "lighter";
+    var sprites = getBouquetSprites();
+    for (var i = 0; i < bouquetParticles.length; i += 1) {
+      var p = bouquetParticles[i];
+      if (p.kind !== "star") continue;
+      var tw = 0.35 + 0.65 * Math.abs(Math.sin(ts / 900 + p.phase));
+      var s = p.size * 2;
+      ctx.globalAlpha = tw;
+      var spr = sprites[p.color];
+      if (spr) ctx.drawImage(spr, p.tx - s / 2, p.ty - s / 2, s, s);
+    }
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "source-over";
+    bouquetRaf = window.requestAnimationFrame(bouquetIdle);
+  }
+
+  function startBouquet() {
+    var canvas = document.getElementById("bouquetCanvas");
+    var scene = sceneEl(4);
+    if (!canvas || !scene || !scene.classList.contains("is-active")) return;
+    stopBouquet();
+    if (!bouquetParticles) bouquetParticles = buildBouquetParticles();
+    var dpr = Math.min(window.devicePixelRatio || 1, 2.5);
+    canvas.width = Math.floor(BOUQUET_W * dpr);
+    canvas.height = Math.floor(BOUQUET_H * dpr);
+    var ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (reduceMotion) {
+      drawBouquetAt(ctx, 0, true);
+      bouquetState = "static";
+      return;
+    }
+    bouquetStart = 0;
+    bouquetState = "playing";
+    bouquetRaf = window.requestAnimationFrame(bouquetFrame);
+  }
+
+  function stopBouquet() {
+    if (bouquetRaf) window.cancelAnimationFrame(bouquetRaf);
+    bouquetRaf = 0;
+    bouquetStart = 0;
+    bouquetState = "idle";
+    var canvas = document.getElementById("bouquetCanvas");
+    var ctx = canvas && canvas.getContext("2d");
+    if (canvas && ctx) ctx.clearRect(0, 0, BOUQUET_W, BOUQUET_H);
+  }
+
+  /* Inspection state for tests: exact counts and per-head bloom windows. */
+  function getBouquetState() {
+    var counts = { struct: 0, petal: 0, center: 0, star: 0 };
+    var heads = [];
+    var i;
+    for (i = 0; i < 7; i += 1) heads.push({ kind: "flower", index: i, bloomStart: 0, bloomEnd: 0, backBloomStart: 0, backBloomEnd: 0, frontBloomStart: 0, frontBloomEnd: 0, spread: 0, open: false });
+    for (i = 0; i < 6; i += 1) heads.push({ kind: "bud", index: i, bloomStart: 0, bloomEnd: 0, backBloomStart: 0, backBloomEnd: 0, frontBloomStart: 0, frontBloomEnd: 0, spread: 0, open: false });
+    if (bouquetParticles) {
+      bouquetParticles.forEach(function (p) {
+        counts[p.kind] += 1;
+        if (p.kind !== "petal") return;
+        var h = p.bud ? heads[7 + p.head] : heads[p.head];
+        if (!h) return;
+        if (!h.bloomStart || p.bloomStart < h.bloomStart) h.bloomStart = p.bloomStart;
+        if (p.bloomEnd > h.bloomEnd) h.bloomEnd = p.bloomEnd;
+        if (p.layer === "back") {
+          if (!h.backBloomStart || p.bloomStart < h.backBloomStart) h.backBloomStart = p.bloomStart;
+          if (p.bloomEnd > h.backBloomEnd) h.backBloomEnd = p.bloomEnd;
+        } else {
+          if (!h.frontBloomStart || p.bloomStart < h.frontBloomStart) h.frontBloomStart = p.bloomStart;
+          if (p.bloomEnd > h.frontBloomEnd) h.frontBloomEnd = p.bloomEnd;
+        }
+        var c = p.bud ? BOUQUET_BUDS[p.head] : BOUQUET_FLOWERS[p.head];
+        var d = Math.max(Math.abs(p.tx - c.x), Math.abs(p.ty - c.y));
+        if (d > h.spread) h.spread = d;
+      });
+      heads.forEach(function (h) {
+        h.open = h.bloomEnd > 0 && h.bloomEnd <= 7700 && h.spread > 10;
+      });
+    }
+    return {
+      total: bouquetParticles ? bouquetParticles.length : 0,
+      counts: counts,
+      heads: heads,
+      state: bouquetState,
+      playing: bouquetState === "playing" || bouquetState === "complete"
+    };
   }
 
   /* ---------------- envelope and bloom ---------------- */
@@ -1107,12 +1531,12 @@
   /* ---------------- scene hooks ---------------- */
   document.addEventListener("dody:scene-change", (event) => {
     const index = event.detail.index;
-    if (event.detail.previousIndex === 4) stopMatrix();
+    if (event.detail.previousIndex === 4) { stopMatrix(); stopBouquet(); }
     if (event.detail.previousIndex === 8) stopMemories();
     if (event.detail.previousIndex === 13) stopCelebration();
 
     switch (index) {
-      case 4: later(startMatrix, 220); break;
+      case 4: later(startMatrix, 220); later(startBouquet, 220); break;
       case 8: startMemories(); break;
       case 9: prepareChandelierStars(); break;
       case 10: revealWishes(); break;
@@ -1130,6 +1554,7 @@
   function resetJourney() {
     clearLater();
     stopMatrix();
+    stopBouquet();
     stopMemories();
     stopCelebration();
 
@@ -1203,6 +1628,9 @@
   window.dodyInteractions = {
     resetJourney,
     startMatrix,
+    startBouquet,
+    stopBouquet,
+    getBouquetState,
     startComputer: powerOnComputer,
     resetComputer,
     startCelebration,

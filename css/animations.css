@@ -27,10 +27,6 @@
 }
 @keyframes letterUnfold { from { opacity: 0; transform: translateY(16px) scaleY(.96); } to { opacity: 1; transform: translateY(0) scaleY(1); } }
 @keyframes dots { 0% { width: 0; } 100% { width: 22px; } }
-@keyframes bouquetReveal { from { opacity: 0; transform: scale(.82) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-@keyframes leafSway { from { transform: rotate(-2deg) scale(1); } to { transform: rotate(3deg) scale(1.02); } }
-@keyframes flowerPulse { from { transform: scale(.99); filter: brightness(.98); } to { transform: scale(1.025); filter: brightness(1.07); } }
-@keyframes wordBlink { 0%, 100% { opacity: .25; } 50% { opacity: .85; } }
 @keyframes scanlineShift { from { transform: translateY(0); } to { transform: translateY(4px); } }
 @keyframes heartsFloat { 0% { transform: translateY(0) scale(.8) rotate(-8deg); opacity: 0; } 12% { opacity: .75; } 100% { transform: translateY(-340px) scale(1.1) rotate(8deg); opacity: 0; } }
 @keyframes fireflyFloat {
