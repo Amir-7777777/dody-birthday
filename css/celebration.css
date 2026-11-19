@@ -23,18 +23,38 @@
 .celebration-line--soft { color: #9b6876; font-size: clamp(.88rem, 2.3vw, 1rem); font-weight: 500; }
 .celebration-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 9px; margin-block-start: 1.2rem; }
 .celebration-actions .btn { min-height: 49px; padding-inline: 20px; font-size: .9rem; }
+.celebration-cake-wrap { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 12px; }
 .celebration-cake { position: relative; z-index: 2; width: min(100%, 310px); margin-inline: auto; filter: drop-shadow(0 24px 26px rgba(132, 62, 78, .24)); }
 .cake-tier { position: relative; margin-inline: auto; border-radius: 12px 12px 7px 7px; background: repeating-linear-gradient(120deg, #fffaf0 0 14px, #f6e8d5 15px 30px); box-shadow: inset 0 -5px 0 rgba(194, 139, 118, .13); }
-.cake-tier::before { content: ""; position: absolute; inset-block-start: -4px; inset-inline: 0; height: 13px; border-radius: 50%; background: repeating-linear-gradient(90deg, #e8b4b3 0 13px, #f8d6cf 14px 26px); }
+/* Frosting: a cream band on top of each tier with drips hanging down
+   over the sponge. */
+.cake-tier::before { content: ""; position: absolute; inset-block-start: -3px; inset-inline: 0; height: 9px; border-radius: 8px 8px 0 0; background: linear-gradient(#fffaf2, #f7e3d3); box-shadow: inset 0 -2px 0 rgba(194, 139, 118, .15); }
+.cake-tier::after { content: ""; position: absolute; inset-block-start: 5px; inset-inline: 4px; height: 13px; background-image: radial-gradient(circle at 9px 0, #fbeed9 8px, transparent 9px), radial-gradient(circle at 27px 0, #f7e0cd 6px, transparent 7px); background-size: 36px 13px; background-repeat: repeat-x; }
 .cake-tier--top { width: 45%; height: 40px; z-index: 3; }
 .cake-tier--middle { width: 70%; height: 56px; margin-block-start: -7px; z-index: 2; background: repeating-linear-gradient(120deg, #f9e9dc 0 17px, #efd1c1 18px 35px); }
 .cake-tier--bottom { width: 94%; height: 68px; margin-block-start: -7px; z-index: 1; background: repeating-linear-gradient(120deg, #fff8ee 0 19px, #f1d9c6 20px 40px); }
 .cake-plate { width: 112%; height: 18px; margin: -4px auto 0; border-radius: 50%; background: linear-gradient(#e3c39e, #b98766); box-shadow: 0 6px 0 -2px rgba(112, 68, 58, .2); }
-.cake-candle { position: absolute; inset-block-start: 0; inset-inline-start: 50%; width: 10px; height: 51px; border-radius: 5px; background: repeating-linear-gradient(45deg, #f8e8dd 0 4px, #d59eab 5px 9px); transform: translateX(50%); z-index: 4; }
-[dir="rtl"] .cake-candle { transform: translateX(50%); }
-.cake-candle i { position: absolute; inset-block-start: -22px; inset-inline-start: 50%; width: 16px; height: 26px; border-radius: 60% 40% 55% 45%; background: radial-gradient(ellipse at 50% 70%, #75c5e9 0 18%, #ffe692 20% 58%, #f7b350 62% 85%, #ec7e4d); transform: translateX(-50%); box-shadow: 0 0 16px rgba(247, 183, 83, .48); animation: flameDance 1.8s ease-in-out infinite alternate; }
-[dir="rtl"] .cake-candle i { transform: translateX(50%); }
-.cake-candle b { position: absolute; inset-block-start: -8px; inset-inline-start: 50%; width: 3px; height: 10px; background: #6f574e; transform: translateX(-50%); }
+/* Cherries and strawberries sitting on the top tier. */
+.cake-topping { position: absolute; inset-block-start: -9px; inset-inline-start: var(--tx, 20%); width: 16px; height: 16px; z-index: 2; }
+.cake-topping--cherry { border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ff8a7a, #d92b1f 55%, #8f130a); box-shadow: inset -2px -2px 4px rgba(120, 10, 0, .35), 0 1px 2px rgba(0, 0, 0, .2); }
+.cake-topping--cherry::after { content: ""; position: absolute; inset-block-start: -6px; inset-inline-start: 50%; width: 2px; height: 7px; background: #5e7c64; border-radius: 2px; transform: rotate(18deg); transform-origin: bottom; }
+.cake-topping--berry { border-radius: 55% 55% 50% 50% / 65% 65% 40% 40%; background: radial-gradient(circle at 40% 30%, #ff9db0, #e2546e 55%, #b03048); box-shadow: inset -2px -2px 4px rgba(120, 20, 40, .3), 0 1px 2px rgba(0, 0, 0, .2); }
+.cake-topping--berry::after { content: ""; position: absolute; inset-block-start: -3px; inset-inline-start: 50%; width: 12px; height: 6px; margin-inline-start: -6px; background: #5e7c64; clip-path: polygon(0 100%, 50% 0, 100% 100%); }
+/* The candle stands ON the top tier: its base is sunk into the frosting
+   dollop (drawn last, above the candle) so it reads as stuck into the
+   cake, never floating in front of it. The flame and wick are centered
+   with physical left + negative margin — never a transform — so the
+   flameDance animation can never knock the flame off the wick. */
+.cake-candle { position: absolute; top: -38px; left: 50%; width: 10px; height: 40px; margin-left: -5px; border-radius: 5px; background: repeating-linear-gradient(45deg, #f8e8dd 0 4px, #d59eab 5px 9px); z-index: 4; }
+.cake-candle i { position: absolute; top: -22px; left: 50%; width: 16px; height: 26px; margin-left: -8px; border-radius: 60% 40% 55% 45%; background: radial-gradient(ellipse at 50% 70%, #75c5e9 0 18%, #ffe692 20% 58%, #f7b350 62% 85%, #ec7e4d); box-shadow: 0 0 16px rgba(247, 183, 83, .48); transform-origin: 50% 100%; transition: opacity .4s ease; animation: flameDance 1.8s ease-in-out infinite alternate; }
+.cake-candle b { position: absolute; top: -8px; left: 50%; width: 3px; height: 10px; margin-left: -1.5px; background: #6f574e; }
+.cake-candle b::after { content: ""; position: absolute; top: -14px; left: 50%; width: 7px; height: 13px; margin-left: -3.5px; border-radius: 50%; background: radial-gradient(ellipse, rgba(120, 120, 120, .55), transparent 70%); opacity: 0; transition: opacity .5s ease; }
+.celebration-cake.is-out .cake-candle i { opacity: 0; animation-play-state: paused; }
+.celebration-cake.is-out .cake-candle b::after { opacity: 1; }
+/* Frosting dollop the candle is sunk into: painted after (above) the
+   candle so it wraps around the candle's base. */
+.cake-dollop { position: absolute; top: -12px; left: 50%; width: 36px; height: 18px; margin-left: -18px; border-radius: 50% 50% 46% 46% / 75% 75% 30% 30%; background: radial-gradient(circle at 50% 20%, #fffaf2, #f3ddc8 70%, #e8cdb2); box-shadow: inset 0 -2px 3px rgba(194, 139, 118, .25); z-index: 5; }
+.cake-flame-btn { min-height: 42px; padding-inline: 18px; font-size: .88rem; }
 
 /* love */
 .scene-bg--love { background: radial-gradient(circle at 50% 45%, rgba(255, 249, 245, .95), transparent 37%), radial-gradient(circle at 81% 20%, rgba(214, 165, 173, .3), transparent 31%), linear-gradient(145deg, #fff9f5, #f5dde3 52%, #eac8cc); }
@@ -87,5 +107,9 @@
 .burst-petal { position: absolute; width: 13px; height: 20px; border-radius: 75% 15% 70% 20%; background: var(--bcolor, #d6a5ad); box-shadow: inset -2px -2px 3px rgba(114, 81, 90, .13); opacity: 0; animation: petalBurst var(--bd, 3s) cubic-bezier(.15, .65, .35, 1) var(--bdelay, 0s) forwards; }
 /* Realistic roses stamped over the whole screen (canvas sprites, no files). */
 .burst-rose { position: absolute; background-size: cover; background-repeat: no-repeat; background-position: center; opacity: 0; animation: rosePop .55s cubic-bezier(.2, 1.4, .4, 1) var(--rdelay, 0s) both; will-change: transform, opacity; }
+/* Staggered fade-out for the flood (motion only — the layer only gets
+   .has-fade when reduced motion is off): each rose fades at its own
+   --rfade delay, one by one, until the screen is clear. */
+.petal-burst-layer.has-fade .burst-rose { animation: rosePop .55s cubic-bezier(.2, 1.4, .4, 1) var(--rdelay, 0s) both, roseFade .7s ease var(--rfade, 2s) forwards; }
 /* Petals that keep raining down over the roses after the burst. */
 .burst-petal.burst-petal--fall { opacity: 0; animation: petalFallDown var(--fd, 4s) linear var(--fdelay, 1.5s) both; }

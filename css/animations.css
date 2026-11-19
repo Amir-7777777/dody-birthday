@@ -17,14 +17,16 @@
 }
 @keyframes twinkle { 0%, 100% { opacity: .12; transform: scale(.72); } 50% { opacity: .9; transform: scale(1.25); } }
 @keyframes slotPop { 0% { transform: scale(.7); } 70% { transform: scale(1.08); } 100% { transform: scale(1); } }
-@keyframes envelopeNudge { 0%, 100% { transform: translateX(-50%) rotate(-2deg); } 25% { transform: translateX(-50%) rotate(-4deg) translateY(-2px); } 65% { transform: translateX(-50%) rotate(1deg) translateY(-1px); } }
+@keyframes envelopeNudge { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-1.5deg) translateY(-2px); } 65% { transform: rotate(1deg) translateY(-1px); } }
 @keyframes pointBounce { 0%, 100% { transform: translateY(0) rotate(20deg); } 50% { transform: translateY(-9px) rotate(20deg); } }
-@keyframes peonyRise {
-  0% { opacity: 0; transform: translate(-50%, -50%) scale(.15) rotate(-25deg); }
-  22% { opacity: 1; }
-  65% { opacity: 1; transform: translate(-50%, -50%) translateY(-45px) scale(1.02) rotate(4deg); }
-  100% { opacity: 0; transform: translate(-50%, -50%) translateY(-70px) scale(1.1) rotate(8deg); }
-}
+/* Wax seal cracks, then its shards fly apart and fade. The shake keeps
+   the seal's own centering transform (LTR and RTL variants) so it never
+   jumps sideways while shaking. */
+@keyframes waxShake { 0%, 100% { transform: translate(-50%, -50%) rotate(-7deg); } 25% { transform: translate(-50%, -50%) rotate(-12deg) translateX(-2px); } 60% { transform: translate(-50%, -50%) rotate(-3deg) translateX(2px); } }
+@keyframes waxShakeRtl { 0%, 100% { transform: translate(50%, -50%) rotate(-7deg); } 25% { transform: translate(50%, -50%) rotate(-12deg) translateX(-2px); } 60% { transform: translate(50%, -50%) rotate(-3deg) translateX(2px); } }
+@keyframes waxFlyA { from { opacity: 1; transform: translate(-50%, -50%) rotate(0); } to { opacity: 0; transform: translate(calc(-50% - 74px), calc(-50% - 42px)) rotate(-72deg); } }
+@keyframes waxFlyB { from { opacity: 1; transform: translate(-50%, -50%) rotate(0); } to { opacity: 0; transform: translate(calc(-50% + 78px), calc(-50% - 30px)) rotate(64deg); } }
+@keyframes waxFlyC { from { opacity: 1; transform: translate(-50%, -50%) rotate(0); } to { opacity: 0; transform: translate(calc(-50% + 12px), calc(-50% + 62px)) rotate(118deg); } }
 @keyframes letterUnfold { from { opacity: 0; transform: translateY(16px) scaleY(.96); } to { opacity: 1; transform: translateY(0) scaleY(1); } }
 @keyframes dots { 0% { width: 0; } 100% { width: 22px; } }
 @keyframes scanlineShift { from { transform: translateY(0); } to { transform: translateY(4px); } }
@@ -73,6 +75,10 @@
   from { opacity: 0; transform: scale(.3) rotate(var(--rrot, 0deg)); }
   to { opacity: 1; transform: scale(1) rotate(var(--rrot, 0deg)); }
 }
+/* The flood fades rose by rose: each rose gets its own --rfade delay
+   (see .petal-burst-layer.has-fade), so the screen clears one flower
+   at a time instead of vanishing all at once. */
+@keyframes roseFade { from { opacity: 1; } to { opacity: 0; } }
 @keyframes petalFallDown {
   0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(0deg); }
   8% { opacity: .9; }

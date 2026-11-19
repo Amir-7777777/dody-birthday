@@ -13,41 +13,38 @@
 .envelope-drawn { position: relative; display: block; width: 100%; aspect-ratio: 1.55; filter: drop-shadow(0 24px 30px rgba(105, 62, 64, .22)); transform-style: preserve-3d; transition: transform .45s; }
 .envelope-drawn__back, .envelope-drawn__front, .envelope-drawn__flap, .envelope-drawn__paper { position: absolute; inset: 0; display: block; }
 .envelope-drawn__back { border-radius: 9px; background: repeating-linear-gradient(125deg, rgba(255, 255, 255, .09) 0 2px, transparent 2px 10px), #c69a95; }
-.envelope-drawn__paper { inset: 8% 6% 5%; z-index: 1; display: flex; align-items: center; justify-content: center; border-radius: 3px; background: linear-gradient(165deg, #fffdf5, #f9efe2); box-shadow: 0 3px 10px rgba(98, 56, 59, .14); transform: translateY(4%); transition: transform .8s cubic-bezier(.2, .8, .2, 1); }
+.envelope-drawn__paper { inset: 8% 6% 5%; z-index: 1; display: flex; align-items: center; justify-content: center; border-radius: 3px; background: linear-gradient(165deg, #fffdf5, #f9efe2); box-shadow: 0 3px 10px rgba(98, 56, 59, .14); opacity: 0; transform: translateY(4%); transition: transform .8s cubic-bezier(.2, .8, .2, 1), opacity .5s ease; }
 .letter-lines { position: absolute; inset: 22% 13%; background: repeating-linear-gradient(to bottom, transparent 0 14px, rgba(114, 81, 90, .1) 15px, transparent 16px); }
 .envelope-drawn__d { position: relative; display: grid; place-items: center; width: 55px; height: 55px; color: var(--deep-rose); border: 1px solid rgba(185, 110, 121, .4); border-radius: 50%; font-family: var(--font-hand); font-size: 1.8rem; }
 .envelope-drawn__front { inset-block-start: 20%; z-index: 2; border-radius: 0 0 9px 9px; background: linear-gradient(155deg, #efd8d1, #d9b4ae); clip-path: polygon(0 0, 50% 54%, 100% 0, 100% 100%, 0 100%); }
 .envelope-drawn__flap { height: 62%; z-index: 3; border-radius: 9px 9px 0 0; background: linear-gradient(165deg, #f7e7e1, #d9b7b0); clip-path: polygon(0 0, 100% 0, 50% 100%); transform-origin: top; transition: transform .8s cubic-bezier(.4, 0, .2, 1); backface-visibility: hidden; }
-.wax-seal { position: absolute; inset-block-start: 44%; inset-inline-start: 50%; z-index: 5; display: grid; place-items: center; width: 63px; height: 63px; color: #eee0bd; border-radius: 46% 52% 49% 51%; background: radial-gradient(circle at 35% 30%, #856579, #493243 65%, #332131); box-shadow: 0 5px 12px rgba(42, 25, 37, .35), inset 0 0 0 5px rgba(255, 255, 255, .04); font-family: var(--font-hand); font-size: 1.55rem; transform: translate(-50%, -50%) rotate(-7deg); transition: transform .55s, opacity .45s; }
+/* Real red wax seal, engraved "د": the letter is sunk into the wax
+   (dark red with a light upper edge) instead of printed on top. */
+.wax-seal { position: absolute; inset-block-start: 44%; inset-inline-start: 50%; z-index: 5; display: grid; place-items: center; width: 63px; height: 63px; color: #5e100a; border-radius: 46% 52% 49% 51% / 48% 46% 54% 52%; background: radial-gradient(circle at 35% 30%, #e05545, #b02818 52%, #7c150c 78%, #5f0f08); box-shadow: 0 5px 12px rgba(42, 25, 37, .35), inset 0 0 0 3px rgba(94, 16, 10, .5), inset 0 3px 8px rgba(255, 255, 255, .28), inset 0 -4px 8px rgba(60, 8, 4, .5); font-family: var(--font-hand); font-size: 1.55rem; font-weight: 700; text-shadow: 0 1px 0 rgba(255, 220, 200, .35), 0 -1px 1px rgba(40, 5, 2, .6); transform: translate(-50%, -50%) rotate(-7deg); transition: transform .55s, opacity .45s; }
 [dir="rtl"] .wax-seal { transform: translate(50%, -50%) rotate(-7deg); }
+/* A little wax drip at the seal's lower edge. */
+.wax-seal::after { content: ""; position: absolute; inset-block-start: 86%; inset-inline-start: 60%; width: 15px; height: 11px; border-radius: 50% 50% 45% 45%; background: radial-gradient(circle at 40% 30%, #c23a28, #8a1a10); }
+/* Wax shards: hidden until the seal cracks, then they fly apart. */
+.wax-piece { position: absolute; top: 44%; left: 50%; z-index: 5; width: 30px; height: 26px; border-radius: 55% 45% 50% 50%; background: radial-gradient(circle at 35% 30%, #d84a38, #9c2214 60%, #701208); box-shadow: inset 0 0 0 2px rgba(94, 16, 10, .45), 0 2px 5px rgba(42, 25, 37, .3); opacity: 0; pointer-events: none; transform: translate(-50%, -50%); }
+.wax-piece--b { width: 26px; height: 30px; border-radius: 45% 55% 50% 50%; }
+.wax-piece--c { width: 24px; height: 22px; border-radius: 50% 50% 45% 55%; }
 .pointing-hand { position: absolute; inset-block-start: 38%; inset-inline-end: -8%; z-index: 6; color: var(--deep-rose); font-size: 2.1rem; filter: drop-shadow(0 4px 5px rgba(82, 50, 56, .15)); transform: rotate(20deg); animation: pointBounce 1.7s ease-in-out infinite; }
 .envelope-stage:hover .envelope-drawn { transform: translateY(-5px) rotate(.5deg); }
 .envelope-stage.is-opening .envelope-drawn { animation: envelopeNudge .5s ease; }
-.envelope-stage.is-opening .envelope-drawn__flap { transform: rotateX(180deg); }
-.envelope-stage.is-opening .wax-seal { opacity: 0; transform: translate(50%, -50%) rotate(30deg) scale(.55); }
-.envelope-stage.is-opening .envelope-drawn__paper { transform: translateY(-30%); }
+/* Strict opening order, driven by JS classes: the seal cracks first
+   (shake 0.3s, shards fly 0.8s), the flap only opens after the seal is
+   gone, and the flood (burstPetals) starts only after the flap. */
+.envelope-stage.is-cracking .wax-seal { animation: waxShake .3s ease; }
+[dir="rtl"] .envelope-stage.is-cracking .wax-seal { animation-name: waxShakeRtl; }
+.envelope-stage.is-cracked .wax-seal { opacity: 0; transform: translate(50%, -50%) rotate(30deg) scale(.55); }
+.envelope-stage.is-cracked .wax-piece--a { animation: waxFlyA .8s ease-in forwards; }
+.envelope-stage.is-cracked .wax-piece--b { animation: waxFlyB .8s ease-in forwards; }
+.envelope-stage.is-cracked .wax-piece--c { animation: waxFlyC .8s ease-in forwards; }
+.envelope-stage.is-flap-open .envelope-drawn__flap { transform: rotateX(180deg); }
+.envelope-stage.is-flap-open .envelope-drawn__paper { opacity: 1; transform: translateY(-30%); }
 .envelope-stage.is-opening .pointing-hand { opacity: 0; }
-.envelope-stage.is-opening .envelope-instruction { opacity: 0; visibility: hidden; }
-.peony-bloom { position: absolute; inset-block-start: 44%; left: 50%; right: auto; z-index: 7; width: min(56vw, 240px); aspect-ratio: 1; pointer-events: none; opacity: 0; transform: translate(-50%, -50%) scale(.15) rotate(-25deg); }
-.envelope-stage.is-opening .peony-bloom { animation: peonyRise 1.6s cubic-bezier(.18, .8, .25, 1) .35s both; }
-.peony-stem, .peony-leaf { display: none; }
-.peony-stem { position: absolute; inset-block-start: 50%; left: 50%; right: auto; width: 6px; height: 155%; border-radius: 99px; background: linear-gradient(#79917e, #526d58); transform: translateX(-50%); }
-.peony-leaf { position: absolute; width: 54px; height: 24px; border-radius: 80% 10% 80% 10%; background: linear-gradient(135deg, #a9bbaa, #5e7c64); }
-.peony-leaf--one { inset-block-start: 63%; inset-inline-end: 66%; transform: rotate(-28deg); }
-.peony-leaf--two { inset-block-start: 73%; inset-inline-start: 65%; transform: rotate(32deg) scaleX(-1); }
-.peony-petals { position: absolute; inset: 0; border-radius: 50%; filter: drop-shadow(0 15px 20px rgba(185, 110, 121, .28)); }
-.peony-petals i { position: absolute; inset-block-start: 50%; left: 50%; right: auto; width: 43%; height: 43%; border-radius: 55% 55% 45% 55%; background: radial-gradient(circle at 30% 25%, #ffe0e6, #e8b7c2 45%, #c17f90); transform-origin: 0 0; box-shadow: inset -5px -4px 12px rgba(150, 75, 93, .18), inset 3px 4px 10px rgba(255, 255, 255, .25); }
-.peony-petals i:nth-child(1) { transform: rotate(0deg) translate(-20%, -100%) scale(.76); }
-.peony-petals i:nth-child(2) { transform: rotate(36deg) translate(-20%, -100%) scale(.78); }
-.peony-petals i:nth-child(3) { transform: rotate(72deg) translate(-20%, -100%) scale(.74); }
-.peony-petals i:nth-child(4) { transform: rotate(108deg) translate(-20%, -100%) scale(.8); }
-.peony-petals i:nth-child(5) { transform: rotate(144deg) translate(-20%, -100%) scale(.76); }
-.peony-petals i:nth-child(6) { transform: rotate(180deg) translate(-20%, -100%) scale(.78); }
-.peony-petals i:nth-child(7) { transform: rotate(216deg) translate(-20%, -100%) scale(.74); }
-.peony-petals i:nth-child(8) { transform: rotate(252deg) translate(-20%, -100%) scale(.8); }
-.peony-petals i:nth-child(9) { transform: rotate(288deg) translate(-20%, -100%) scale(.76); }
-.peony-petals i:nth-child(10) { transform: rotate(324deg) translate(-20%, -100%) scale(.78); }
-.peony-center { position: absolute; inset-block-start: 50%; left: 50%; right: auto; width: 30%; height: 30%; border-radius: 50%; background: radial-gradient(circle, #f1cbd0 0 32%, #b96e79 34% 65%, #975462 68%); box-shadow: 0 0 0 10px rgba(255, 228, 229, .14); transform: translate(-50%, -50%); }
+/* Once the paper appears alone, the envelope is gone for good. */
+.envelope-stage.is-dismissed { opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility .6s; }
 .letter-paper { display: none; width: min(100%, 760px); margin: 0 auto; padding: clamp(26px, 5vw, 48px); border: 1px solid rgba(199, 163, 106, .27); border-radius: 4px 26px 4px 26px; background: repeating-linear-gradient(to bottom, transparent 0 34px, rgba(114, 81, 90, .075) 35px, transparent 36px), linear-gradient(160deg, #fffdf8, #fbf2e7); box-shadow: var(--shadow-soft); }
 .letter-paper.is-visible { display: block; animation: letterUnfold .75s ease both; }
 .letter-paper__ornament { display: block; color: var(--champagne); font-size: 1.3rem; text-align: center; }

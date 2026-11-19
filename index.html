@@ -11,12 +11,12 @@
   <link rel="preload" href="assets/fonts/tajawal-400.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="assets/fonts/tajawal-700.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="css/main.css?v=20261119c">
-  <link rel="stylesheet" href="css/scenes.css?v=20261119c">
+  <link rel="stylesheet" href="css/scenes.css?v=20261119d">
   <link rel="stylesheet" href="css/garden.css?v=20261119c">
-  <link rel="stylesheet" href="css/computer.css?v=20261119c">
+  <link rel="stylesheet" href="css/computer.css?v=20261119d">
   <link rel="stylesheet" href="css/chandelier.css?v=20261119c">
-  <link rel="stylesheet" href="css/celebration.css?v=20261119c">
-  <link rel="stylesheet" href="css/animations.css?v=20261119c">
+  <link rel="stylesheet" href="css/celebration.css?v=20261119d">
+  <link rel="stylesheet" href="css/animations.css?v=20261119d">
   <link rel="stylesheet" href="css/responsive.css?v=20261119c">
 </head>
 <body>
@@ -202,15 +202,9 @@
               <span class="envelope-drawn__front"></span>
               <span class="envelope-drawn__flap"></span>
               <span class="wax-seal">د</span>
-            </span>
-            <span class="peony-bloom" aria-hidden="true">
-              <span class="peony-stem"></span>
-              <span class="peony-leaf peony-leaf--one"></span>
-              <span class="peony-leaf peony-leaf--two"></span>
-              <span class="peony-petals">
-                <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
-              </span>
-              <span class="peony-center"></span>
+              <span class="wax-piece wax-piece--a" aria-hidden="true"></span>
+              <span class="wax-piece wax-piece--b" aria-hidden="true"></span>
+              <span class="wax-piece wax-piece--c" aria-hidden="true"></span>
             </span>
           </button>
 
@@ -1116,12 +1110,21 @@
             </div>
           </div>
 
-          <div class="celebration-cake" aria-hidden="true">
-            <div class="cake-candle"><i></i><b></b></div>
-            <div class="cake-tier cake-tier--top"></div>
-            <div class="cake-tier cake-tier--middle"></div>
-            <div class="cake-tier cake-tier--bottom"></div>
-            <div class="cake-plate"></div>
+          <div class="celebration-cake-wrap">
+            <div class="celebration-cake" aria-hidden="true">
+              <div class="cake-candle"><i></i><b></b></div>
+              <div class="cake-dollop" aria-hidden="true"></div>
+              <div class="cake-tier cake-tier--top">
+                <span class="cake-topping cake-topping--cherry" style="--tx: 12%"></span>
+                <span class="cake-topping cake-topping--berry" style="--tx: 30%"></span>
+                <span class="cake-topping cake-topping--berry" style="--tx: 68%"></span>
+                <span class="cake-topping cake-topping--cherry" style="--tx: 86%"></span>
+              </div>
+              <div class="cake-tier cake-tier--middle"></div>
+              <div class="cake-tier cake-tier--bottom"></div>
+              <div class="cake-plate"></div>
+            </div>
+            <button class="btn btn--quiet cake-flame-btn" type="button" id="cakeFlameBtn" aria-pressed="true">اطفي الشمعة 🕯️</button>
           </div>
         </div>
       </section>
@@ -1386,7 +1389,7 @@
   <script src="js/music.js?v=20261119c" defer></script>
   <script src="js/countdown.js?v=20261119c" defer></script>
   <script src="js/scenes.js?v=20261119c" defer></script>
-  <script src="js/interactions.js?v=20261119c" defer></script>
+  <script src="js/interactions.js?v=20261119d" defer></script>
   <script src="js/main.js?v=20261119c" defer></script>
 </body>
 </html>

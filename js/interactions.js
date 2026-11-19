@@ -635,17 +635,49 @@
   }
 
   /* ---------------- envelope and bloom ---------------- */
+  /* Strict opening order (approved demo): the wax seal shakes and cracks
+     FIRST, its shards fly apart; only then does the flap open; the flower
+     flood starts only after the flap has finished; then the envelope
+     fades away and the paper appears ALONE — never under the envelope. */
   const bigEnvelope = document.getElementById("bigEnvelope");
   const envelopeLetter = document.getElementById("envelopeLetter");
+  const envelopeInstruction = bigEnvelope?.querySelector(".envelope-instruction");
+  const envelopeInstructionText = envelopeInstruction?.textContent || "";
   bigEnvelope?.addEventListener("click", () => {
     if (bigEnvelope.getAttribute("aria-expanded") === "true") return;
     bigEnvelope.setAttribute("aria-expanded", "true");
-    bigEnvelope.classList.add("is-opening");
-    later(() => {
-      if (!envelopeLetter) return;
-      envelopeLetter.classList.add("is-visible");
-      envelopeLetter.setAttribute("aria-hidden", "false");
-    }, reduceMotion ? 50 : 1050);
+    if (reduceMotion) {
+      // Static paper, no flood animation.
+      bigEnvelope.classList.add("is-dismissed");
+      bigEnvelope.hidden = true;
+      if (envelopeLetter) {
+        envelopeLetter.classList.add("is-visible");
+        envelopeLetter.setAttribute("aria-hidden", "false");
+      }
+      envelopeLetter?.scrollIntoView({ behavior: "auto", block: "start" });
+      return;
+    }
+    bigEnvelope.classList.add("is-opening", "is-cracking");
+    if (envelopeInstruction) envelopeInstruction.textContent = "الختم بيتكسّر…";
+    later(() => { // seal cracked: the wax shards fly apart (0.8s)
+      bigEnvelope.classList.add("is-cracked");
+      if (envelopeInstruction) envelopeInstruction.textContent = "الختم اتكسّر…";
+    }, 320);
+    later(() => { // flap opens only after the seal is fully gone
+      bigEnvelope.classList.add("is-flap-open");
+    }, 1250);
+    later(() => { // flower flood, only after the flap finished opening
+      burstPetals(sceneEl(2));
+    }, 2300);
+    later(() => { // envelope fades away; the paper appears alone
+      bigEnvelope.classList.add("is-dismissed");
+      if (envelopeLetter) {
+        envelopeLetter.classList.add("is-visible");
+        envelopeLetter.setAttribute("aria-hidden", "false");
+      }
+      envelopeLetter?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 3000);
+    later(() => { bigEnvelope.hidden = true; }, 3650);
   });
 
   /* ---------------- retro computer ---------------- */
@@ -843,7 +875,7 @@
     computerMatrixCanvas.classList.remove("show");
     var ctx = computerMatrixCanvas.getContext("2d"); if (ctx) ctx.clearRect(0, 0, computerMatrixCanvas.width, computerMatrixCanvas.height);
     loadBar.style.width = "0%"; loadPercent.textContent = "0%";
-    document.querySelectorAll(".retro-window").forEach(function (w) { w.classList.add("is-hidden"); w.setAttribute("aria-hidden", "true"); w.style.left = ""; w.style.top = ""; w.style.right = ""; w.style.bottom = ""; });
+    document.querySelectorAll(".retro-window").forEach(function (w) { w.classList.add("is-hidden"); w.setAttribute("aria-hidden", "true"); w.style.left = ""; w.style.top = ""; w.style.right = ""; w.style.bottom = ""; w.style.width = ""; w.style.height = ""; w.classList.remove("is-maximized"); delete w.dataset.prevGeom; });
     letterDynamic.hidden = true; letterDynamic.classList.remove("is-visible");
     letterTypewriter.textContent = "يا دعاء…"; letterTypewriter.classList.remove("done");
     fakeCursor.classList.remove("show");
@@ -932,18 +964,54 @@
       if (e.target.closest("button")) return;
       var win = bar.closest(".retro-window");
       var dRect = retroDesktop.getBoundingClientRect();
+      // If the window was maximized by a drag-to-top, restore its old
+      // geometry first so this drag moves the window as a unit again.
+      if (win.classList.contains("is-maximized")) {
+        var prev = null;
+        try { prev = JSON.parse(win.dataset.prevGeom || "null"); } catch (err) { prev = null; }
+        win.classList.remove("is-maximized");
+        if (prev) {
+          win.style.left = prev.left; win.style.top = prev.top;
+          win.style.width = prev.width; win.style.height = prev.height;
+        } else {
+          win.style.left = ""; win.style.top = ""; win.style.width = ""; win.style.height = "";
+        }
+        delete win.dataset.prevGeom;
+      }
       var wRect = win.getBoundingClientRect();
       var startX = e.clientX, startY = e.clientY;
       var startL = wRect.left - dRect.left, startT = wRect.top - dRect.top;
+      // Freeze the current pixel geometry: on phones the window is placed
+      // with top/bottom + inset-inline, so without explicit width/height
+      // a drag would stretch it instead of moving it as a unit — the
+      // title bar moved but the text never came up with it.
       win.style.left = startL + "px"; win.style.top = startT + "px";
+      win.style.width = wRect.width + "px"; win.style.height = wRect.height + "px";
       win.style.right = "auto"; win.style.bottom = "auto"; win.style.insetInlineStart = "auto"; win.style.insetInlineEnd = "auto";
       win.style.margin = "0"; win.style.zIndex = ++computerZTop;
+      var movedTop = startT;
+      var pointerTop = startY - dRect.top;
+      var dragged = false;
       function move(ev) {
+        if (Math.abs(ev.clientX - startX) + Math.abs(ev.clientY - startY) > 6) dragged = true;
+        pointerTop = ev.clientY - dRect.top;
         var nl = Math.max(-wRect.width * .35, Math.min(dRect.width - 60, startL + ev.clientX - startX));
         var nt = Math.max(0, Math.min(dRect.height - 34, startT + ev.clientY - startY));
+        movedTop = nt;
         win.style.left = nl + "px"; win.style.top = nt + "px";
       }
-      function up() { window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up); }
+      function up() {
+        window.removeEventListener("pointermove", move); window.removeEventListener("pointerup", up);
+        // Dragged to the top edge: maximize to fill the computer screen
+        // so all the text shows. A mere click on the title bar never
+        // maximizes (dragged is false / the pointer never reached the top).
+        if (dragged && (pointerTop <= 12 || movedTop <= 0)) {
+          win.dataset.prevGeom = JSON.stringify({ left: win.style.left, top: win.style.top, width: win.style.width, height: win.style.height });
+          win.classList.add("is-maximized");
+          win.style.left = "0px"; win.style.top = "0px";
+          win.style.width = "100%"; win.style.height = "100%";
+        }
+      }
       window.addEventListener("pointermove", move);
       window.addEventListener("pointerup", up);
     });
@@ -1214,6 +1282,10 @@
           rose.style.top = `${r * step + (pass ? step / 2 : 0) - rs / 2}px`;
           rose.style.setProperty("--rdelay", `${rand(0, .8)}s`);
           rose.style.setProperty("--rrot", `${rand(-18, 18)}deg`);
+          // Staggered fade-out: each rose fades at its own moment from
+          // ~2s after the flood starts, one by one, until the screen is
+          // clear (~6.1s). Only used with motion on (has-fade class).
+          rose.style.setProperty("--rfade", `${rand(2.0, 5.4).toFixed(2)}s`);
           const sprite = roseSprite((r * cols + cI + pass) % ROSE_PALETTES.length);
           if (sprite) rose.style.backgroundImage = `url(${sprite})`;
           else rose.style.background = "radial-gradient(circle at 35% 30%, #f6cdd4, #c65a72 55%, #8c2f45)";
@@ -1239,8 +1311,23 @@
     }
 
     scene.appendChild(layer);
-    later(() => layer.remove(), 8000);
+    // With motion on, the roses fade one by one (has-fade) and the layer
+    // is gone once the last rose has faded (~6.1s + 0.7s fade). With
+    // reduced motion the static rose field stays (no fade class) and is
+    // removed on the old 8s schedule.
+    if (!reduceMotion) layer.classList.add("has-fade");
+    later(() => layer.remove(), reduceMotion ? 8000 : 6800);
   }
+
+  /* ---------------- birthday cake candle: blow out / relight ---------------- */
+  const celebrationCake = document.querySelector(".celebration-cake");
+  const cakeFlameBtn = document.getElementById("cakeFlameBtn");
+  cakeFlameBtn?.addEventListener("click", () => {
+    if (!celebrationCake) return;
+    const out = celebrationCake.classList.toggle("is-out");
+    cakeFlameBtn.setAttribute("aria-pressed", String(!out));
+    cakeFlameBtn.textContent = out ? "ولّعي الشمعة تاني ✨" : "اطفي الشمعة 🕯️";
+  });
 
   /* ---------------- memories ---------------- */
   const memoryCards = $$("#memoryDeck .memory-card");
@@ -1577,9 +1664,15 @@
 
     // First envelope
     bigEnvelope?.setAttribute("aria-expanded", "false");
-    bigEnvelope?.classList.remove("is-opening");
+    bigEnvelope?.classList.remove("is-opening", "is-cracking", "is-cracked", "is-flap-open", "is-dismissed");
+    if (bigEnvelope) bigEnvelope.hidden = false;
+    if (envelopeInstruction) envelopeInstruction.textContent = envelopeInstructionText;
     envelopeLetter?.classList.remove("is-visible");
     envelopeLetter?.setAttribute("aria-hidden", "true");
+
+    // Birthday cake candle back to lit
+    celebrationCake?.classList.remove("is-out");
+    if (cakeFlameBtn) { cakeFlameBtn.setAttribute("aria-pressed", "true"); cakeFlameBtn.textContent = "اطفي الشمعة 🕯️"; }
 
     // Computer
     resetComputer();

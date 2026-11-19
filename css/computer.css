@@ -237,7 +237,7 @@
 .retro-window__controls .win-close { color: #fff; background: linear-gradient(#f7a8bf, #e2608a 55%, #cf4a77); border-color: #ffd7e4; text-shadow: 0 1px 1px rgba(120,20,50,.5); }
 .retro-window__controls button:active { transform: translateY(1px); }
 .retro-window__menu { display: flex; flex-wrap: wrap; gap: calc(1.6 * var(--u)); padding: calc(.45 * var(--u)) calc(1.1 * var(--u)); color: #3a3531; border-bottom: 1px solid #a99f91; background: #efe9dc; font-size: max(8px, calc(1.45 * var(--u))); }
-.retro-window__body { position: relative; flex: 1; min-height: 0; overflow: auto; margin: calc(.45 * var(--u)); padding: calc(1.9 * var(--u)) calc(2.1 * var(--u));
+.retro-window__body { position: relative; flex: 1; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; overscroll-behavior: contain; touch-action: pan-y; margin: calc(.45 * var(--u)); padding: calc(1.9 * var(--u)) calc(2.1 * var(--u));
   border: 2px inset #fff; color: #38322e; scrollbar-width: thin;
   background: repeating-linear-gradient(to bottom, #fffdf6 0 calc(2.9 * var(--u)), #e3edf3 calc(2.9 * var(--u)) calc(calc(2.9 * var(--u)) + 1px), #fffdf6 calc(calc(2.9 * var(--u)) + 2px));
   font-size: max(9px, calc(1.72 * var(--u))); line-height: 1.95; }
