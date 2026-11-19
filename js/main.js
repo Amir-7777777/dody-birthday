@@ -47,7 +47,7 @@
       const scene = document.body.dataset.scene;
       if (scene === "4") window.dodyInteractions?.startMatrix?.();
       if (scene === "4") window.dodyInteractions?.startBouquet?.();
-      if (scene === "13") window.dodyInteractions?.startCelebration?.();
+      if (scene === "12") window.dodyInteractions?.startCelebration?.();
     }
   });
 

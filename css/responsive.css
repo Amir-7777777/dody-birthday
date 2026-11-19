@@ -12,6 +12,10 @@
   .liner-note { max-width: 500px; margin-inline: auto; }
   .celebration-layout { grid-template-columns: 1fr; }
   .celebration-cake { width: min(55vw, 280px); margin-top: .4rem; }
+  /* The candle + flame stick ~60px above the cake (absolute, out of
+     flow), so the cake wrap needs that room reserved above it — else
+     the flame pokes into the copy's buttons on the stacked layout. */
+  .celebration-cake-wrap { padding-top: 64px; }
   .celebration-copy h2 { font-size: clamp(3rem, 9vw, 5.3rem); }
   .window-grid { max-width: 760px; }
 }
@@ -137,6 +141,13 @@
   .age-clock__unit strong { font-size: 1.6rem; }
   .years-copy p { font-size: .89rem; }
   .celebration-layout { gap: .6rem; padding-block: 0; }
+  .scene--celebration { padding-top: calc(var(--header-h) + 1rem); padding-bottom: calc(var(--nav-h) + 2rem); }
+  .celebration-kicker { margin-bottom: .35rem; }
+  .celebration-copy h2 { font-size: clamp(2.4rem, 12vw, 4.4rem); }
+  .celebration-name { margin: .3rem 0 .5rem; font-size: 2.3rem; }
+  .celebration-line { margin-bottom: .2rem; }
+  .celebration-actions { margin-block-start: .7rem; }
+  .celebration-cake-wrap { gap: 8px; }
   .celebration-copy h2 { font-size: clamp(2.8rem, 14vw, 4.4rem); }
   .celebration-name { font-size: 2.8rem; }
   .celebration-actions { flex-direction: column; align-items: stretch; max-width: 310px; margin-inline: auto; }
@@ -191,7 +202,7 @@
   .age-clock__unit strong { font-size: 1.4rem; }
   .story-window__text { inset: 7% 6% 15%; padding: 7px; }
   .story-window__text > span:last-child { line-height: 1.55; }
-  .celebration-copy h2 { font-size: 2.75rem; }
+  .celebration-copy h2 { font-size: 2.4rem; }
   .celebration-kicker { letter-spacing: .12em; }
   .wish-card { grid-template-columns: 26px 1fr; }
   .wish-flame { width: 20px; height: 31px; }

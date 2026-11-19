@@ -27,7 +27,7 @@
 @keyframes waxFlyA { from { opacity: 1; transform: translate(-50%, -50%) rotate(0); } to { opacity: 0; transform: translate(calc(-50% - 74px), calc(-50% - 42px)) rotate(-72deg); } }
 @keyframes waxFlyB { from { opacity: 1; transform: translate(-50%, -50%) rotate(0); } to { opacity: 0; transform: translate(calc(-50% + 78px), calc(-50% - 30px)) rotate(64deg); } }
 @keyframes waxFlyC { from { opacity: 1; transform: translate(-50%, -50%) rotate(0); } to { opacity: 0; transform: translate(calc(-50% + 12px), calc(-50% + 62px)) rotate(118deg); } }
-@keyframes letterUnfold { from { opacity: 0; transform: translateY(16px) scaleY(.96); } to { opacity: 1; transform: translateY(0) scaleY(1); } }
+@keyframes letterUnfold { from { opacity: 0; transform: perspective(900px) rotateX(-24deg) translateY(14px); } to { opacity: 1; transform: perspective(900px) rotateX(0) translateY(0); } }
 @keyframes dots { 0% { width: 0; } 100% { width: 22px; } }
 @keyframes scanlineShift { from { transform: translateY(0); } to { transform: translateY(4px); } }
 @keyframes heartsFloat { 0% { transform: translateY(0) scale(.8) rotate(-8deg); opacity: 0; } 12% { opacity: .75; } 100% { transform: translateY(-340px) scale(1.1) rotate(8deg); opacity: 0; } }

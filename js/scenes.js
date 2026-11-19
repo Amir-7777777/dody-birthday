@@ -25,7 +25,7 @@
   let transitionTimer = 0;
   let lastFocused = null;
 
-  const darkScenes = new Set([3, 4, 6, 8, 9, 10]);
+  const darkScenes = new Set([3, 4, 6, 8, 9]);
   const middleScenes = new Set([5]);
   const pad = (number) => String(number).padStart(2, "0");
 

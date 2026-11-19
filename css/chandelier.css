@@ -74,11 +74,11 @@
 @media (prefers-reduced-motion: reduce) { .scene--chandelier.is-lit .chandelier-svg, .candle-flame-group.is-lit, .candle-halo.is-lit, .ballerina-group.is-lit, .scene--chandelier.is-lit .chandelier-sparkle, .scene--chandelier.is-lit .chandelier-dust i, .crystal, .scene--chandelier.is-lit .light-rays, .gem-pulse { animation: none !important; } }
 .eyebrow--gold { color: #d8b777; }
 
-/* wishes */
-.scene-bg--wishes { background: radial-gradient(circle at 50% 24%, rgba(108, 80, 98, .25), transparent 36%), radial-gradient(circle at 50% 82%, rgba(81, 109, 88, .2), transparent 34%), linear-gradient(155deg, #15121d, #211927 50%, #122019); }
-.wish-glow { position: absolute; inset-block-start: 23%; inset-inline-start: 50%; width: 60vw; height: 60vw; border-radius: 50%; background: radial-gradient(circle, rgba(244, 219, 164, .1), transparent 64%); filter: blur(20px); transform: translate(-50%, -50%); }
-[dir="rtl"] .wish-glow { transform: translate(50%, -50%); }
-.wishes-layout { display: flex; flex-direction: column; align-items: center; }
+/* wishes — they live under the chandelier now: hidden until it is
+   fully lit, then they appear one by one and the scene grows so she
+   can scroll freely between the chandelier and the wishes. */
+.chandelier-wishes { width: 100%; margin-top: 1.8rem; }
+.chandelier-wishes .wish-cards { margin-block: 0 1.6rem; }
 .wish-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; width: 100%; max-width: 970px; margin-block: 1.7rem 2rem; }
 .wish-card { position: relative; padding: 25px 20px 22px; border: 1px solid rgba(241, 223, 183, .16); border-radius: 17px; background: linear-gradient(160deg, rgba(255, 249, 245, .09), rgba(255, 249, 245, .035)); box-shadow: 0 16px 38px rgba(0, 0, 0, .18); text-align: center; opacity: .4; transform: translateY(13px); transition: opacity .7s, transform .7s; }
 .wish-card.is-visible { opacity: 1; transform: translateY(0); }

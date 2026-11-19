@@ -44,7 +44,7 @@
     } else if (document.body.dataset.scene === "4") {
       startMatrix();
       startBouquet();
-    } else if (document.body.dataset.scene === "13") {
+    } else if (document.body.dataset.scene === "12") {
       startCelebration();
     }
   });
@@ -654,7 +654,6 @@
         envelopeLetter.classList.add("is-visible");
         envelopeLetter.setAttribute("aria-hidden", "false");
       }
-      envelopeLetter?.scrollIntoView({ behavior: "auto", block: "start" });
       return;
     }
     bigEnvelope.classList.add("is-opening", "is-cracking");
@@ -669,15 +668,20 @@
     later(() => { // flower flood, only after the flap finished opening
       burstPetals(sceneEl(2));
     }, 2300);
-    later(() => { // envelope fades away; the paper appears alone
+    later(() => { // envelope fades away behind the flood
       bigEnvelope.classList.add("is-dismissed");
+    }, 3000);
+    later(() => { bigEnvelope.hidden = true; }, 3650);
+    /* The paper opens by itself only once the flood is fully gone:
+       the flood starts at 2.3s, the last rose fades at ~8.4s and the
+       layer is removed at ~9.1s. It never appears under the flowers,
+       and the page never scrolls on reveal. */
+    later(() => {
       if (envelopeLetter) {
         envelopeLetter.classList.add("is-visible");
         envelopeLetter.setAttribute("aria-hidden", "false");
       }
-      envelopeLetter?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 3000);
-    later(() => { bigEnvelope.hidden = true; }, 3650);
+    }, 9100);
   });
 
   /* ---------------- retro computer ---------------- */
@@ -1116,12 +1120,15 @@
     giftBox.setAttribute("aria-expanded", "true");
     giftBox.classList.add("is-opening");
     burstPetals(sceneEl(7));
+    /* The letter opens by itself only once the flood is fully gone:
+       the last rose fades at ~6.1s and the layer is removed at 6.8s
+       (8s with reduced motion). It never appears under the flowers,
+       and the page never scrolls on reveal. */
     later(() => {
       if (!giftLetter) return;
       giftLetter.classList.add("is-visible");
       giftLetter.setAttribute("aria-hidden", "false");
-      giftLetter.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
-    }, reduceMotion ? 100 : 900);
+    }, reduceMotion ? 8000 : 6800);
     window.dodyApp?.notify?.("كل اللي جوايا… في الجواب ده 💌", 2600);
   });
 
@@ -1239,6 +1246,13 @@
     const layer = document.createElement("div");
     layer.className = "petal-burst-layer";
     layer.setAttribute("aria-hidden", "true");
+    /* Opaque backdrop under the flood: while the roses are up — and
+       while they fade one by one — nothing underneath can peek
+       through. No letter, no envelope, no half-readable paper, and the
+       page never jumps. The backdrop is removed with the layer. */
+    const backdrop = document.createElement("div");
+    backdrop.className = "flood-backdrop";
+    layer.appendChild(backdrop);
     const paletteColors = ["#d6a5ad", "#b96e79", "#f6dde2", "#fff9f5", "#7d4e63", "#e8c0b6"];
     let i, petal, rose;
 
@@ -1418,6 +1432,9 @@
     chandelierLit = false;
     chandelierScene?.classList.remove("is-lit");
     chandelierGlow?.classList.remove("is-lit");
+    const chandelierWishes = document.getElementById("chandelierWishes");
+    if (chandelierWishes) chandelierWishes.hidden = true;
+    $$(".wish-card", chandelierScene || document).forEach((card) => card.classList.remove("is-visible"));
     [1, 2, 3].forEach((n) => {
       ["flame-", "halo-", "ballerina-"].forEach((prefix) => {
         document.getElementById(prefix + n)?.classList.remove("is-lit");
@@ -1436,13 +1453,21 @@
     if (event.key === "Enter" || event.key === " ") { event.preventDefault(); lightChandelier(); }
   });
 
-  /* ---------------- wishes ---------------- */
+  /* ---------------- wishes (under the chandelier) ---------------- */
+  /* The three wishes live in the chandelier scene now: they appear one
+     by one only once the chandelier is fully lit, and the page drifts
+     down to them gently — she can scroll back up freely. */
   function revealWishes() {
-    const cards = $$(".wish-card", sceneEl(10) || document);
+    const container = document.getElementById("chandelierWishes");
+    const cards = $$(".wish-card", container || document);
+    if (container) container.hidden = false;
     cards.forEach((card, index) => {
       card.classList.remove("is-visible");
       later(() => card.classList.add("is-visible"), reduceMotion ? 0 : 400 + index * 700);
     });
+    if (container && !reduceMotion) {
+      later(() => container.scrollIntoView({ behavior: "smooth", block: "start" }), 500);
+    }
   }
 
   /* ---------------- curtain windows ---------------- */
@@ -1516,7 +1541,7 @@
   }
 
   function startCelebration() {
-    const scene = sceneEl(13);
+    const scene = sceneEl(12);
     const canvas = document.getElementById("celebrationCanvas");
     if (!scene || !canvas || !scene.classList.contains("is-active")) return;
     stopCelebration();
@@ -1634,21 +1659,22 @@
     const index = event.detail.index;
     if (event.detail.previousIndex === 4) { stopMatrix(); stopBouquet(); }
     if (event.detail.previousIndex === 8) stopMemories();
-    if (event.detail.previousIndex === 13) stopCelebration();
+    if (event.detail.previousIndex === 12) stopCelebration();
 
     switch (index) {
       case 4: later(startMatrix, 220); later(startBouquet, 220); break;
       case 8: startMemories(); break;
       case 9: prepareChandelierStars(); break;
-      case 10: revealWishes(); break;
-      case 13: later(startCelebration, 250); break;
+      case 12: later(startCelebration, 250); break;
       default: break;
     }
   });
 
   document.addEventListener("dody:chandelier-lit", () => {
-    const cards = $$(".wish-card", sceneEl(10) || document);
-    cards.forEach((card) => card.classList.remove("is-visible"));
+    /* Reveal the wishes only once the chandelier is fully lit (last
+       flame ~1.3s + ballerina ~0.32s), and only if it is still lit —
+       a quick relight must not resurrect them. */
+    later(() => { if (chandelierLit) revealWishes(); }, reduceMotion ? 0 : 1900);
   });
 
   /* ---------------- reset ---------------- */
@@ -1712,6 +1738,8 @@
     loveReveal?.classList.remove("is-visible");
 
     // Wishes/memory
+    const chandelierWishes = document.getElementById("chandelierWishes");
+    if (chandelierWishes) chandelierWishes.hidden = true;
     $$(".wish-card").forEach((card) => card.classList.remove("is-visible"));
     showMemory(0);
 

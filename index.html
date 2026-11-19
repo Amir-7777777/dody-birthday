@@ -11,13 +11,13 @@
   <link rel="preload" href="assets/fonts/tajawal-400.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="preload" href="assets/fonts/tajawal-700.ttf" as="font" type="font/ttf" crossorigin>
   <link rel="stylesheet" href="css/main.css?v=20261119c">
-  <link rel="stylesheet" href="css/scenes.css?v=20261119d">
+  <link rel="stylesheet" href="css/scenes.css?v=20261119e">
   <link rel="stylesheet" href="css/garden.css?v=20261119c">
   <link rel="stylesheet" href="css/computer.css?v=20261119d">
-  <link rel="stylesheet" href="css/chandelier.css?v=20261119c">
-  <link rel="stylesheet" href="css/celebration.css?v=20261119d">
-  <link rel="stylesheet" href="css/animations.css?v=20261119d">
-  <link rel="stylesheet" href="css/responsive.css?v=20261119c">
+  <link rel="stylesheet" href="css/chandelier.css?v=20261119e">
+  <link rel="stylesheet" href="css/celebration.css?v=20261119e">
+  <link rel="stylesheet" href="css/animations.css?v=20261119e">
+  <link rel="stylesheet" href="css/responsive.css?v=20261119e">
 </head>
 <body>
   <a class="skip-link" href="#journey">تخطّي إلى الرحلة</a>
@@ -34,9 +34,9 @@
       <div class="journey-progress" aria-label="التقدم في الرحلة">
         <div class="journey-progress__meta">
           <span id="chapterName">البداية</span>
-          <span id="chapterCount" dir="ltr">01 / 17</span>
+          <span id="chapterCount" dir="ltr">01 / 16</span>
         </div>
-        <div class="journey-progress__track" id="progressTrack" role="progressbar" aria-valuemin="1" aria-valuemax="17" aria-valuenow="1" aria-label="فصول الرحلة">
+        <div class="journey-progress__track" id="progressTrack" role="progressbar" aria-valuemin="1" aria-valuemax="16" aria-valuenow="1" aria-label="فصول الرحلة">
           <span id="progressBar"></span>
           <i class="progress-heart" id="progressHeart" aria-hidden="true">♥</i>
         </div>
@@ -914,55 +914,43 @@
             <p class="chandelier-prompt" id="chandelierPrompt" hidden>Make a wish, Dody… <span aria-hidden="true">✨</span></p>
             <button type="button" id="relightBtn" hidden>اطفيها وولّعيها من الأول</button>
           </div>
-        </div>
-      </section>
 
-      <!-- 10 — WISHES -->
-      <section class="scene scene--wishes" data-scene="10" data-chapter="تلات أمنيات" aria-labelledby="wishesTitle">
-        <div class="scene-bg scene-bg--wishes" aria-hidden="true">
-          <div class="night-stars" data-stars="55"></div>
-          <span class="wish-glow"></span>
-          <div class="ambient-petals" data-petals="8"></div>
-        </div>
-        <div class="scene-inner wishes-layout">
-          <div class="section-heading section-heading--light">
-            <p class="eyebrow eyebrow--gold"><span></span>MAKE A WISH, DODY<span></span></p>
-            <h2 id="wishesTitle">عندي ليكي <em>تلات أمنيات…</em></h2>
-            <p>وهي مش محتاجة غير إنك تنوري الشموع الأول.</p>
-          </div>
+          <!-- The three wishes live under the chandelier now: they appear
+               one by one once it is fully lit — no "next" press needed. -->
+          <div class="chandelier-wishes" id="chandelierWishes" hidden>
+            <div class="wish-cards">
+              <article class="wish-card">
+                <div class="wish-flame" aria-hidden="true"><i></i></div>
+                <span class="wish-card__number">الشمعة الأولى</span>
+                <h3>راحة قلبك</h3>
+                <p>يا رب قلبك يعرف معنى الراحة، ومتشوفيش وجع ابدا.</p>
+              </article>
+              <article class="wish-card">
+                <div class="wish-flame" aria-hidden="true"><i></i></div>
+                <span class="wish-card__number">الشمعة التانية</span>
+                <h3>كل الأبواب</h3>
+                <p>يا رب كل باب نفسك يتفتحلك، وكل حلم تتمنيه يبقى حقيقة.</p>
+              </article>
+              <article class="wish-card">
+                <div class="wish-flame" aria-hidden="true"><i></i></div>
+                <span class="wish-card__number">الشمعة التالتة</span>
+                <h3>حب وفرحة</h3>
+                <p>يا رب تفضلي محاطة بالحب والفرحة والناس اللي يعرفوا قيمتك.</p>
+              </article>
+            </div>
 
-          <div class="wish-cards">
-            <article class="wish-card is-visible">
-              <div class="wish-flame" aria-hidden="true"><i></i></div>
-              <span class="wish-card__number">الشمعة الأولى</span>
-              <h3>راحة قلبك</h3>
-              <p>يا رب قلبك يعرف معنى الراحة، ومتشوفيش وجع ابدا.</p>
-            </article>
-            <article class="wish-card">
-              <div class="wish-flame" aria-hidden="true"><i></i></div>
-              <span class="wish-card__number">الشمعة التانية</span>
-              <h3>كل الأبواب</h3>
-              <p>يا رب كل باب نفسك يتفتحلك، وكل حلم تتمنيه يبقى حقيقة.</p>
-            </article>
-            <article class="wish-card">
-              <div class="wish-flame" aria-hidden="true"><i></i></div>
-              <span class="wish-card__number">الشمعة التالتة</span>
-              <h3>حب وفرحة</h3>
-              <p>يا رب تفضلي محاطة بالحب والفرحة والناس اللي يعرفوا قيمتك.</p>
-            </article>
-          </div>
-
-          <div class="wishes-closing">
-            <p>العشرين سنة دول مش مجرد رقم جديد يا دودي…</p>
-            <p>دي بداية فصل جديد من حكايتك.</p>
-            <p>أتمنى يكون أجمل فصل لحد دلوقتي، وتكتبي فيه حاجات كتير تفرحك وتفخري بيها.</p>
-            <p class="wishes-closing__strong">وكل سنة وإنتِ أقرب لأحلامك، وأقرب للنسخة اللي نفسك تبقيها.</p>
+            <div class="wishes-closing">
+              <p>العشرين سنة دول مش مجرد رقم جديد يا دودي…</p>
+              <p>دي بداية فصل جديد من حكايتك.</p>
+              <p>أتمنى يكون أجمل فصل لحد دلوقتي، وتكتبي فيه حاجات كتير تفرحك وتفخري بيها.</p>
+              <p class="wishes-closing__strong">وكل سنة وإنتِ أقرب لأحلامك، وأقرب للنسخة اللي نفسك تبقيها.</p>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- 11 — FOUR WINDOWS -->
-      <section class="scene scene--windows" data-scene="11" data-chapter="نوافذ صغيرة" aria-labelledby="windowsTitle">
+      <!-- 10 — FOUR WINDOWS -->
+      <section class="scene scene--windows" data-scene="10" data-chapter="نوافذ صغيرة" aria-labelledby="windowsTitle">
         <div class="scene-bg scene-bg--windows" aria-hidden="true">
           <span class="window-cloud window-cloud--one"></span>
           <span class="window-cloud window-cloud--two"></span>
@@ -1043,8 +1031,8 @@
         </div>
       </section>
 
-      <!-- 12 — AGE COUNTER -->
-      <section class="scene scene--years" data-scene="12" data-chapter="عشرين سنة" aria-labelledby="yearsTitle">
+      <!-- 11 — AGE COUNTER -->
+      <section class="scene scene--years" data-scene="11" data-chapter="عشرين سنة" aria-labelledby="yearsTitle">
         <div class="scene-bg scene-bg--years" aria-hidden="true">
           <span class="year-ring year-ring--one"></span>
           <span class="year-ring year-ring--two"></span>
@@ -1089,8 +1077,8 @@
         </div>
       </section>
 
-      <!-- 13 — GRAND CELEBRATION -->
-      <section class="scene scene--celebration" data-scene="13" data-chapter="المفاجأة الكبيرة" aria-labelledby="celebrationTitle">
+      <!-- 12 — GRAND CELEBRATION -->
+      <section class="scene scene--celebration" data-scene="12" data-chapter="المفاجأة الكبيرة" aria-labelledby="celebrationTitle">
         <div class="scene-bg scene-bg--celebration" aria-hidden="true">
           <canvas id="celebrationCanvas"></canvas>
           <div class="celebration-rays"></div>
@@ -1129,8 +1117,8 @@
         </div>
       </section>
 
-      <!-- 14 — FOUR ENVELOPES -->
-      <section class="scene scene--letters" data-scene="14" data-chapter="أربع رسائل" aria-labelledby="lettersTitle">
+      <!-- 13 — FOUR ENVELOPES -->
+      <section class="scene scene--letters" data-scene="13" data-chapter="أربع رسائل" aria-labelledby="lettersTitle">
         <div class="scene-bg scene-bg--letters" aria-hidden="true">
           <div class="ambient-petals" data-petals="12"></div>
           <div class="twinkle-field" data-twinkles="16"></div>
@@ -1195,8 +1183,8 @@
         </div>
       </section>
 
-      <!-- 15 — I LOVE U -->
-      <section class="scene scene--love" data-scene="15" data-chapter="كلمة أخيرة" aria-labelledby="loveTitle">
+      <!-- 14 — I LOVE U -->
+      <section class="scene scene--love" data-scene="14" data-chapter="كلمة أخيرة" aria-labelledby="loveTitle">
         <div class="scene-bg scene-bg--love" aria-hidden="true">
           <div class="love-orb"></div>
           <div class="ambient-petals" data-petals="10"></div>
@@ -1222,8 +1210,8 @@
         </div>
       </section>
 
-      <!-- 16 — FINALE -->
-      <section class="scene scene--finale" data-scene="16" data-chapter="آخر الحكاية" aria-labelledby="finaleTitle">
+      <!-- 15 — FINALE -->
+      <section class="scene scene--finale" data-scene="15" data-chapter="آخر الحكاية" aria-labelledby="finaleTitle">
         <div class="scene-bg scene-bg--finale" aria-hidden="true">
           <div class="final-roses final-roses--left"><svg viewBox="0 0 260 600"><use href="#final-bouquet"></use></svg></div>
           <div class="final-roses final-roses--right"><svg viewBox="0 0 260 600"><use href="#final-bouquet"></use></svg></div>
@@ -1388,8 +1376,8 @@
   <script src="js/password.js?v=20261119c" defer></script>
   <script src="js/music.js?v=20261119c" defer></script>
   <script src="js/countdown.js?v=20261119c" defer></script>
-  <script src="js/scenes.js?v=20261119c" defer></script>
-  <script src="js/interactions.js?v=20261119d" defer></script>
-  <script src="js/main.js?v=20261119c" defer></script>
+  <script src="js/scenes.js?v=20261119e" defer></script>
+  <script src="js/interactions.js?v=20261119e" defer></script>
+  <script src="js/main.js?v=20261119e" defer></script>
 </body>
 </html>
