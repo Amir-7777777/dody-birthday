@@ -217,6 +217,10 @@
   .music-dock { max-height: 290px; overflow: auto; }
 }
 
+@media (min-width: 1024px) {
+  .chandelier-svg { max-height: 46svh; }
+}
+
 @media (min-width: 1280px) {
   .scene-inner { width: min(100%, 1240px); }
   .section-heading h2 { font-size: 3.55rem; }
