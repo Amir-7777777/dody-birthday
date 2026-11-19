@@ -1,31 +1,78 @@
 /* Chandelier, wishes, curtain windows and the age clock */
+/* الثريا المحسّنة — منقولة من الديمو المعتمد (viewBox 440×480)، أكبر وأوضح */
+.scene--chandelier { padding-block-start: calc(var(--header-h) + 1.2rem); padding-block-end: calc(var(--nav-h) + 1.4rem); }
 .scene-bg--chandelier { background: radial-gradient(circle at 50% 45%, rgba(95, 121, 90, .24), transparent 35%), radial-gradient(circle at 50% 75%, rgba(199, 163, 106, .08), transparent 40%), linear-gradient(160deg, #0c1a13, #152b21 46%, #0b1711); }
+.scene-bg--chandelier::before { content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 1.8s ease; background: radial-gradient(circle at 50% 38%, rgba(255, 196, 86, .22) 0%, rgba(255, 180, 60, .08) 32%, transparent 68%); }
+.scene--chandelier.is-lit .scene-bg--chandelier { background: radial-gradient(ellipse 90% 55% at 50% 22%, rgba(84, 118, 84, .6) 0%, transparent 62%), radial-gradient(circle at 50% 30%, #2e4a32 0%, #1a2d1e 52%, #0a140c 100%); }
+.scene--chandelier.is-lit .scene-bg--chandelier::before { opacity: 1; }
 .chandelier-glow { position: absolute; inset-block-start: 49%; inset-inline-start: 50%; width: min(76vw, 700px); height: min(76vw, 700px); border-radius: 50%; background: radial-gradient(circle, rgba(246, 201, 124, .15), rgba(199, 163, 106, .04) 35%, transparent 68%); filter: blur(10px); opacity: .2; transform: translate(-50%, -50%); transition: opacity 1.5s ease; }
 [dir="rtl"] .chandelier-glow { transform: translate(50%, -50%); }
 .chandelier-glow.is-lit { opacity: 1; }
 .chandelier-stars { position: absolute; inset: 0; overflow: hidden; }
 .chandelier-star { position: absolute; width: 2px; height: 2px; border-radius: 50%; background: #fff9f5; box-shadow: 0 0 8px 2px rgba(255, 249, 245, .5); opacity: 0; animation: starSweep 5s ease-in-out infinite; animation-delay: var(--cs-delay, 0s); }
+/* ذرات ذهبية عائمة */
+.chandelier-dust { position: absolute; inset: 0; z-index: 1; pointer-events: none; overflow: hidden; }
+.chandelier-dust i { position: absolute; display: block; width: 5px; height: 5px; border-radius: 50%; background: #f6d48a; opacity: 0; box-shadow: 0 0 10px 2px rgba(246, 212, 138, .7); }
+.scene--chandelier.is-lit .chandelier-dust i { animation: dustFloat linear infinite; }
+.chandelier-dust i:nth-child(1) { left: 12%; bottom: 18%; animation-duration: 11s; animation-delay: .2s; width: 4px; height: 4px; }
+.chandelier-dust i:nth-child(2) { left: 22%; bottom: 8%; animation-duration: 14s; animation-delay: 1.4s; }
+.chandelier-dust i:nth-child(3) { left: 38%; bottom: 12%; animation-duration: 10s; animation-delay: .8s; width: 3px; height: 3px; }
+.chandelier-dust i:nth-child(4) { left: 58%; bottom: 6%; animation-duration: 13s; animation-delay: 2s; }
+.chandelier-dust i:nth-child(5) { left: 71%; bottom: 16%; animation-duration: 11.5s; animation-delay: .5s; width: 4px; height: 4px; }
+.chandelier-dust i:nth-child(6) { left: 84%; bottom: 10%; animation-duration: 15s; animation-delay: 1s; width: 3px; height: 3px; }
+.chandelier-dust i:nth-child(7) { left: 48%; bottom: 20%; animation-duration: 12s; animation-delay: 2.6s; }
+.chandelier-dust i:nth-child(8) { left: 90%; bottom: 28%; animation-duration: 12.5s; animation-delay: .3s; width: 4px; height: 4px; }
+.chandelier-dust i:nth-child(9) { left: 6%; bottom: 34%; animation-duration: 13.5s; animation-delay: 1.8s; width: 3px; height: 3px; }
+.chandelier-dust i:nth-child(10) { left: 33%; bottom: 26%; animation-duration: 10.5s; animation-delay: 3.1s; width: 4px; height: 4px; }
+.chandelier-dust i:nth-child(11) { left: 66%; bottom: 30%; animation-duration: 14.5s; animation-delay: .9s; }
+.chandelier-dust i:nth-child(12) { left: 79%; bottom: 38%; animation-duration: 11.8s; animation-delay: 2.2s; width: 3px; height: 3px; }
+@keyframes dustFloat { 0% { transform: translateY(0) translateX(0); opacity: 0; } 12% { opacity: .9; } 70% { opacity: .6; } 100% { transform: translateY(-52vh) translateX(14px); opacity: 0; } }
 .chandelier-layout { display: flex; flex-direction: column; align-items: center; }
 .chandelier-layout .section-heading h2 em { color: #f2d6a5; font-family: var(--font-hand); }
-.chandelier-stage { position: relative; width: min(100%, 610px); margin-block: .4rem -.2rem; }
-.chandelier-svg { display: block; width: 100%; height: auto; max-height: 52svh; overflow: visible; filter: drop-shadow(0 22px 24px rgba(0, 0, 0, .34)); transform-origin: 50% 4%; animation: chandelierSway 14s ease-in-out infinite; }
-.chandelier-body, .candle-arms, .lotus-holders, .chandelier-chain, .bead-chains { transition: filter .8s; }
-.chandelier-svg.is-lit .chandelier-body, .chandelier-svg.is-lit .candle-arms, .chandelier-svg.is-lit .lotus-holders { filter: drop-shadow(0 0 5px rgba(199, 163, 106, .25)); }
-.flame { opacity: 0; transform-box: fill-box; transform-origin: 50% 100%; transform: scaleY(.35); transition: opacity .7s ease, transform .8s cubic-bezier(.2, .8, .3, 1.3); }
-.candle.is-lit .flame { opacity: 1; transform: scaleY(1); animation: flameDance 2.2s ease-in-out infinite alternate; }
-.candle.is-lit .flame > circle { animation: flameHalo 3.2s ease-in-out infinite; }
-.dancer { opacity: 0; transform: translateY(10px); transform-box: fill-box; transform-origin: center; transition: opacity .8s ease .3s, transform .8s ease .3s; }
-.candle.is-lit .dancer { opacity: .95; transform: translateY(0); animation: dancerFloat 4.5s ease-in-out infinite; }
-.candle--right.is-lit .dancer { animation-delay: -1.4s; }
-.candle--center.is-lit .dancer { animation-delay: -.7s; }
-.candle--left .dancer { animation-delay: -2.3s; }
-.candle.is-lit .dancer path, .candle.is-lit .dancer circle { filter: drop-shadow(0 0 5px rgba(255, 239, 209, .9)); }
-.sparkle-layer { position: absolute; inset: 0; pointer-events: none; overflow: visible; }
-.star-spark { position: absolute; width: 12px; height: 12px; opacity: 0; background: #fff4d4; clip-path: polygon(50% 0, 61% 39%, 100% 50%, 61% 61%, 50% 100%, 39% 61%, 0 50%, 39% 39%); animation: starSpark 2.8s ease-in-out infinite; animation-delay: var(--spark-delay, 0s); filter: drop-shadow(0 0 5px rgba(255, 235, 180, .7)); }
-.chandelier-action { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 8px; margin-block-start: 1rem; }
-.chandelier-prompt { margin: 0; color: #f4dba4; font-family: var(--font-hand); font-size: clamp(1.4rem, 4vw, 2rem); text-shadow: 0 0 20px rgba(244, 219, 164, .35); animation: softReveal .8s ease both; }
+.chandelier-layout .section-heading h2 { font-size: clamp(1.9rem, 5.5vw, 2.6rem); }
+.chandelier-subtitle { margin: 8px 0 0; color: #e3eee4; font-size: clamp(1rem, 3.4vw, 1.16rem); line-height: 1.7; font-weight: 500; }
+/* الثريا — أكبر ما يمكن وواخدة العرض كله، هي البطل */
+.chandelier-stage { position: relative; z-index: 2; width: min(880px, 100%); margin: -14px auto 0; cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
+@media (min-width: 760px) { .chandelier-stage { width: min(900px, 96vw); margin-top: -18px; } }
+.chandelier-stage::before { content: ""; position: absolute; left: 50%; top: 44%; width: 96%; aspect-ratio: 1; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(255, 214, 110, .38) 0%, rgba(255, 190, 80, .14) 38%, rgba(255, 180, 70, .04) 58%, transparent 72%); opacity: 0; transition: opacity 1.6s ease; pointer-events: none; z-index: -1; }
+.chandelier-stage::after { content: ""; position: absolute; left: 50%; bottom: 2%; width: 72%; height: 36px; transform: translateX(-50%); border-radius: 50%; background: radial-gradient(ellipse, rgba(255, 205, 102, .22) 0%, transparent 70%); filter: blur(6px); opacity: 0; transition: opacity 1.6s ease; pointer-events: none; z-index: -1; }
+.scene--chandelier.is-lit .chandelier-stage::before { opacity: 1; }
+.scene--chandelier.is-lit .chandelier-stage::after { opacity: 1; }
+.chandelier-stage:focus-visible { outline: 2px solid #d8b777; outline-offset: 6px; border-radius: 16px; }
+.chandelier-svg { display: block; width: 100%; height: auto; max-height: calc(100svh - 360px); transform-box: view-box; transform-origin: 220px 6px; filter: drop-shadow(0 28px 34px rgba(0, 0, 0, .55)) drop-shadow(0 0 2px rgba(231, 202, 142, .28)) drop-shadow(0 0 18px rgba(120, 170, 125, .12)); }
+.scene--chandelier.is-lit .chandelier-svg { filter: drop-shadow(0 28px 34px rgba(0, 0, 0, .5)) drop-shadow(0 0 3px rgba(255, 230, 160, .35)) drop-shadow(0 0 28px rgba(255, 195, 90, .18)); animation: chandelierSway 10s ease-in-out infinite; }
+.candle-flame-group { opacity: 0; transform-box: fill-box; transform-origin: center bottom; transition: opacity .7s ease; }
+.candle-flame-group.is-lit { opacity: 1; animation: flameFlicker 1.9s ease-in-out infinite; }
+.candle-flame-group.flame-2.is-lit { animation-delay: .3s; animation-duration: 2.15s; }
+.candle-flame-group.flame-3.is-lit { animation-delay: .62s; animation-duration: 1.75s; }
+@keyframes flameFlicker { 0%, 100% { transform: scaleX(1) scaleY(1) rotate(0deg) skewX(0deg); } 18% { transform: scaleX(.94) scaleY(1.07) rotate(-2deg) skewX(-1deg); } 38% { transform: scaleX(1.04) scaleY(.96) rotate(1.4deg) skewX(.6deg); } 58% { transform: scaleX(.97) scaleY(1.05) rotate(-1deg); } 78% { transform: scaleX(1.02) scaleY(.99) rotate(.8deg) skewX(-.4deg); } }
+.candle-halo { opacity: 0; transform-box: fill-box; transform-origin: center; transition: opacity 1.2s ease; }
+.candle-halo.is-lit { opacity: 1; animation: haloBreathe 3.4s ease-in-out infinite; }
+@keyframes haloBreathe { 0%, 100% { opacity: .62; transform: scale(.94); } 50% { opacity: 1; transform: scale(1.08); } }
+.ballerina-group { opacity: 0; transform: translateY(10px) scale(.92); transition: opacity 1.3s ease, transform 1.3s cubic-bezier(.22, 1, .36, 1); }
+.ballerina-group.is-lit { opacity: 1; transform: translateY(0) scale(1); animation: ballerinaFloat 5s ease-in-out infinite; }
+.ballerina-group.b-2.is-lit { animation-delay: .9s; }
+.ballerina-group.b-3.is-lit { animation-delay: 1.7s; }
+@keyframes ballerinaFloat { 0%, 100% { transform: translateY(0) rotate(-1.4deg); } 50% { transform: translateY(-6px) rotate(1.4deg); } }
+.chandelier-sparkle { opacity: 0; transform-box: fill-box; transform-origin: center; }
+.scene--chandelier.is-lit .chandelier-sparkle { animation: sparkleTwinkle 3s ease-in-out infinite; }
+@keyframes sparkleTwinkle { 0%, 100% { opacity: .08; transform: scale(.55) rotate(0deg); } 50% { opacity: 1; transform: scale(1.25) rotate(12deg); } }
+.crystal { animation: crystalShine 4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes crystalShine { 0%, 100% { opacity: .75; } 50% { opacity: 1; } }
+.light-rays { opacity: 0; transition: opacity 1.8s ease; }
+.scene--chandelier.is-lit .light-rays { opacity: .55; animation: raysPulse 5s ease-in-out infinite; }
+@keyframes raysPulse { 0%, 100% { opacity: .38; } 50% { opacity: .62; } }
+.gem-pulse { animation: gemPulse 3.2s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+@keyframes gemPulse { 0%, 100% { opacity: .75; } 50% { opacity: 1; } }
+.chandelier-action { position: relative; z-index: 3; display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: -6px; }
+#lightCandles { font-family: inherit; cursor: pointer; border: 1px solid #c9a45c; border-radius: 999px; padding: 14px 36px; min-height: 54px; font-size: 1.14rem; font-weight: 800; color: #2a1e03; background: linear-gradient(165deg, #fff0c2 0%, #ecd08f 38%, #c7a36a 100%); box-shadow: 0 14px 34px rgba(0, 0, 0, .5), 0 0 0 6px rgba(246, 212, 138, .08), 0 0 32px rgba(246, 201, 124, .28), inset 0 1px 0 #fffbe8; transition: transform .22s ease, box-shadow .22s ease; }
+#lightCandles:hover { transform: translateY(-2px) scale(1.02); box-shadow: 0 18px 38px rgba(0, 0, 0, .5), 0 0 44px rgba(246, 201, 124, .4), inset 0 1px 0 #fffbe8; }
+#lightCandles:active { transform: scale(.98); }
+.chandelier-prompt { margin: 2px 0 0; color: #ffe9b0; font-family: Georgia, serif; font-style: italic; font-size: clamp(1.5rem, 4.5vw, 2.05rem); text-shadow: 0 0 26px rgba(255, 220, 140, .55), 0 2px 12px rgba(0, 0, 0, .4); }
+#relightBtn { font-family: inherit; cursor: pointer; background: rgba(255, 249, 245, .06); backdrop-filter: blur(6px); border: 1px solid rgba(216, 183, 119, .5); color: #ecd08f; border-radius: 999px; padding: 9px 22px; min-height: 42px; font-size: .95rem; font-weight: 500; }
+#relightBtn:hover { background: rgba(216, 183, 119, .16); }
+@media (prefers-reduced-motion: reduce) { .scene--chandelier.is-lit .chandelier-svg, .candle-flame-group.is-lit, .candle-halo.is-lit, .ballerina-group.is-lit, .scene--chandelier.is-lit .chandelier-sparkle, .scene--chandelier.is-lit .chandelier-dust i, .crystal, .scene--chandelier.is-lit .light-rays, .gem-pulse { animation: none !important; } }
 .eyebrow--gold { color: #d8b777; }
-#lightCandles.is-lit { opacity: .35; pointer-events: none; transform: scale(.96); }
 
 /* wishes */
 .scene-bg--wishes { background: radial-gradient(circle at 50% 24%, rgba(108, 80, 98, .25), transparent 36%), radial-gradient(circle at 50% 82%, rgba(81, 109, 88, .2), transparent 34%), linear-gradient(155deg, #15121d, #211927 50%, #122019); }

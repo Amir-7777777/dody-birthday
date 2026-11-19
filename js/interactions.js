@@ -450,7 +450,11 @@
   const chandelierSvg = document.getElementById("chandelierSvg");
   const chandelierGlow = document.getElementById("chandelierGlow");
   const chandelierPrompt = document.getElementById("chandelierPrompt");
-  const sparkleLayer = document.getElementById("sparkleLayer");
+  const chandelierScene = sceneEl(9);
+  const chandelierStage = document.getElementById("chandelierStage");
+  const relightBtn = document.getElementById("relightBtn");
+  const chandelierSubtitle = document.getElementById("chandelierSubtitle");
+  const chandelierTimers = [];
 
   function prepareChandelierStars() {
     const container = document.getElementById("chandelierStars");
@@ -469,43 +473,53 @@
   function lightChandelier() {
     if (chandelierLit) return;
     chandelierLit = true;
-    const candles = ["left", "center", "right"];
-    candles.forEach((name, index) => {
-      later(() => {
-        const candle = chandelierSvg?.querySelector(`.candle--${name}`);
-        candle?.classList.add("is-lit");
-        if (index === candles.length - 1) {
-          chandelierSvg?.classList.add("is-lit");
-          chandelierGlow?.classList.add("is-lit");
-          if (chandelierPrompt) chandelierPrompt.hidden = false;
-          if (lightCandles) lightCandles.hidden = true;
-          createChandelierSparkles();
-          window.dodyApp?.notify?.("اتمني أمنيتك… الشموع سامعاها ✨", 3600);
-        }
-      }, reduceMotion ? 50 : 720 + index * 780);
+    chandelierScene?.classList.add("is-lit");
+    chandelierGlow?.classList.add("is-lit");
+    if (lightCandles) {
+      lightCandles.classList.add("is-lit");
+      lightCandles.setAttribute("aria-pressed", "true");
+      lightCandles.disabled = true;
+      lightCandles.hidden = true;
+    }
+    if (chandelierPrompt) chandelierPrompt.hidden = false;
+    if (relightBtn) relightBtn.hidden = false;
+    if (chandelierSubtitle) chandelierSubtitle.textContent = "الشموع نورت… اتمني أمنيتك يا دودي ✨🕯️";
+    [1, 2, 3].forEach((n, index) => {
+      chandelierTimers.push(later(() => {
+        document.getElementById(`flame-${n}`)?.classList.add("is-lit");
+        document.getElementById(`halo-${n}`)?.classList.add("is-lit");
+        chandelierTimers.push(later(() => {
+          document.getElementById(`ballerina-${n}`)?.classList.add("is-lit");
+        }, reduceMotion ? 50 : 320));
+        if (index === 2) window.dodyApp?.notify?.("اتمني أمنيتك… الشموع سامعاها ✨", 3600);
+      }, reduceMotion ? 50 : index * 650));
     });
-    lightCandles?.classList.add("is-lit");
-    lightCandles?.setAttribute("aria-pressed", "true");
-    if (lightCandles) lightCandles.disabled = true;
     document.dispatchEvent(new CustomEvent("dody:chandelier-lit"));
   }
 
-  function createChandelierSparkles() {
-    if (!sparkleLayer || reduceMotion) return;
-    sparkleLayer.innerHTML = "";
-    for (let i = 0; i < 18; i += 1) {
-      const spark = document.createElement("i");
-      spark.className = "star-spark";
-      spark.style.left = `${rand(9, 91)}%`;
-      spark.style.top = `${rand(4, 68)}%`;
-      spark.style.setProperty("--spark-delay", `${rand(-3, 0)}s`);
-      spark.style.width = `${rand(7, 16)}px`;
-      spark.style.height = spark.style.width;
-      sparkleLayer.appendChild(spark);
-    }
+  function resetChandelier() {
+    chandelierTimers.forEach((id) => { window.clearTimeout(id); timers.delete(id); });
+    chandelierTimers.length = 0;
+    chandelierLit = false;
+    chandelierScene?.classList.remove("is-lit");
+    chandelierGlow?.classList.remove("is-lit");
+    [1, 2, 3].forEach((n) => {
+      ["flame-", "halo-", "ballerina-"].forEach((prefix) => {
+        document.getElementById(prefix + n)?.classList.remove("is-lit");
+      });
+    });
+    if (lightCandles) { lightCandles.hidden = false; lightCandles.classList.remove("is-lit"); lightCandles.disabled = false; lightCandles.setAttribute("aria-pressed", "false"); }
+    if (chandelierPrompt) chandelierPrompt.hidden = true;
+    if (relightBtn) relightBtn.hidden = true;
+    if (chandelierSubtitle) chandelierSubtitle.textContent = "عندي ليكي تلات أمنيات… بس لازم تنوري الشموع الأول.";
   }
 
   lightCandles?.addEventListener("click", lightChandelier);
+  relightBtn?.addEventListener("click", resetChandelier);
+  chandelierStage?.addEventListener("click", lightChandelier);
+  chandelierStage?.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") { event.preventDefault(); lightChandelier(); }
+  });
 
   /* ---------------- wishes ---------------- */
   function revealWishes() {
@@ -773,13 +787,7 @@
     $$(".petal-burst-layer").forEach((layer) => layer.remove());
 
     // Chandelier
-    chandelierLit = false;
-    chandelierSvg?.classList.remove("is-lit");
-    chandelierGlow?.classList.remove("is-lit");
-    $$(".candle", chandelierSvg || document).forEach((candle) => candle.classList.remove("is-lit"));
-    if (lightCandles) { lightCandles.hidden = false; lightCandles.classList.remove("is-lit"); lightCandles.disabled = false; lightCandles.setAttribute("aria-pressed", "false"); }
-    if (chandelierPrompt) chandelierPrompt.hidden = true;
-    if (sparkleLayer) sparkleLayer.innerHTML = "";
+    resetChandelier();
 
     // Windows and envelopes
     $$(".story-window__button").forEach((button) => button.setAttribute("aria-expanded", "false"));
