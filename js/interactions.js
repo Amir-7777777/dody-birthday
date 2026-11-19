@@ -755,6 +755,9 @@
       try { ctx.clearRect(0, 0, W, H); } catch (e) {}
       done();
     }
+    /* If anything in the rain path throws (a browser whose canvas balks),
+       the boot must still reach the loading screen — never a dead dark CRT. */
+    try {
     computerMatrixCanvas.classList.add("show");
     if (reduceMotion) {
       /* Reduced motion: no animation, but the rain must still be SEEN. The old
@@ -786,6 +789,9 @@
     /* Watchdog: if rAF stalls (background tab), the boot must still finish. */
     var watchdog = window.setTimeout(finish, dur + 600);
     computerTimers.push(watchdog);
+    } catch (e) {
+      finish();
+    }
   }
 
   /* ---------- التشغيل ---------- */
@@ -799,7 +805,7 @@
     mainPower.hidden = true;
     powerFlash.classList.remove("go"); void powerFlash.offsetWidth; powerFlash.classList.add("go");
     pcSubtitle.textContent = "بيفتح… استني ثواني يا دودي 💗";
-    startComputerMatrix(function () {
+    function showLoading() {
       bootLoad.classList.add("show"); bootLoad.setAttribute("aria-hidden", "false");
       var p = 0;
       var iv = computerEvery(function () {
@@ -812,7 +818,10 @@
           computerLater(finishComputerBoot, 620);
         }
       }, 130);
-    });
+    }
+    /* The matrix rain must never strand the boot on a dark screen: if it
+       throws on some browser, go straight to the loading screen. */
+    try { startComputerMatrix(showLoading); } catch (e) { showLoading(); }
   }
   function finishComputerBoot() {
     computerBooted = true;
@@ -1152,8 +1161,13 @@
     return roseSprites[index % roseSprites.length];
   }
 
+  /* Reduced motion must mean "less motion", not "no flowers": with
+     animations off the flying/falling petals are skipped, but the rose
+     field still appears — the site's reduced-motion CSS forces every
+     animation to finish in .001ms, so rosePop lands instantly at full
+     opacity and the roses simply sit there, fully open. */
   function burstPetals(scene) {
-    if (!scene || reduceMotion) return;
+    if (!scene) return;
     const layer = document.createElement("div");
     layer.className = "petal-burst-layer";
     layer.setAttribute("aria-hidden", "true");
@@ -1178,8 +1192,8 @@
         layer.appendChild(petal);
       }
     }
-    burstWave(90, 0, .5, true);      // wave 1: fast, upward
-    burstWave(60, .45, 1.1, false);  // wave 2: wider, drifts down too
+    if (!reduceMotion) burstWave(90, 0, .5, true);      // wave 1: fast, upward
+    if (!reduceMotion) burstWave(60, .45, 1.1, false);  // wave 2: wider, drifts down too
 
     // Rose grid: two offset passes, edge to edge, no gaps.
     // ~270 roses on a phone (390x844), ~600 on a desktop viewport.
@@ -1208,8 +1222,8 @@
       }
     }
 
-    // Falling petals afterward, raining down over the roses.
-    for (i = 0; i < 120; i += 1) {
+    // Falling petals afterward, raining down over the roses (motion only).
+    if (!reduceMotion) for (i = 0; i < 120; i += 1) {
       petal = document.createElement("span");
       petal.className = "burst-petal burst-petal--fall";
       const fs = rand(10, 22);

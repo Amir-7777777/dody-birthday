@@ -39,7 +39,7 @@
 .scene--chandelier.is-lit .chandelier-stage::before { opacity: 1; }
 .scene--chandelier.is-lit .chandelier-stage::after { opacity: 1; }
 .chandelier-stage:focus-visible { outline: 2px solid #d8b777; outline-offset: 6px; border-radius: 16px; }
-.chandelier-svg { display: block; width: 100%; height: auto; max-height: calc(100svh - 360px); transform-box: view-box; transform-origin: 220px 6px; filter: drop-shadow(0 28px 34px rgba(0, 0, 0, .55)) drop-shadow(0 0 2px rgba(231, 202, 142, .28)) drop-shadow(0 0 18px rgba(120, 170, 125, .12)); }
+.chandelier-svg { display: block; width: 100%; height: auto; max-height: calc(100vh - 360px); max-height: calc(100svh - 360px); transform-box: view-box; transform-origin: 220px 6px; filter: drop-shadow(0 28px 34px rgba(0, 0, 0, .55)) drop-shadow(0 0 2px rgba(231, 202, 142, .28)) drop-shadow(0 0 18px rgba(120, 170, 125, .12)); }
 .scene--chandelier.is-lit .chandelier-svg { filter: drop-shadow(0 28px 34px rgba(0, 0, 0, .5)) drop-shadow(0 0 3px rgba(255, 230, 160, .35)) drop-shadow(0 0 28px rgba(255, 195, 90, .18)); animation: chandelierSway 10s ease-in-out infinite; }
 .candle-flame-group { opacity: 0; transform-box: fill-box; transform-origin: center bottom; transition: opacity .7s ease; }
 .candle-flame-group.is-lit { opacity: 1; animation: flameFlicker 1.9s ease-in-out infinite; }

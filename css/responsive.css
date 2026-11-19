@@ -95,13 +95,13 @@
   .scene--computer .eyebrow { margin-block-end: .5rem; }
   .scene--computer h2 { font-size: clamp(1.45rem, 6vw, 1.9rem); line-height: 1.3; }
   #pcSubtitle { font-size: .92rem; line-height: 1.65; }
-  .crt-wrap { width: min(100%, max(190px, calc((100svh - 560px) * 1.32))); }
+  .crt-wrap { width: min(100%, 340px); width: min(100%, max(190px, calc((100svh - 560px) * 1.32))); }
   .computer-stage { margin-top: 4px; }
   .keyboard { display: none; }
   .mouse-wrap { width: 11%; max-width: 90px; padding-top: 0; }
   .mouse-cord { display: none; }
   .desk-row { margin-top: 6px; padding-bottom: 4px; justify-content: center; }
-  .retro-window__body { padding: 1.4cqw 1.6cqw; }
+  .retro-window__body { padding: calc(1.4 * var(--u)) calc(1.6 * var(--u)); }
   .letter-dynamic p { margin-block-end: .4em; }
   .computer-tip { font-size: .78rem; line-height: 1.5; }
   .computer-actions { margin-top: 10px; padding-bottom: 0; gap: 8px; }
@@ -233,7 +233,7 @@
 }
 
 @media (min-width: 1024px) {
-  .chandelier-svg { max-height: calc(100svh - 360px); }
+  .chandelier-svg { max-height: calc(100vh - 360px); max-height: calc(100svh - 360px); }
 }
 
 @media (min-width: 1280px) {
